@@ -16,7 +16,7 @@ export const categories = [
 const Navbar = () => {
   return (
     <div className="max-w-full bg-white">
-      <div className="border-b border-gray-300">
+      <div className="border-b border-gray-100">
         <div className="h-14 max-w-400 mx-auto flex justify-between items-center">
           <h5>Welcome to our website</h5>
           <div className="flex items-center gap-4">
