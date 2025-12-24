@@ -31,11 +31,11 @@ export default function RootLayout({
       >
         <div>
           <Navbar />
-          <div className="max-w-400 mx-auto mt-10">
+          <div className="flex max-w-400 mx-auto mt-10 gap-5">
             <SideBar />
+            {children}
           </div>
         </div>
-        {children}
       </body>
     </html>
   );

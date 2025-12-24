@@ -2,6 +2,7 @@
 
 import { useState, ChangeEvent } from "react";
 import { Upload, X, Plus, Trash2, Save, Eye, EyeOff } from "lucide-react";
+import { UploadeImage } from "@/app/components/uploadeImage";
 
 // Define types
 interface Discount {
@@ -24,7 +25,7 @@ interface Seo {
   metaDescription: string;
 }
 
-interface ProductFormData {
+export interface ProductFormData {
   title: string;
   slug: string;
   description: string;
@@ -35,6 +36,8 @@ interface ProductFormData {
   stockQuantity: string;
   stockStatus: "in-stock" | "out-of-stock" | "pre-order";
   categoryId: string;
+  category: string;
+  subCategory: string;
   subCategoryId: string;
   tags: string[];
   thumbnail: File | null;
@@ -63,6 +66,8 @@ export default function AddProductForm() {
     stockStatus: "in-stock",
     categoryId: "",
     subCategoryId: "",
+    category: "",
+    subCategory: "",
     tags: [],
     thumbnail: null,
     gallery: [],
@@ -84,6 +89,8 @@ export default function AddProductForm() {
     stock: "",
   });
   const [showVariantForm, setShowVariantForm] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [previewImages, setPreviewImages] = useState<PreviewImages>({
     thumbnail: null,
     gallery: [],
@@ -117,7 +124,7 @@ export default function AddProductForm() {
     }));
   };
 
-//   Record<string, unknown>;
+  //   Record<string, unknown>;
 
   // Auto generate slug
   const generateSlug = (title: string) => {
@@ -156,17 +163,26 @@ export default function AddProductForm() {
   };
 
   // Handle thumbnail
-  const handleThumbnailChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleThumbnailChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
+      setIsUploading(true);
+      setUploaded(false);
+
+      try {
+        const url = await UploadeImage(file);
+        console.log(url);
+
         setPreviewImages((prev) => ({
           ...prev,
-          thumbnail: event.target?.result as string,
+          thumbnail: url as string,
         }));
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        alert("Uploade faild");
+      } finally {
+        setIsUploading(false);
+        setUploaded(true);
+      }
     }
   };
 
@@ -176,19 +192,18 @@ export default function AddProductForm() {
     const remaining = 5 - formData.gallery.length;
     const toAdd = files.slice(0, remaining);
 
-    toAdd.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setPreviewImages((prev) => ({
-          ...prev,
-          gallery: [...prev.gallery, event.target?.result as string],
-        }));
-        setFormData((prev) => ({
-          ...prev,
-          gallery: [...prev.gallery, file.name],
-        }));
-      };
-      reader.readAsDataURL(file);
+    toAdd.forEach(async (file) => {
+      const url = await UploadeImage(file);
+      console.log(url);
+
+      setPreviewImages((prev) => ({
+        ...prev,
+        gallery: [...prev.gallery, url as string],
+      }));
+      setFormData((prev) => ({
+        ...prev,
+        gallery: [...prev.gallery, url],
+      }));
     });
   };
 
@@ -243,10 +258,42 @@ export default function AddProductForm() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-    alert("Form submitted! Check console for data.");
+
+    const payload = {
+      ...formData,
+      categoryId: formData.category.slice(0, 4),
+      subCategoryId: formData.subCategory
+        ? formData.subCategory.slice(0, 4)
+        : "",
+        isDelete: false,
+        deletedAt: "",
+        createdAt: new Date().toLocaleString(),
+    };
+
+    console.log("Payload:", payload);
+
+    console.log(formData.categoryId);
+    const res = await fetch("http://localhost:5000/api/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    if (res.ok) {
+      alert("Form submitted! Check console for data.");
+    }
+
+    const result = await res.json();
+    // if(result.inser)
+    console.log("result", result);
   };
 
   const tabs = [
@@ -257,6 +304,54 @@ export default function AddProductForm() {
     { id: "variants", label: "Variants" },
     { id: "seo", label: "SEO" },
   ];
+
+  const requiredFieldsByTab: Record<
+    string,
+    (keyof ProductFormData | string)[]
+  > = {
+    basic: ["title", "shortDescription", "description", "categoryId", "tags"],
+    pricing: ["basePrice"],
+    inventory: ["sku", "stockQuantity", "stockStatus"],
+    media: ["thumbnail"],
+    variants: [], // optional
+    seo: [], // submit time এ handle হবে
+  };
+
+  const currentTabIndex = tabs.findIndex((tab) => tab.id === activeTab);
+
+  const isCurrentTabValid = () => {
+    const requiredFields = requiredFieldsByTab[activeTab] || [];
+
+    return requiredFields.every((field) => {
+      // tags array check
+      if (field === "tags") {
+        return formData.tags.length > 0;
+      }
+
+      // thumbnail check
+      if (field === "thumbnail") {
+        return formData.thumbnail !== null || previewImages.thumbnail !== null;
+      }
+
+      // normal string check
+      const value = formData[field as keyof ProductFormData];
+      return value !== "" && value !== null;
+    });
+  };
+
+  const isLastTab = activeTab === "seo";
+
+  const goNext = () => {
+    if (currentTabIndex < tabs.length - 1) {
+      setActiveTab(tabs[currentTabIndex + 1].id);
+    }
+  };
+
+  const goPrevious = () => {
+    if (currentTabIndex > 0) {
+      setActiveTab(tabs[currentTabIndex - 1].id);
+    }
+  };
 
   return (
     <div className="min-h-screen p-4 sm:p-6 lg:p-8">
@@ -361,16 +456,17 @@ export default function AddProductForm() {
                     Category *
                   </label>
                   <select
-                    name="categoryId"
-                    value={formData.categoryId}
+                    name="category"
+                    value={formData.category}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0970B4] focus:border-transparent"
                     required
                   >
                     <option value="">Select a category</option>
-                    <option value="cat1">Electronics</option>
-                    <option value="cat2">Clothing</option>
-                    <option value="cat3">Books</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Watch">Watch</option>
+                    <option value="Books">Books</option>
                   </select>
                 </div>
 
@@ -379,14 +475,15 @@ export default function AddProductForm() {
                     Sub Category
                   </label>
                   <select
-                    name="subCategoryId"
-                    value={formData.subCategoryId}
+                    name="subCategory"
+                    value={formData.subCategory}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0970B4] focus:border-transparent"
                   >
                     <option value="">Select a sub-category</option>
-                    <option value="sub1">Phones</option>
-                    <option value="sub2">Laptops</option>
+                    <option value="Phones">Phones</option>
+                    <option value="SmartWatch">Smart Watch</option>
+                    <option value="Laptops">Laptops</option>
                   </select>
                 </div>
               </div>
@@ -573,11 +670,25 @@ export default function AddProductForm() {
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition">
                   {previewImages.thumbnail ? (
                     <div className="space-y-4">
-                      <img
-                        src={previewImages.thumbnail}
-                        alt="Thumbnail"
-                        className="w-full max-w-xs h-40 object-cover rounded-lg mx-auto"
-                      />
+                      {isUploading ? (
+                        <div className="flex justify-center items-center h-40">
+                          <div className="h-10 w-10 border-4 border-gray-300 border-t-[#0970B4] rounded-full animate-spin"></div>
+                        </div>
+                      ) : (
+                        <img
+                          src={previewImages.thumbnail}
+                          alt="Thumbnail"
+                          className="w-full max-w-xs h-40 object-cover rounded-lg mx-auto"
+                        />
+                      )}
+
+                      {uploaded && (
+                        <div>
+                          <span className="text-sm text-green-500">
+                            Image uploaded successfully
+                          </span>
+                        </div>
+                      )}
                       <button
                         type="button"
                         onClick={() =>
@@ -843,6 +954,7 @@ export default function AddProductForm() {
                     type="text"
                     name="metaTitle"
                     value={formData.seo.metaTitle}
+                    required
                     onChange={(e) => handleNestedChange(e, "seo")}
                     placeholder="SEO title (max 60 characters)"
                     maxLength={60}
@@ -864,6 +976,7 @@ export default function AddProductForm() {
                     name="metaDescription"
                     value={formData.seo.metaDescription}
                     onChange={(e) => handleNestedChange(e, "seo")}
+                    required
                     placeholder="SEO description (max 160 characters)"
                     maxLength={160}
                     rows={3}
@@ -909,29 +1022,51 @@ export default function AddProductForm() {
               </div>
             </div>
           )}
-          {/* Action Buttons */}
-          <div className="flex gap-3 flex-col sm:flex-row justify-end pt-6 border-t border-gray-200">
-            <button
-              type="button"
-              className="flex items-center justify-center gap-2 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition font-medium"
-            >
-              <Eye size={20} />
-              Preview
-            </button>
-            <button
-              type="button"
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium"
-            >
-              <EyeOff size={20} />
-              Save as Draft
-            </button>
-            <button
-              type="submit"
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-[#0970B4] text-white rounded-lg hover:bg-blue-700 transition font-medium"
-            >
-              <Save size={20} />
-              Publish Product
-            </button>
+
+          <div className="flex gap-3 flex-col sm:flex-row justify-between pt-6 border-t border-gray-200">
+            {/* Previous Button (SEO ছাড়া সব tab এ, প্রথম tab বাদে) */}
+            {currentTabIndex > 0 && (
+              <button
+                type="button"
+                onClick={goPrevious}
+                className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition font-medium"
+              >
+                Previous
+              </button>
+            )}
+
+            <div className="flex gap-3 ml-auto">
+              {/* SEO ছাড়া সব tab এ Next button */}
+
+              {!isLastTab && (
+                <button
+                  type="button"
+                  onClick={goNext}
+                  disabled={!isCurrentTabValid()}
+                  className={`px-6 py-3 rounded-lg transition font-medium
+                ${
+                  isCurrentTabValid()
+                    ? "bg-[#0970B4] text-white hover:bg-blue-700"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }
+                `}
+                >
+                  Next
+                </button>
+              )}
+
+              {/* শুধু SEO tab এ Publish button */}
+              {isLastTab && (
+                <button
+                  type="submit"
+                  disabled={!isCurrentTabValid()}
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-[#0970B4] text-white rounded-lg hover:bg-blue-700 transition font-medium"
+                >
+                  <Save size={20} />
+                  Publish Product
+                </button>
+              )}
+            </div>
           </div>
         </form>
       </div>
