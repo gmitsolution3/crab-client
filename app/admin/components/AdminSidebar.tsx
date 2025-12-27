@@ -1,43 +1,3 @@
-// "use client";
-
-// import { ComLogo } from "@/app/shared/components/ComLogo";
-// import Link from "next/link";
-// import { usePathname } from "next/navigation";
-
-// export function AdminSidebar() {
-//   const pathname = usePathname();
-
-//   const menu = [
-//     { name: "Dashboard", href: "/admin" },
-//     { name: "Users", href: "/admin/users" },
-//     { name: "Products", href: "/admin/products" },
-//   ];
-
-//   return (
-//     <aside className="w-64 bg-white border-r">
-//       <div className="p-4 font-bold text-lg">Admin Panel</div>
-
-//       <div className="p-4 border-b border-gray-300 mb-4">
-//         <ComLogo/>
-//       </div>
-
-//       <nav className="space-y-1">
-//         {menu.map((item) => (
-//           <Link
-//             key={item.href}
-//             href={item.href}
-//             className={`block px-4 py-2 text-sm hover:bg-gray-100 ${
-//               pathname === item.href ? "bg-gray-100 font-semibold" : ""
-//             }`}
-//           >
-//             {item.name}
-//           </Link>
-//         ))}
-//       </nav>
-//     </aside>
-//   );
-// }
-
 "use client";
 
 import { useState } from "react";
@@ -72,6 +32,14 @@ export function AdminSidebar() {
         { name: "Manage Product", href: "/admin/products/manage-product" },
         { name: "Draft Product", href: "/admin/products/draft-product" },
         { name: "Deleted Product", href: "/admin/products/deleted-product" },
+      ],
+    },
+    {
+      name: "Category",
+      icon: Package,
+      submenu: [
+        { name: "All Category", href: "/admin/category" },
+        { name: "Add Category", href: "/admin/category/add-category" },
       ],
     },
     {

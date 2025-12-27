@@ -23,7 +23,7 @@ const MainPage = async () => {
     );
   }
 
-  console.log(products);
+
   return (
     <div className="bg-white p-4 rounded-xl">
       <div className="flex gap-4">
@@ -33,16 +33,7 @@ const MainPage = async () => {
             className="w-60 rounded-xl border border-gray-200 bg-white hover:shadow-lg overflow-hidden hover:border hover:border-blue-700 hover:cursor-pointer"
           >
             <div className="relative bg-linear-to-br from-gray-900 to-gray-700 p-4 h-56 ">
-              {/* <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
-                MEGA SALE
-              </span>
-
-              <div className="text-white text-sm mt-6">
-                <p className="font-semibold">MOTOROLA</p>
-                <p className="text-yellow-400 font-bold">Snapdragon 6s Gen 3</p>
-                <p className="text-xs mt-1">6.7 curved display</p>
-              </div> */}
-
+              
               <Image
                 src={typeof pro.thumbnail === "string" ? pro.thumbnail : ""}
                 alt={pro.title}
@@ -50,16 +41,6 @@ const MainPage = async () => {
                 priority
                 className="object-cover"
               />
-
-              {/* <div className="right-2 bottom-0 w-56 h-50">
-                <Image
-                  src={typeof pro.thumbnail === "string" ? pro.thumbnail : ""}
-                  alt={pro.title}
-                  fill
-                  priority
-                  className="object-contain"
-                />
-              </div> */}
             </div>
 
             <div className="p-4 space-y-3">
@@ -103,7 +84,6 @@ const MainPage = async () => {
           </div>
         ))}
       </div>
-      <div></div>
     </div>
   );
 };

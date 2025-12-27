@@ -2,18 +2,25 @@ import { ComLogo } from "../components/ComLogo";
 import HeaderSearchBar from "../components/HeaderSearchBar";
 import { BookCard } from "../components/BookCard";
 import Link from "next/link";
+import clsx from "clsx";
+import { Menu } from "lucide-react";
+import { MenuNavbar } from "../components/Menu";
+import { getCategories } from "@/lib/categories";
 
 export const categories = [
-  "All Products",
-  "Health Accessories",
-  "Winter Items",
-  "Ladies Trendy Fashion Wear",
-  "Cables",
-  "Home & Living",
-  "Electronic",
+  { id: "all", label: "All Products" },
+  { id: "health", label: "Health Accessories" },
+  { id: "winter", label: "Winter Items" },
+  { id: "ladies", label: "Ladies Trendy Fashion Wear" },
+  { id: "cables", label: "Cables" },
+  { id: "home", label: "Home & Living" },
+  { id: "electronic", label: "Electronic" },
 ];
 
-const Navbar = () => {
+const Navbar =async () => {
+
+  const getAllCategories = await getCategories()
+
   return (
     <div className="max-w-full bg-white">
       <div className="border-b border-gray-100">
@@ -38,17 +45,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className="border-b border-gray-300">
-        <div className="max-w-400 mx-auto flex py-3 justify-center">
-          {categories.map((category) => (
-            <Link
-              href=""
-              key={category}
-              className="py-2 text-sm text-gray-900 font-semibold hover:cursor-pointer hover:text-[#269ED9] ml-4"
-            >
-              {category}
-            </Link>
-          ))}
-        </div>
+        <MenuNavbar categories={getAllCategories.data} />
       </div>
     </div>
   );
