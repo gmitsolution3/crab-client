@@ -5,7 +5,6 @@ import { SideBar } from "./SideBar";
 export async function SidebarWrapper() {
 
   const allCategories = await getCategories()
-  console.log(allCategories)
 
   return (
     <div>

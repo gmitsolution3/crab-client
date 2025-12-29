@@ -1,5 +1,6 @@
-import { getProductDetails } from '@/lib/products';
-import React from 'react'
+import { getProductDetails } from "@/lib/products";
+import React from "react";
+import { ProductDetail } from "../components/productDetails";
 
 interface ProductPageProps {
   params: {
@@ -7,16 +8,15 @@ interface ProductPageProps {
   };
 }
 
-const ProductDetails =async ({ params }: ProductPageProps) => {
-    const {slug} = await params;
+const ProductDetails = async ({ params }: ProductPageProps) => {
+  const { slug } = await params;
+  const result = await getProductDetails(slug);
 
-
-    const result =await getProductDetails(slug)
-
-    console.log("get product details", result)
-
-
-  return <div>ProductDetails</div>;
+  return (
+    <div>
+      <ProductDetail product={result.data}/>
+    </div>
+  );
 };
 
-export default ProductDetails
+export default ProductDetails;

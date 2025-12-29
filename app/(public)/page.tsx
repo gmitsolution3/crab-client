@@ -1,9 +1,9 @@
 import React from "react";
-import { ProductFormData } from "../admin/products/components/AddProduct";
 import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
+import { ProductFormData } from "@/utils/product";
 
 const MainPage = async () => {
   const res = await fetch("http://localhost:5000/api/products", {
