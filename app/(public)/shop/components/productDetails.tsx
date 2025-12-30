@@ -8,6 +8,8 @@ interface ProductDetailsProps {
 }
 
 export const ProductDetail = ({ product }: ProductDetailsProps) => {
+
+  const from = "productDetails"
   return (
     <div className="space-y-10">
       <div className="flex flex-col md:flex-row gap-10">
@@ -60,7 +62,7 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
           <div>
             <p>{product.shortDescription}</p>
             <div className="mt-4">
-              <ProductVariants variants={product.variants} />
+              <ProductVariants variants={product.variants} from={from} />
             </div>
           </div>
         </div>

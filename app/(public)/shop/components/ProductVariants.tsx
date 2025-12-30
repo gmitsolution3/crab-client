@@ -4,6 +4,7 @@ import { Minimize, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
+import { CardButtons } from "./cardButtons";
 
 type Variant = {
   attributes: {
@@ -17,8 +18,8 @@ type Variant = {
 
 type Props = {
   variants: Variant[];
+  from: string;
 };
-
 
 // function that cover color name to hex code
 function resolveColorFromName(colorName: string): string {
@@ -37,9 +38,8 @@ function resolveColorFromName(colorName: string): string {
   if (name.includes("gray") || name.includes("grey")) return "#9ca3af";
   if (name.includes("gold")) return "#f59e0b";
 
-  return "#cccccc"; 
+  return "#cccccc";
 }
-
 
 // if hex code exit than return the hex code form here otherwise resolveColorFromName function call
 
@@ -48,11 +48,8 @@ function resolveColor(color: string, hex?: string) {
   return resolveColorFromName(color);
 }
 
-
-
-export default function ProductVariant({ variants }: Props) {
-
-    const router = useRouter()
+export default function ProductVariant({ variants, from }: Props) {
+  const router = useRouter();
 
   // catch out all the color exit in the variants
   const colors = Array.from(
@@ -121,25 +118,24 @@ export default function ProductVariant({ variants }: Props) {
     }
   };
 
-//   variant selected fun
+  //   variant selected fun
   const selectedVariant = variants.find(
     (v) =>
       normalize(v.attributes.color) === normalize(selectedColor.name) &&
       normalize(v.attributes.size) === normalize(selectedSize)
   );
 
-//   condition for display the stock
+  //   condition for display the stock
   const availabilityText = selectedVariant
     ? selectedVariant.stock < 5
       ? "Stock almost finished"
       : "In Stock"
     : "Unavailable";
 
-    // check the sku is exit or not 
+  // check the sku is exit or not
   const sku = selectedVariant?.sku ?? "N/A";
 
-
-//   main components
+  //   main components
   return (
     <div className="space-y-2">
       <div className="flex">
@@ -232,27 +228,31 @@ export default function ProductVariant({ variants }: Props) {
           </button>
         </div>
 
-        {/* Buttons */}
-        <button
-          onClick={handleAddToCart}
-          className="px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-50 flex items-center gap-2"
-        >
-          <ShoppingCart className="text-blue-600" /> ADD TO CART
-        </button>
+        {from === "productDetails" && (
+          <div>
+            {/* Buttons */}
+            <button
+              onClick={handleAddToCart}
+              className="px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-50 flex items-center gap-2"
+            >
+              <ShoppingCart className="text-blue-600" /> ADD TO CART
+            </button>
 
-        <button
-          onClick={handleOrderWhatsApp}
-          className="w-full bg-linear-to-t from-[#073d19] to-[#09b442] hover:from-[#09b442] hover:to-[#073d19] hover:cursor-pointer text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 hover:bg-green-700 transition"
-        >
-          <FaWhatsapp />
-          ORDER VIA WHATSAPP
-        </button>
-        <button
-          onClick={handleBuyNow}
-          className="block w-full border-b border-b-gray-100 px-4 py-3 text-sm text-center bg-linear-to-t from-[#0970B4] to-[#3CB1FF] font-semibold hover:cursor-pointer text-white rounded-lg hover:from-[#3CB1FF] hover:to-[#0970B4]"
-        >
-          BUY NOW
-        </button>
+            <button
+              onClick={handleOrderWhatsApp}
+              className="w-full bg-linear-to-t from-[#073d19] to-[#09b442] hover:from-[#09b442] hover:to-[#073d19] hover:cursor-pointer text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 hover:bg-green-700 transition"
+            >
+              <FaWhatsapp />
+              ORDER VIA WHATSAPP
+            </button>
+            <button
+              onClick={handleBuyNow}
+              className="block w-full border-b border-b-gray-100 px-4 py-3 text-sm text-center bg-linear-to-t from-[#0970B4] to-[#3CB1FF] font-semibold hover:cursor-pointer text-white rounded-lg hover:from-[#3CB1FF] hover:to-[#0970B4]"
+            >
+              BUY NOW
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

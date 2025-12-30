@@ -10,7 +10,6 @@ import { PreviewImages, ProductFormData } from "@/utils/product";
 // }
 
 export default function AddProductForm({ allCategory }: any) {
-  console.log(allCategory);
 
   const [formData, setFormData] = useState<ProductFormData>({
     title: "",
@@ -55,6 +54,8 @@ export default function AddProductForm({ allCategory }: any) {
   });
   const [thumbnailUpload, setThumbnailUpload] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("basic");
+  const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
+  const [selectSubCategory, setSelectSubCategory] = useState<string | null>(null)
 
   // Handle basic inputs
   const handleInputChange = (
@@ -189,16 +190,33 @@ export default function AddProductForm({ allCategory }: any) {
     }));
   };
 
-  // Handle variants
-  // const handleVariantChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   const skuResult = generateSKU(productTitle, variantForm)
-  //   setVariantForm((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //     sku: skuResult
-  //   }));
-  // };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+
+    const foundCategory = allCategory.find((ctg: any) => ctg._id === value);
+
+    setFormData((prev) => ({
+      ...prev,
+      categoryId: value,
+      subCategoryId: "",
+    }));
+
+    setSelectedCategory(foundCategory || null);
+  };
+
+
+  const handleSubCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+
+    console.log(e.target.value)
+
+    setSelectSubCategory(e.target.value)
+
+    setFormData((prev) => ({
+      ...prev,
+      subCategoryId: e.target.value,
+    }));
+  };
 
   const handleVariantChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -258,11 +276,10 @@ export default function AddProductForm({ allCategory }: any) {
 
     const payload = {
       ...formData,
-      categoryId: formData.category.slice(0, 4),
+      categoryId: selectedCategory._id,
+      category: selectedCategory.name,
       thumbnail: thumbnailUpload,
-      subCategoryId: formData.subCategory
-        ? formData.subCategory.slice(0, 4)
-        : "",
+      subCategoryId: selectSubCategory,
       isDelete: false,
       deletedAt: "",
       createdAt: new Date().toLocaleString(),
@@ -288,9 +305,9 @@ export default function AddProductForm({ allCategory }: any) {
 
     const result = await res.json();
 
-    alert(result);
-    // if(result.inser)
+    alert(result.message);
     console.log("result", result);
+    setActiveTab("basic");
   };
 
   const tabs = [
@@ -349,6 +366,9 @@ export default function AddProductForm({ allCategory }: any) {
       setActiveTab(tabs[currentTabIndex - 1].id);
     }
   };
+
+
+
 
   return (
     <div className="min-h-screen p-4 sm:p-6 lg:p-8">
@@ -452,16 +472,17 @@ export default function AddProductForm({ allCategory }: any) {
                   <label className="block text-sm font-medium text-gray-900 mb-2">
                     Category *
                   </label>
+                 
                   <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0970B4] focus:border-transparent"
-                    required
+                    name="categoryId"
+                    value={formData.categoryId}
+                    onChange={handleCategoryChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   >
                     <option value="">Select a category</option>
-                    {allCategory.map((ctg: any, index: number) => (
-                      <option key={index} value={ctg.name}>
+
+                    {allCategory.map((ctg: any) => (
+                      <option key={ctg._id} value={ctg._id}>
                         {ctg.name}
                       </option>
                     ))}
@@ -472,16 +493,21 @@ export default function AddProductForm({ allCategory }: any) {
                   <label className="block text-sm font-medium text-gray-900 mb-2">
                     Sub Category
                   </label>
+                
                   <select
-                    name="subCategory"
-                    value={formData.subCategory}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0970B4] focus:border-transparent"
+                    name="subCategoryId"
+                    value={formData.subCategoryId}
+                    onChange={handleSubCategoryChange}
+                    disabled={!selectedCategory}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   >
                     <option value="">Select a sub-category</option>
-                    <option value="Phones">Phones</option>
-                    <option value="SmartWatch">Smart Watch</option>
-                    <option value="Laptops">Laptops</option>
+
+                    {selectedCategory?.subCategories?.map((sub: any) => (
+                      <option key={sub.id} value={sub.id}>
+                        {sub.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
