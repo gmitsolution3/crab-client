@@ -44,6 +44,29 @@ export const CardButtons = ({ product }: Product) => {
     };
 
 
+    //  const handleBuyNow = () => {
+    //     if (!selectedVariant) return alert("Please select a variant first!");
+    
+    //     const cartItem = {
+    //       selectedProductSize,
+    //       quantity,
+    //       selectedColor,
+    //       selectedVariant,
+    //       sku,
+    //       productPrice: productDetails.productPrice,
+    //       slug: productDetails.slug,
+    //       title: productDetails.title,
+    //       thumbnail: productDetails.thumbnail,
+    //     };
+    //     addToCart(cartItem);
+    
+    //     const checkoutUrl = `/checkout?sku=${sku}&qty=${quantity}`;
+    
+    //     router.push(checkoutUrl);
+        
+    //   };
+
+
   return (
     <>
       <div className="space-y-3">

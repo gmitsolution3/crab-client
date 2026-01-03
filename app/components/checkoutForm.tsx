@@ -2,36 +2,30 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getCart, updateCartItems } from "@/utils/cartStorage";
 
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
+interface CheckoutProduct {
+  productPrice: number;
   quantity: number;
-  image: string;
+  selectedColor: { name: string };
+  selectedProductSize: string;
+  selectedVariant: {
+    attributes: { color: string; size: string };
+    sku: string;
+    stock: number;
+  };
+  sku: string;
+  slug: string;
+  thumbnail: string;
+  title: string;
 }
 
 export default function CheckoutForm() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: "1",
-      name: "Premium Viscose Cotton Two Piece",
-      price: 1500,
-      quantity: 1,
-      image: "/premium-viscose-cotton-two-piece.jpg",
-    },
-    {
-      id: "2",
-      name: "Premium Viscose Cotton Two Piece",
-      price: 1500,
-      quantity: 1,
-      image: "/premium-viscose-cotton-two-piece.jpg",
-    },
-  ]);
+  const [cartItems, setCartItems] = useState<CheckoutProduct[]>([]);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -58,27 +52,49 @@ export default function CheckoutForm() {
     }));
   };
 
-  const handleQuantityChange = (id: string, change: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
-    );
+  useEffect(() => {
+    const updateCart = () => {
+      setCartItems(getCart());
+    };
+
+    updateCart();
+
+    window.addEventListener("cart_updated", updateCart);
+
+    return () => {
+      window.removeEventListener("cart_updated", updateCart);
+    };
+  }, []);
+
+
+  const handleQuantityChange = (index: number, newQuantity: number) => {
+    if (newQuantity < 1) return;
+
+    const updatedItems = [...cartItems];
+    updatedItems[index].quantity = newQuantity;
+
+    setCartItems(updatedItems);
+    updateCartItems(updatedItems);
+    console.log(updatedItems);
   };
 
-  const handleRemoveItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
+  // const handleRemoveItem = (id: string) => {
+  //   setCartItems((prev) => prev.filter((item) => item.id !== id));
+  // };
 
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
+  const subtotal = cartItems.reduce((total, item) => {
+    return total + item.productPrice * item.quantity;
+  }, 0);
+  
+
+ const getTotalPrice = (item: any) => {
+   return (item.productPrice * item.quantity).toLocaleString("en-BD");
+ };
   const discount = 1630;
   const deliveryCharge = deliveryMethod === "inside" ? 80 : 100;
-  const grandTotal = subtotal - discount + deliveryCharge;
+
+  const grandTotal = subtotal + deliveryCharge;
+  // const grandTotal = subtotal - discount + deliveryCharge;
 
   return (
     <div className="min-h-screen px-4 py-8 sm:px-6 lg:px-8">
@@ -366,27 +382,32 @@ export default function CheckoutForm() {
               {/* Cart Items */}
               <div className="rounded-lg bg-white p-6 shadow-sm">
                 <div className="space-y-4">
-                  {cartItems.map((item) => (
+                  {cartItems.map((item, index) => (
                     <div
-                      key={item.id}
+                      key={index}
                       className="flex gap-4 border-b pb-4 last:border-b-0 last:pb-0"
                     >
                       <img
-                        src={item.image || "/placeholder.svg"}
-                        alt={item.name}
+                        src={item.thumbnail || "/placeholder.svg"}
+                        alt={item.title}
                         className="h-20 w-20 rounded-lg bg-gray-100 object-cover"
                       />
                       <div className="flex-1">
                         <h3 className="text-sm font-medium text-gray-900">
-                          {item.name}
+                          {item.title}
                         </h3>
                         <p className="mt-1 text-sm font-semibold text-gray-900">
-                          {item.price.toLocaleString()}.00TK
+                          ৳{" "}
+                          {(item.productPrice * item.quantity).toLocaleString(
+                            "en-BD"
+                          )}
                         </p>
                         <div className="mt-2 flex items-center justify-between gap-2">
                           <div className="flex items-center gap-1 rounded-md border border-gray-300">
                             <button
-                              onClick={() => handleQuantityChange(item.id, -1)}
+                              onClick={() =>
+                                handleQuantityChange(index, item.quantity - 1)
+                              }
                               className="p-1 hover:bg-gray-100"
                             >
                               <Minus className="h-4 w-4" />
@@ -395,14 +416,16 @@ export default function CheckoutForm() {
                               {item.quantity}
                             </span>
                             <button
-                              onClick={() => handleQuantityChange(item.id, 1)}
+                              onClick={() =>
+                                handleQuantityChange(index, item.quantity + 1)
+                              }
                               className="p-1 hover:bg-gray-100"
                             >
                               <Plus className="h-4 w-4" />
                             </button>
                           </div>
                           <button
-                            onClick={() => handleRemoveItem(item.id)}
+                            // onClick={() => handleRemoveItem(item.id)}
                             className="text-red-600 hover:text-red-700"
                           >
                             Remove
@@ -421,9 +444,7 @@ export default function CheckoutForm() {
                 </h2>
                 <div className="space-y-3 border-b pb-4">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">
-                      Total Product: {cartItems.length}
-                    </span>
+                    <span className="text-gray-600">Total Product:</span>
                     <span className="font-medium text-gray-900">
                       {cartItems.length.toString().padStart(2, "0")}
                     </span>
@@ -431,19 +452,14 @@ export default function CheckoutForm() {
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Subtotal</span>
                     <span className="font-medium text-gray-900">
-                      {subtotal.toLocaleString()}.00TK
+                      ৳ {subtotal.toLocaleString("en-BD")}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Discount</span>
-                    <span className="font-medium text-gray-900">
-                      {discount.toLocaleString()}.00TK
-                    </span>
-                  </div>
+
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Delivery Charge</span>
                     <span className="font-medium text-gray-900">
-                      {deliveryCharge}.00TK
+                      ৳ {deliveryCharge}
                     </span>
                   </div>
                 </div>
@@ -451,7 +467,7 @@ export default function CheckoutForm() {
                 <div className="flex justify-between pt-4 text-base font-bold">
                   <span className="text-gray-900">Grand Total</span>
                   <span className="text-gray-900">
-                    {grandTotal.toLocaleString()}.00TK
+                    ৳ {grandTotal.toLocaleString("en-BD")}
                   </span>
                 </div>
 

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import Navbar from "../shared/navbar/page";
 import { SidebarWrapper } from "../components/SidebarWrapper";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
           <div className="flex max-w-400 mx-auto mt-10 gap-5">
             <SidebarWrapper />
             {children}
+            <ToastContainer />
           </div>
         </div>
       </body>

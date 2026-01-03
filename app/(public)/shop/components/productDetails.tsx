@@ -8,9 +8,6 @@ interface ProductDetailsProps {
 }
 
 export const ProductDetail = ({ product }: ProductDetailsProps) => {
-  console.log(product);
-
-  const closeModal = () => {};
 
   const productPrice =
     product.discount.type === "percentage"

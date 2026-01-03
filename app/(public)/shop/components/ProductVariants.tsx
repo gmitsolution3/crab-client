@@ -6,6 +6,7 @@ import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { CardButtons } from "./cardButtons";
 import { addToCart, getCart } from "@/utils/cartStorage";
+import { toast } from "react-toastify";
 
 type Variant = {
   attributes: {
@@ -94,29 +95,11 @@ export default function ProductVariant({
   const handleIncrease = () => setQuantity((prev) => prev + 1);
   const handleDecrease = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-  //   here open the add card modal
-  // const handleAddToCart = () => {
-  //   const addToCardProductDetails = {
-  //     ...productDetails,
-  //     selectedColor,
-  //     productSize,
-  //     selectedVariant,
-  //     sku,
-  //     quantity,
-  //   };
-
-  //   console.log(addToCardProductDetails)
-
-  //   alert(`Added ${quantity} item(s) to cart`);
-  // };
-
   const handleAddToCart = () => {
     if (!selectedVariant) {
       alert("Please select a variant");
       return;
     }
-
-    console.log(selectedProductSize);
 
     const cartItem = {
       selectedProductSize,
@@ -129,16 +112,13 @@ export default function ProductVariant({
       title: productDetails.title,
       thumbnail: productDetails.thumbnail,
     };
+    addToCart(cartItem);
 
+    const bookData = getCart();
+    console.log(bookData);
 
-    console.log(cartItem)
-    // addToCart(cartItem);
-
-    // const localSorageData = getCart();
-
-    // console.log(localSorageData)
-
-    alert(`Added ${quantity} item(s) to cart`);
+    toast.success("Product added successfully");
+    onCloseModal?.();
   };
 
   // redirect on the what 's app
@@ -154,6 +134,19 @@ export default function ProductVariant({
   //   redirect the checkout page from here
   const handleBuyNow = () => {
     if (!selectedVariant) return alert("Please select a variant first!");
+
+    const cartItem = {
+      selectedProductSize,
+      quantity,
+      selectedColor,
+      selectedVariant,
+      sku,
+      productPrice: productDetails.productPrice,
+      slug: productDetails.slug,
+      title: productDetails.title,
+      thumbnail: productDetails.thumbnail,
+    };
+    addToCart(cartItem);
 
     const checkoutUrl = `/checkout?sku=${sku}&qty=${quantity}`;
 
@@ -198,7 +191,6 @@ export default function ProductVariant({
 
   // check the sku is exit or not
   const sku = selectedVariant?.sku ?? "N/A";
-
 
   //   main components
   return (
@@ -338,7 +330,7 @@ export default function ProductVariant({
             onClick={handleAddToCart}
             className="flex-1 bg-[#269ED9] text-white py-2 rounded-lg text-sm hover:bg-[#1d82b5]"
           >
-            Go to Cart
+            Add to card
           </button>
         </div>
       )}
