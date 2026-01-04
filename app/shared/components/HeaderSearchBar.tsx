@@ -4,12 +4,11 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Search, Phone } from "lucide-react"; // optional: lucide icons
-import { categories } from "../navbar/page";
+import Link from "next/link";
 
-
-
-export default function HeaderSearchBar() {
+export default function HeaderSearchBar({ categories }: any) {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectCategory, setSelectCategory] = useState<string>("Categories");
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -35,7 +34,7 @@ export default function HeaderSearchBar() {
               onClick={toggleDropdown}
               className="flex items-center justify-between px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 hover:bg-gray-200 min-w-40"
             >
-              <span>Categories</span>
+              <span>{selectCategory ?? "Categories"}</span>
               {isOpen ? (
                 <ChevronUp className="w-4 h-4 ml-2" />
               ) : (
@@ -47,18 +46,19 @@ export default function HeaderSearchBar() {
             {isOpen && (
               <div className="absolute left-0 z-10 w-56 mt-2 origin-top-left bg-white border border-gray-200 rounded-md shadow-lg">
                 <div className="py-1">
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      className="block w-full px-4 py-2 text-sm text-left text-gray-700 font-semibold hover:cursor-pointer hover:text-white hover:bg-[#2C7BE5]"
-                      onClick={() => {
-                        // Handle category selection here
-                        console.log(`Selected: ${category}`);
-                        setIsOpen(false);
-                      }}
-                    >
-                      {category}
-                    </button>
+                  {categories.map((category: any, index: number) => (
+                    <Link href={`/shop/${category._id}`}>
+                      <button
+                        key={index}
+                        className="block w-full px-4 py-2 text-sm text-left text-gray-700 font-semibold hover:cursor-pointer hover:text-white hover:bg-[#2C7BE5]"
+                        onClick={() => {
+                          setIsOpen(false);
+                          setSelectCategory(category.name);
+                        }}
+                      >
+                        {category.name}
+                      </button>
+                    </Link>
                   ))}
                 </div>
               </div>

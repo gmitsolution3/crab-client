@@ -15,7 +15,7 @@ export const ProductCard = ({ products }: Product) => {
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {products.map((pro: ProductFormData, index: number) => (
         <div className="rounded-xl border border-gray-200 bg-white hover:shadow-lg overflow-hidden hover:border hover:border-blue-700 hover:cursor-pointer">
-          <Link href={`/shop/${pro.slug}`} key={index}>
+          <Link href={`/shop/${pro.categoryId}/${pro.slug}`} key={index}>
             <div>
               <div className="relative bg-linear-to-br from-gray-900 to-gray-700 p-4 h-56">
                 <Image

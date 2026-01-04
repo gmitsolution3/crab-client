@@ -2,7 +2,7 @@
 
 import { Minimize, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { CardButtons } from "./cardButtons";
 import { addToCart, getCart } from "@/utils/cartStorage";
@@ -30,6 +30,8 @@ type Props = {
   from: string;
   productDetails: productDetails;
   onCloseModal?: () => void;
+  onSelectionChange?: ((data: any) => void | undefined) | undefined;
+  isBuyNow?: boolean;
 };
 
 // function that cover color name to hex code
@@ -64,6 +66,8 @@ export default function ProductVariant({
   from,
   productDetails,
   onCloseModal,
+  onSelectionChange,
+  isBuyNow,
 }: Props) {
   const router = useRouter();
 
@@ -121,6 +125,12 @@ export default function ProductVariant({
     onCloseModal?.();
   };
 
+  const handleBuyNow = () => {
+    handleAddToCart();
+
+    router.push("/checkout");
+  };
+
   // redirect on the what 's app
   const handleOrderWhatsApp = () => {
     const phoneNumber = "8801234567890"; // replace with your number
@@ -132,27 +142,27 @@ export default function ProductVariant({
   };
 
   //   redirect the checkout page from here
-  const handleBuyNow = () => {
-    if (!selectedVariant) return alert("Please select a variant first!");
+  // const handleBuyNow = () => {
+  //   if (!selectedVariant) return alert("Please select a variant first!");
 
-    const cartItem = {
-      selectedProductSize,
-      quantity,
-      selectedColor,
-      selectedVariant,
-      sku,
-      productPrice: productDetails.productPrice,
-      slug: productDetails.slug,
-      title: productDetails.title,
-      thumbnail: productDetails.thumbnail,
-    };
-    addToCart(cartItem);
+  //   const cartItem = {
+  //     selectedProductSize,
+  //     quantity,
+  //     selectedColor,
+  //     selectedVariant,
+  //     sku,
+  //     productPrice: productDetails.productPrice,
+  //     slug: productDetails.slug,
+  //     title: productDetails.title,
+  //     thumbnail: productDetails.thumbnail,
+  //   };
+  //   addToCart(cartItem);
 
-    const checkoutUrl = `/checkout?sku=${sku}&qty=${quantity}`;
+  //   const checkoutUrl = `/checkout?sku=${sku}&qty=${quantity}`;
 
-    router.push(checkoutUrl);
-    // alert(`Buying ${quantity} item(s) now`);
-  };
+  //   router.push(checkoutUrl);
+  //   // alert(`Buying ${quantity} item(s) now`);
+  // };
 
   //   function  normalize
   function normalize(value: string) {
@@ -191,6 +201,18 @@ export default function ProductVariant({
 
   // check the sku is exit or not
   const sku = selectedVariant?.sku ?? "N/A";
+
+  useEffect(() => {
+    if (!selectedVariant || onSelectionChange === undefined) return;
+
+    onSelectionChange({
+      selectedProductSize,
+      quantity,
+      selectedColor,
+      selectedVariant,
+      sku,
+    });
+  }, [selectedProductSize, quantity, selectedColor, selectedVariant]);
 
   //   main components
   return (
@@ -325,13 +347,27 @@ export default function ProductVariant({
           >
             Continue Shopping
           </button>
-
-          <button
+          {isBuyNow === true ? (
+            <button
+              onClick={handleBuyNow}
+              className="flex-1 bg-[#269ED9] text-white py-2 rounded-lg text-sm hover:bg-[#1d82b5]"
+            >
+              Buy Now
+            </button>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 bg-[#269ED9] text-white py-2 rounded-lg text-sm hover:bg-[#1d82b5]"
+            >
+              Add to card
+            </button>
+          )}
+          {/* <button
             onClick={handleAddToCart}
             className="flex-1 bg-[#269ED9] text-white py-2 rounded-lg text-sm hover:bg-[#1d82b5]"
           >
             Add to card
-          </button>
+          </button> */}
         </div>
       )}
     </div>

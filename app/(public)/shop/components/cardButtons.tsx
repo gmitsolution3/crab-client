@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { ShoppingBag, ShoppingCart } from "lucide-react";
@@ -12,7 +12,9 @@ interface Product {
 
 export const CardButtons = ({ product }: Product) => {
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
-  const from = "cardButton"
+  const [isBuyNow, setIsBuyNow] = useState(false);
+
+  const from = "cardButton";
 
   const handleAddToCart = () => {
     setIsCartModalOpen(true);
@@ -22,55 +24,35 @@ export const CardButtons = ({ product }: Product) => {
     setIsCartModalOpen(false);
   };
 
+  const productPrice =
+    product.discount.type === "percentage"
+      ? Math.floor(
+          Number(product.basePrice) -
+            (Number(product.basePrice) * Number(product.discount.value)) / 100
+        )
+      : Math.max(Number(product.basePrice) - Number(product.discount.value), 0);
 
-    const productPrice =
-      product.discount.type === "percentage"
-        ? Math.floor(
-            Number(product.basePrice) -
-              (Number(product.basePrice) * Number(product.discount.value)) / 100
-          )
-        : Math.max(
-            Number(product.basePrice) - Number(product.discount.value),
-            0
-          );
+  const { title, slug, thumbnail } = product;
 
-    const { title, slug, thumbnail } = product;
+  const productDetails = {
+    productPrice,
+    title,
+    slug,
+    thumbnail,
+  };
 
-    const productDetails = {
-      productPrice,
-      title,
-      slug,
-      thumbnail,
-    };
-
-
-    //  const handleBuyNow = () => {
-    //     if (!selectedVariant) return alert("Please select a variant first!");
-    
-    //     const cartItem = {
-    //       selectedProductSize,
-    //       quantity,
-    //       selectedColor,
-    //       selectedVariant,
-    //       sku,
-    //       productPrice: productDetails.productPrice,
-    //       slug: productDetails.slug,
-    //       title: productDetails.title,
-    //       thumbnail: productDetails.thumbnail,
-    //     };
-    //     addToCart(cartItem);
-    
-    //     const checkoutUrl = `/checkout?sku=${sku}&qty=${quantity}`;
-    
-    //     router.push(checkoutUrl);
-        
-    //   };
-
+  const handleBuyNow = () => {
+    setIsCartModalOpen(true);
+    setIsBuyNow(true);
+  };
 
   return (
     <>
       <div className="space-y-3">
-        <button className="w-full bg-linear-to-t from-[#0970B4] to-[#3CB1FF] hover:from-[#3CB1FF] hover:to-[#0970B4] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 transition">
+        <button
+          onClick={handleBuyNow}
+          className="w-full bg-linear-to-t from-[#0970B4] to-[#3CB1FF] hover:from-[#3CB1FF] hover:to-[#0970B4] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 transition"
+        >
           <ShoppingBag /> BUY NOW
         </button>
 
@@ -111,6 +93,7 @@ export const CardButtons = ({ product }: Product) => {
                 from={from}
                 productDetails={productDetails}
                 onCloseModal={closeModal}
+                isBuyNow={isBuyNow}
               />
             </div>
           </div>

@@ -35,3 +35,15 @@ export const getProductBySKU = async (sku: string) => {
 
   return result;
 };
+
+
+export async function getProductByCategory(category: string) {
+  const res = await fetch(
+    `http://localhost:5000/get-product-by-category/${category}`,
+    {
+      next: { revalidate: 300 },
+    }
+  );
+
+  return res.json();
+}

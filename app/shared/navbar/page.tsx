@@ -7,15 +7,6 @@ import { Menu } from "lucide-react";
 import { MenuNavbar } from "../components/Menu";
 import { getCategories } from "@/lib/categories";
 
-export const categories = [
-  { id: "all", label: "All Products" },
-  { id: "health", label: "Health Accessories" },
-  { id: "winter", label: "Winter Items" },
-  { id: "ladies", label: "Ladies Trendy Fashion Wear" },
-  { id: "cables", label: "Cables" },
-  { id: "home", label: "Home & Living" },
-  { id: "electronic", label: "Electronic" },
-];
 
 const Navbar =async () => {
 
@@ -40,7 +31,7 @@ const Navbar =async () => {
       <div className="border-b border-gray-300">
         <div className="max-w-400 mx-auto flex justify-between items-center py-5">
           <ComLogo />
-          <HeaderSearchBar />
+          <HeaderSearchBar categories={getAllCategories.data} />
           <BookCard />
         </div>
       </div>
