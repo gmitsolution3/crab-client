@@ -1,8 +1,10 @@
+
+//get product by slug
 export const getProductDetails = async (slug: string) => {
   const res = await fetch(`http://localhost:5000/api/products/${slug}`, {
     next: {
       tags: ["productDetails"],
-      revalidate: 300, //catch for 5 mini
+      revalidate: 300, 
     },
   });
 
@@ -19,6 +21,7 @@ export const getProductDetails = async (slug: string) => {
   return result;
 };
 
+// product by sku
 export const getProductBySKU = async (sku: string) => {
   const res = await fetch(`http://localhost:5000/api/products?sku=${sku}`, {
     cache: "no-store",
@@ -37,6 +40,8 @@ export const getProductBySKU = async (sku: string) => {
 };
 
 
+// product by category
+
 export async function getProductByCategory(category: string) {
   const res = await fetch(
     `http://localhost:5000/get-product-by-category/${category}`,
@@ -46,4 +51,14 @@ export async function getProductByCategory(category: string) {
   );
 
   return res.json();
+}
+
+// all category
+export async function AllProduct() {
+  const res = await fetch("http://localhost:5000/api/products", {
+    next: { revalidate: 300 },
+  });
+
+  return res.json()
+
 }

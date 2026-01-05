@@ -1,14 +1,9 @@
+import { AllProduct } from "@/lib/products";
 import { ProductCard } from "./shop/components/productCard";
 
 const MainPage = async () => {
-  const res = await fetch("http://localhost:5000/api/products", {
-    next: { revalidate: 60 },
-    // cache: "no-store"
-  });
-  const result = await res.json();
-
-  const products = result.data;
-
+  const res = await AllProduct();
+  const products = res.data;
 
   if (products.length === 0) {
     return (

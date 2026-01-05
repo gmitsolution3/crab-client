@@ -1,9 +1,18 @@
+import { AllProduct } from '@/lib/products';
 import React from 'react'
+import ProductTable from '../components/allProduct';
 
-const AllProduct = () => {
+const AllProductShow =async () => {
+
+  const res = await AllProduct();
+    const products = res.data;
+
+
   return (
-    <div>AllProduct</div>
-  )
+    <div>
+      <ProductTable INITIAL_PRODUCTS={products} />
+    </div>
+  );
 }
 
-export default AllProduct;
+export default AllProductShow;

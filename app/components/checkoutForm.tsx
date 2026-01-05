@@ -10,6 +10,7 @@ import { clearCart, getCart, updateCartItems } from "@/utils/cartStorage";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 interface CheckoutProduct {
   productPrice: number;
@@ -29,6 +30,7 @@ interface CheckoutProduct {
 
 export default function CheckoutForm() {
   const [cartItems, setCartItems] = useState<CheckoutProduct[]>([]);
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -80,11 +82,19 @@ export default function CheckoutForm() {
     console.log(updatedItems);
   };
 
-  const handleRemoveItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.slug !== id));
-    toast.success("Product remove successfully");
-    // clearCart()
-  };
+  // const handleRemoveItem = (id: string) => {
+  //   setCartItems((prev) => prev.filter((item) => item.slug !== id));
+  //   toast.success("Product remove successfully");
+  //   // clearCart()
+  // };
+
+  const handleRemoveItem = (index: number) => {
+      const updatedItems = cartItems.filter((_, i) => i !== index);
+      setCartItems(updatedItems);
+  
+      // sync localStorage immediately
+      updateCartItems(updatedItems);
+    };
 
   const subtotal = cartItems.reduce((total, item) => {
     return total + item.productPrice * item.quantity;
@@ -166,6 +176,9 @@ export default function CheckoutForm() {
           icon: "success",
         });
 
+        clearCart()
+
+        router.push("/");
         // if (paymentMethod === "sslcommerz" && response.data.paymentUrl) {
         //   window.location.replace(response.data.paymentUrl);
         // } else {
@@ -513,7 +526,7 @@ export default function CheckoutForm() {
                               </button>
                             </div>
                             <button
-                              onClick={() => handleRemoveItem(item.slug)}
+                              onClick={() => handleRemoveItem(index)}
                               className="text-red-600 hover:text-red-700"
                             >
                               Remove

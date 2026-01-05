@@ -2,7 +2,7 @@ const CART_KEY = "gm_cart";
 const TEN_MINUTES = 20 * 60 * 1000; // 20 min in ms
 const CART_EVENT = "cart_updated";
 
-/* ---------- GET CART ---------- */
+
 export const getCart = () => {
   if (typeof window === "undefined") return [];
 
@@ -11,7 +11,7 @@ export const getCart = () => {
 
   const parsed = JSON.parse(stored);
 
-  // ⏰ expired?
+  
   if (Date.now() > parsed.expiresAt) {
     localStorage.removeItem(CART_KEY);
     return [];
@@ -38,7 +38,7 @@ export const addToCart = (item: any) => {
     }
   }
 
-  // SKU based merge
+
   const existingIndex = items.findIndex((i) => i.sku === item.sku);
 
   if (existingIndex !== -1) {
@@ -47,7 +47,7 @@ export const addToCart = (item: any) => {
     items.push(item);
   }
 
-  // ✅ FIRST save to localStorage
+  
   localStorage.setItem(
     CART_KEY,
     JSON.stringify({
@@ -56,7 +56,7 @@ export const addToCart = (item: any) => {
     })
   );
 
-  // ✅ THEN notify UI
+  
   window.dispatchEvent(new Event(CART_EVENT));
 };
 
@@ -74,7 +74,7 @@ export const updateCartItems = (items: any[]) => {
     CART_KEY,
     JSON.stringify({
       items,
-      expiresAt: parsed.expiresAt, // ⏰ keep old expiry
+      expiresAt: parsed.expiresAt, 
     })
   );
 
@@ -84,7 +84,39 @@ export const updateCartItems = (items: any[]) => {
 
 
 
-/* ---------- CLEAR CART ---------- */
+// remove product function
 export const clearCart = () => {
   localStorage.removeItem(CART_KEY);
 };
+
+// remove by slug category fun
+export const removeCartItemBySlug = (slug: string) => {
+  if (typeof window === "undefined") return;
+
+  const stored = localStorage.getItem(CART_KEY);
+  if (!stored) return;
+
+  const parsed = JSON.parse(stored);
+
+  // ⛔ expired হলে cart clear
+  if (Date.now() > parsed.expiresAt) {
+    localStorage.removeItem(CART_KEY);
+    return;
+  }
+
+  const filteredItems = (parsed.items || []).filter(
+    (item: any) => item.slug !== slug
+  );
+
+  localStorage.setItem(
+    CART_KEY,
+    JSON.stringify({
+      items: filteredItems,
+      expiresAt: parsed.expiresAt, // ⏰ keep expiry
+    })
+  );
+
+  // 🔔 UI notify
+  window.dispatchEvent(new Event(CART_EVENT));
+};
+
