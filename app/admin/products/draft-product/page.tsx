@@ -7,7 +7,7 @@ export const DraftProducts = async () => {
 
   const result = res.data;
 
-  console.log(result);
+  
 
   const productDescription = {
     title: "Draft Product",

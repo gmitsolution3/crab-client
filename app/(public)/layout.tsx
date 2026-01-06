@@ -4,6 +4,8 @@ import "../globals.css";
 import Navbar from "../shared/navbar/page";
 import { SidebarWrapper } from "../components/SidebarWrapper";
 import { ToastContainer } from "react-toastify";
+import { MenuNavbar } from "../shared/components/Menu";
+import ShowFooter from "../shared/components/showFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,19 +28,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div className="bg-gray-100 min-h-screen">
-          <Navbar />
-          <div className="flex max-w-400 mx-auto mt-10 gap-5">
-            <SidebarWrapper />
-            {children}
-            <ToastContainer />
-          </div>
-        </div>
-      </body>
-    </html>
+    <div className="relative min-h-screen">
+      <div>
+        <Navbar />
+      </div>
+      <main>{children}</main>
+      <div>
+        <ShowFooter />
+      </div>
+    </div>
   );
 }

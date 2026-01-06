@@ -131,7 +131,7 @@ export default function AddProductForm({ allCategory }: any) {
 
       try {
         const url = await UploadeImage(file);
-        console.log(url);
+        
         setThumbnailUpload(url);
         setPreviewImages((prev) => ({
           ...prev,
@@ -154,7 +154,7 @@ export default function AddProductForm({ allCategory }: any) {
 
     toAdd.forEach(async (file) => {
       const url = await UploadeImage(file);
-      console.log(url);
+      
 
       setPreviewImages((prev) => ({
         ...prev,
@@ -208,7 +208,6 @@ export default function AddProductForm({ allCategory }: any) {
 
   const handleSubCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
-    console.log(e.target.value)
 
     setSelectSubCategory(e.target.value)
 
@@ -285,7 +284,7 @@ export default function AddProductForm({ allCategory }: any) {
       createdAt: new Date().toLocaleString(),
     };
 
-    console.log("Payload:", payload);
+    
 
     const res = await fetch("http://localhost:5000/api/products", {
       method: "POST",
@@ -306,7 +305,7 @@ export default function AddProductForm({ allCategory }: any) {
     const result = await res.json();
 
     alert(result.message);
-    console.log("result", result);
+   
     setActiveTab("basic");
   };
 

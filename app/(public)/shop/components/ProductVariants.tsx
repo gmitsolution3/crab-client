@@ -89,7 +89,7 @@ export default function ProductVariant({
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
 
   const productSize = selectedSize.split(",");
-  console.log(productSize[0]);
+
 
   const [selectedProductSize, setSelectedProductSize] = useState(
     productSize[0]

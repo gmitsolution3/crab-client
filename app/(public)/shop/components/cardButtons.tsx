@@ -56,7 +56,7 @@ export const CardButtons = ({ product }: Product) => {
           <ShoppingBag /> BUY NOW
         </button>
 
-        <button className="w-full bg-linear-to-t from-[#073d19] to-[#09b442] hover:from-[#09b442] hover:to-[#073d19] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 transition">
+        <button className="w-full bg-linear-to-t from-[#073d19] to-[#09b442] hover:from-[#09b442] hover:to-[#073d19] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-xs md:text-sm gap-2 transition">
           <FaWhatsapp />
           ORDER VIA WHATSAPP
         </button>

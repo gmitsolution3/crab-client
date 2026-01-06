@@ -6,7 +6,6 @@ const AllOrder = async () => {
 
   const result = res.data;
 
-  console.log(result);
 
   return (
     <div>

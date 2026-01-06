@@ -36,9 +36,7 @@ export default function CheckoutCartTable({
 
     setCartItems(updatedItems);
     updateCartItems(updatedItems);
-    console.log(updatedItems);
-
-    console.log("get form the localhost", products);
+   
   };
 
   const handleRemoveItem = (index: number) => {

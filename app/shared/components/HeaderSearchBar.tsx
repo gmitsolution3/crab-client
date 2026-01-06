@@ -15,7 +15,7 @@ export default function HeaderSearchBar({ categories }: any) {
   };
 
   return (
-    <div className="flex items-center h-16">
+    <div className="flex flex-col md:flex-row items-center gap-4 w-full">
       {/* Search Bar */}
       <div className="mx-4">
         <div className="relative flex items-center gap-2">
@@ -24,7 +24,7 @@ export default function HeaderSearchBar({ categories }: any) {
             <input
               type="text"
               placeholder="Search products..."
-              className="w-72.5 px-4 py-2 text-gray-900 border bg-gray-100 border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none rounded-l-2xl"
+              className="w-full md:w-72 px-4 py-2 text-gray-900 border bg-gray-100 border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none rounded-l-2xl"
             />
           </div>
 

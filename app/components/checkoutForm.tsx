@@ -79,7 +79,7 @@ export default function CheckoutForm() {
 
     setCartItems(updatedItems);
     updateCartItems(updatedItems);
-    console.log(updatedItems);
+    
   };
 
 

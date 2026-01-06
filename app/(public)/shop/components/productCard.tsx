@@ -12,7 +12,7 @@ interface Product {
 
 export const ProductCard = ({ products }: Product) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-3">
       {products.map((pro: ProductFormData, index: number) => (
         <div className="rounded-xl border border-gray-200 bg-white hover:shadow-lg overflow-hidden hover:border hover:border-blue-700 hover:cursor-pointer">
           <Link href={`/shop/${pro.categoryId}/${pro.slug}`} key={index}>

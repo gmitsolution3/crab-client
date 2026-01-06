@@ -79,3 +79,12 @@ export async function getDeletedProduct() {
 
   return res.json()
 }
+
+
+export async function getFeaturedProduct() {
+  const res = await fetch("http://localhost:5000/api/products/featured",{
+    next: {revalidate: 300},
+  })
+
+  return res.json()
+}

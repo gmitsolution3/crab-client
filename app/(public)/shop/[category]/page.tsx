@@ -13,8 +13,16 @@ const Categories = async ({ params }: ProductCategoryProps) => {
 
   const products = await getProductByCategory(category);
   return (
-    <div>
-      <ProductCard products={products.data} />
+    <div className="max-w-7xl mx-auto my-20">
+      <div className="my-5">
+          <h1 className="text-4xl font-bold pl-4">All Product</h1>
+          <p className="text-sm pl-4 text-gray-700">
+            We provide our best quality
+          </p>
+        </div>
+      <div>
+        <ProductCard products={products.data} />
+      </div>
     </div>
   );
 };

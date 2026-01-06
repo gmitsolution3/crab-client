@@ -29,8 +29,8 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
 
   const from = "productDetails";
   return (
-    <div className="space-y-10">
-      <div className="flex flex-col md:flex-row gap-10">
+    <div className="space-y-10 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row justify-center gap-10 mt-10 px-5">
         <div className="max-w-67.75 w-full ">
           <div>
             <Image

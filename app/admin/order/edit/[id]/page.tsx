@@ -14,7 +14,6 @@ const EditOrder =async ({ params }:ParamsProps) => {
 
   const result = await getOrderById(id);
 
-  console.log(result)
   return (
     <div>
       <OrderDetailsPage orderData={result.data}/>

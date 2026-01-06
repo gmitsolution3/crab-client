@@ -8,7 +8,6 @@ const DeletedProducts = async() => {
 
   const result = res.data;
 
-  console.log(result)
 
 
   const productDescription = {

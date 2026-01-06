@@ -80,7 +80,7 @@ export function AdminSidebar() {
       {/* Overlay for Mobile */}
       {isOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+          className="lg:hidden fixed inset-0 bg-white/30 backdrop-blur-none z-30"
           onClick={() => setIsOpen(false)}
         />
       )}

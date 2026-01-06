@@ -12,7 +12,7 @@ export default async function ManageOrdersPage() {
 
   const response = await getAllOrder();
 
-  console.log(response.data)
+
 
 
   return (

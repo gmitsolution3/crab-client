@@ -168,7 +168,7 @@ const OrderDetailsPage = ({ orderData }: { orderData : OrderData}) => {
       alert("Failed to update order");
     }
 
-    console.log("Updated Order Data:", updatedOrderData);
+   
     alert("Order updated successfully!");
   };
 
