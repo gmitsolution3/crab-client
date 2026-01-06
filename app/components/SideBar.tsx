@@ -36,8 +36,8 @@ export const SideBar = ({ categories }: any) => {
           </button>
         </Link>
 
-        {categories.map((category: any) => (
-          <Link href={`/shop/${category._id}`}>
+        {categories.map((category: any,index:number) => (
+          <Link href={`/shop/${category._id}`} key={index}>
             <button
               key={category._id}
               onClick={() => handleClick(category._id)}

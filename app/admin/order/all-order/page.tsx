@@ -10,7 +10,7 @@ const AllOrder = async () => {
 
   return (
     <div>
-      <AllProductTable />
+      <AllProductTable INITIAL_ORDERS={result}/>
     </div>
   );
 };

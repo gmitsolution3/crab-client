@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import {
@@ -11,6 +11,8 @@ import {
   Package,
   X,
 } from "lucide-react";
+import { ComLogo } from "@/app/shared/components/ComLogo";
+import Link from "next/link";
 
 // ============ TYPE DEFINITIONS ============
 interface CustomerInfo {
@@ -198,6 +200,10 @@ const INITIAL_ORDERS: Order[] = [
   },
 ];
 
+
+
+
+
 // ============ ORDER DETAIL MODAL ============
 interface OrderDetailModalProps {
   order: Order | null;
@@ -238,7 +244,7 @@ const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
             onClick={onClose}
             className="text-white hover:text-red-400 hover:bg-white rounded-full w-10 h-10 flex items-center justify-center text-2xl"
           >
-            <X/>
+            <X />
           </button>
         </div>
 
@@ -431,7 +437,7 @@ const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
 };
 
 // ============ MAIN ORDER TABLE COMPONENT ============
-const AllProductTable: React.FC = () => {
+const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS :Order[]}) => {
   const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
@@ -449,14 +455,15 @@ const AllProductTable: React.FC = () => {
       setOrders(orders.filter((o) => o._id !== id));
     }
   };
-
   const handlePrint = (order: Order): void => {
+    const logoUrl = "https://i.postimg.cc/WbTN2bBF/image-70.png";
     const printWindow = window.open("", "_blank");
     if (printWindow) {
       printWindow.document.write(
-        `<html><head><title>Order #${
-          order._id
-        }</title><style>body{font-family:Arial;margin:40px;color:#333;}h1{color:#0970B4;}table{width:100%;border-collapse:collapse;margin:20px 0;}th,td{padding:10px;text-align:left;border:1px solid #ddd;}th{background:#0970B4;color:white;}.total{font-weight:bold;font-size:18px;}.section{margin:20px 0;padding:15px;border:1px solid #ddd;border-radius:5px;}</style></head><body><h1>Order Details</h1><p><strong>Order ID:</strong> ${
+        `<html><head>
+        <title>Order #${order._id}</title> 
+        
+        <div><img src="${logoUrl}" style="max-width: 150px; height: auto;"/></div> <style>body{font-family:Arial;margin:40px;color:#333;}h1{color:#0970B4;}table{width:100%;border-collapse:collapse;margin:20px 0;}th,td{padding:10px;text-align:left;border:1px solid #ddd;}th{background:#0970B4;color:white;}.total{font-weight:bold;font-size:18px;}.section{margin:20px 0;padding:15px;border:1px solid #ddd;border-radius:5px;}</style></head><body><h1>Order Details</h1><p><strong>Order ID:</strong> ${
           order._id
         }</p><div class="section"><h3>Customer</h3><p><strong>Name:</strong> ${
           order.customerInfo.firstName
@@ -624,13 +631,15 @@ const AllProductTable: React.FC = () => {
                         >
                           <Eye size={18} />
                         </button>
-                        <button
-                          onClick={() => alert("Edit coming soon")}
-                          className="p-2 hover:bg-green-50 rounded-lg text-green-600"
-                          title="Edit"
-                        >
-                          <Edit2 size={18} />
-                        </button>
+                        <Link href={`/admin/order/edit/${order._id}`}>
+                          <button
+                            // onClick={() => alert("Edit coming soon")}
+                            className="p-2 hover:bg-green-50 rounded-lg text-green-600"
+                            title="Edit"
+                          >
+                            <Edit2 size={18} />
+                          </button>
+                        </Link>
                         <button
                           onClick={() => handlePrint(order)}
                           className="p-2 hover:bg-purple-50 rounded-lg text-purple-600"
