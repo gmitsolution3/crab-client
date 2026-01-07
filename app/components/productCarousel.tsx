@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { CardButtons } from "../(public)/shop/components/cardButtons";
 
 interface Product {
   _id: string;
@@ -10,8 +12,7 @@ interface Product {
   thumbnail: string;
 }
 
-
-const ProductCarousel = ({products}:{products:any}) => {
+const ProductCarousel = ({ products }: { products: any }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCards, setVisibleCards] = useState(3); // default 3
 
@@ -56,7 +57,7 @@ const ProductCarousel = ({products}:{products:any}) => {
           {/* Carousel Items */}
           <div className="overflow-hidden">
             <div
-              className="flex transition-transform duration-500"
+              className="flex transition-transform duration-500 justify-center"
               style={{
                 transform: `translateX(-${
                   (currentIndex * 100) / visibleCards
@@ -64,27 +65,35 @@ const ProductCarousel = ({products}:{products:any}) => {
                 width: `${(products.length * 100) / visibleCards}%`,
               }}
             >
-              {products.map((product:any) => (
-                <div
+              {products.map((product: any) => (
+                <Link
+                  href={`/shop/${product.categoryId}/${product.slug}`}
                   key={product._id}
-                  className="shrink-0 w-full sm:w-1/2 lg:w-1/3 px-2"
+                  className="shrink-0 w-full sm:w-1/2 lg:w-1/3 px-2 "
                 >
-                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl h-full flex flex-col">
-                    <div className="relative w-full h-48 md:h-56">
-                      <img
-                        src={product.thumbnail}
-                        alt={product.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-4 flex flex-col grow">
-                      <h3 className="text-base md:text-lg font-semibold mb-2">
-                        {product.title}
-                      </h3>
-                      <p className="text-sm text-gray-600">{product.shortDescription}</p>
+                  <div>
+                    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl h-full flex flex-col">
+                      <div className="relative w-full h-48 md:h-56">
+                        <img
+                          src={product.thumbnail}
+                          alt={product.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-4 flex flex-col grow">
+                        <h3 className="text-base md:text-lg font-semibold mb-2">
+                          {product.title}
+                        </h3>
+                        <p className="text-xs text-gray-600">
+                          {product.shortDescription}
+                        </p>
+                      </div>
+                      <div className="p-3">
+                        <CardButtons product={product} />
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

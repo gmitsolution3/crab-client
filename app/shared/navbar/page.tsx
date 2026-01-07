@@ -14,15 +14,17 @@ const Navbar = async () => {
   return (
     <header className="w-full bg-white">
       <div className="max-w-full bg-white">
-        <div className="border-b border-gray-100">
-          <div className="h-14 max-w-400 mx-auto px-4 flex justify-between items-center">
+        <div className="border-b border-gray-100 bg-[#0970B4]">
+          <div className="h-14 max-w-400 mx-auto px-4 flex justify-between items-center text-white">
             <h5>Welcome to our website</h5>
-            <div className="hidden md:flex items-center gap-4">
-              <h5 className="hover:cursor-pointer hover:underline">Log in</h5>
-              <h5 className="hover:cursor-pointer hover:underline">
+            <div className="hidden md:flex items-center gap-4 ">
+              <h5 className="hover:cursor-pointer px-3 py-2 border border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]">
+                Log in
+              </h5>
+              <h5 className="hover:cursor-pointer px-3 py-2 border border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]">
                 Order Tracking
               </h5>
-              <h5 className="hover:cursor-pointer hover:underline">
+              <h5 className="hover:cursor-pointer px-3 py-2 border border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]">
                 Return Policy
               </h5>
             </div>

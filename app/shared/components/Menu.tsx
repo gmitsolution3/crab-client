@@ -1,18 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
 export const MenuNavbar = ({ categories }: any) => {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("home");
   const [open, setOpen] = useState(false);
 
   const handleClick = (id: string) => {
     setActiveCategory(id);
     setOpen(false);
   };
+
+  useEffect(() => {
+    const path = window.location.pathname; 
+    const segments = path.split("/").filter(Boolean);
+    const lastSegment = segments[segments.length - 1] || "home";
+    setActiveCategory(lastSegment);
+  }, []);
 
   return (
     <div className="border-t border-gray-200 lg:py-3">
@@ -41,6 +48,19 @@ export const MenuNavbar = ({ categories }: any) => {
           <div className="flex flex-col lg:flex-row lg:justify-center lg:items-center gap-2 px-2 py-2 lg:py-0">
             {/* All Products */}
             <Link href={`/`}>
+              <button
+                onClick={() => handleClick("home")}
+                className={clsx(
+                  "w-full lg:w-auto text-left px-4 py-2 text-sm font-semibold rounded-md transition whitespace-nowrap",
+                  activeCategory === "home"
+                    ? "bg-linear-to-t from-[#0970B4] to-[#3CB1FF] text-white"
+                    : "text-gray-700 hover:bg-linear-to-t hover:from-[#0970B4] hover:to-[#3CB1FF] hover:text-white"
+                )}
+              >
+                Home
+              </button>
+            </Link>
+            <Link href={`/shop/all`}>
               <button
                 onClick={() => handleClick("all")}
                 className={clsx(

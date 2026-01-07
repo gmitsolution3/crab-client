@@ -13,7 +13,7 @@ const ProductDetails = async ({ params }: ProductPageProps) => {
   const result = await getProductDetails(slug);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <ProductDetail product={result.data}/>
     </div>
   );
