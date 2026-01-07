@@ -20,6 +20,7 @@ interface Seo {
 }
 
 export interface ProductFormData {
+  _id?: string;
   title: string;
   slug: string;
   description: string;

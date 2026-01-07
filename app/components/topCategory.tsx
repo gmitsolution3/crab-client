@@ -2,6 +2,7 @@
 
 import React from "react";
 import * as LucideIcons from "lucide-react";
+import Link from "next/link";
 
 interface SubCategory {
   name: string;
@@ -25,7 +26,7 @@ const iconList = [
   LucideIcons.Cpu,
   LucideIcons.Heart,
   LucideIcons.Watch,
-//   LucideIcons.Shoe,
+  //   LucideIcons.Shoe,
   LucideIcons.Thermometer,
   LucideIcons.ShoppingBag,
   LucideIcons.Gift,
@@ -48,20 +49,22 @@ export const TopCategories = ({ categories }: TopCategoriesProps) => {
           const IconComponent = iconList[index % iconList.length];
 
           return (
-            <div
-              key={cat._id}
-              className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer text-center"
-            >
-              {/* Icon */}
-              <div className="bg-[#E6F0FA] rounded-full p-3 mb-2">
-                <IconComponent size={28} className="text-[#0970B4]" />
-              </div>
+            <Link href={`/shop/${cat._id}`} key={cat._id}>
+              <div
+                key={cat._id}
+                className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer text-center"
+              >
+                {/* Icon */}
+                <div className="bg-[#E6F0FA] rounded-full p-3 mb-2">
+                  <IconComponent size={28} className="text-[#0970B4]" />
+                </div>
 
-              {/* Name */}
-              <span className="text-sm sm:text-base font-medium text-gray-900">
-                {cat.name}
-              </span>
-            </div>
+                {/* Name */}
+                <span className="text-sm sm:text-base font-medium text-gray-900">
+                  {cat.name}
+                </span>
+              </div>
+            </Link>
           );
         })}
       </div>

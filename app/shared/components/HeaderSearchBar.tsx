@@ -14,6 +14,8 @@ export default function HeaderSearchBar({ categories }: any) {
     setIsOpen(!isOpen);
   };
 
+  const hotlineNumber = "123-456-7890";
+
   return (
     <div className="flex flex-col md:flex-row items-center gap-4 w-full">
       {/* Search Bar */}
@@ -75,11 +77,21 @@ export default function HeaderSearchBar({ categories }: any) {
       {/* Call Us Now */}
       <div className="flex items-center space-x-2 ml-3 md:ml-8 lg:ml-11">
         <div className="p-3 rounded-full bg-gray-100">
-          <Phone className="w-5 h-5 text-[#0970B4]" />
+          <a
+            href={`tel:${hotlineNumber}`}
+            aria-label={`Call our hotline at ${hotlineNumber}`}
+          >
+            <Phone className="w-5 h-5 text-[#0970B4]" />
+          </a>
         </div>
-        <div className="text-sm font-medium text-gray-800">
-          Call Us Now <br />{" "}
-          <span className="text-[#0970B4]">(12) 345 67895</span>
+        <div className="text-sm md:text-lg font-medium text-gray-800">
+          Call Us Now <br />
+          <a
+            href={`tel:${hotlineNumber}`}
+            aria-label={`Call our hotline at ${hotlineNumber}`}
+          >
+            <span className="text-[#0970B4]">(12) 345 67895</span>
+          </a>
         </div>
       </div>
     </div>

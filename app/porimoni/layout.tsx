@@ -19,7 +19,9 @@ export default function AdminLayout({
 
       {/* Main content */}
       <div className="flex-1 flex flex-col">
-        <AdminHeader />
+        <div className="sticky top-0 z-10">
+          <AdminHeader />
+        </div>
 
         <main className="p-6">{children}</main>
       </div>

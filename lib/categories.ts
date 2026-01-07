@@ -1,4 +1,4 @@
-import { CategoryFormData } from "@/app/admin/category/add-category/page";
+import { CategoryFormData } from "@/app/porimoni/category/add-category/page";
 
 // lib/getCategories.ts
 export async function getCategories() {

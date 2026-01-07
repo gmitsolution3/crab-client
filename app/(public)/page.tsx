@@ -4,6 +4,7 @@ import ProductSliderSection from "../components/heroSlider";
 import { OurTopCategory } from "../components/outTopCategorry";
 import { FeaturesSection } from "../components/FeaturesSection";
 import { FeaturedProduct } from "../components/featuredProduct";
+import ShowProduct from "./shop/components/showProduct";
 
 const MainPage = async () => {
   const res = await AllProduct();
@@ -68,14 +69,15 @@ const MainPage = async () => {
       </div>
 
       <div className="max-w-7xl mx-auto">
-        <div className="my-5">
-          <h1 className="text-4xl font-bold pl-4">All Product</h1>
+        <div className="my-5 border-b-2 border-b-gray-300 pb-3">
+          <h1 className="text-4xl font-bold pl-4">Find your best one</h1>
           <p className="text-sm pl-4 text-gray-700">
             We provide our best quality
           </p>
         </div>
         <div>
-          <ProductCard products={products} />
+          {/* <ProductCard products={products} /> */}
+          <ShowProduct products={products} />
         </div>
         <div>
           <div className="my-5">

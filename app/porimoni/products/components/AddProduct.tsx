@@ -284,15 +284,20 @@ export default function AddProductForm({ allCategory }: any) {
       createdAt: new Date().toLocaleString(),
     };
 
-    
+    console.log(payload)
 
-    const res = await fetch("process.env.NEXT_EXPRESS_SERVER_BASE_URL/api/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+    console.log(process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL);
+
+    const res = await fetch(
+      `https://low-e-commerce-server.vercel.app/api/products`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    );
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);

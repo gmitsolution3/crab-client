@@ -2,6 +2,8 @@ import { ProductFormData } from "@/utils/product";
 import Image from "next/image";
 import React from "react";
 import ProductVariants from "./ProductVariants";
+import ProductImage from "./productImage";
+import YouTubeVideoPlayer from "./youtubeVideoPlayer";
 
 interface ProductDetailsProps {
   product: ProductFormData;
@@ -31,28 +33,12 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
   return (
     <div className="space-y-10 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row justify-center gap-10 mt-10 px-5">
-        <div className="max-w-67.75 w-full ">
-          <div>
-            <Image
-              src={`${product.thumbnail}`}
-              alt={`${product.title}`}
-              width={271}
-              height={253}
-              className="object-cover rounded"
-            />
-          </div>
-          <div className="flex gap-2 mt-4">
-            {product.gallery.map((img, index) => (
-              <Image
-                key={index}
-                src={`${img}`}
-                alt={`${product.title}`}
-                width={63}
-                height={68}
-                className="object-cover rounded"
-              />
-            ))}
-          </div>
+        <div className="max-w-full md:max-w-80 w-full ">
+          <ProductImage
+            thumbnail={product.thumbnail}
+            gallery={product.gallery}
+            title={product.title}
+          />
         </div>
         <div className="space-y-4">
           <h1 className="text-2xl text-black font-bold">{product.title}</h1>
@@ -71,7 +57,6 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
                 variants={product.variants}
                 from={from}
                 productDetails={productDetails}
-                
               />
             </div>
           </div>
@@ -79,6 +64,13 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
       </div>
 
       <div>
+        <YouTubeVideoPlayer
+          videoUrl="https://youtu.be/myJ7x029Ves?si=Xmd-zZiwf1TglrhD"
+          thumbnail="https://i.postimg.cc/BQBxkN2C/maxresdefault.jpg"
+        />
+      </div>
+
+      <div className="px-5 pb-10 mb-20">
         <h1 className="text-4xl font-bold text-[#0970B4] mb-2">Description</h1>
         <p>{product.description}</p>
       </div>

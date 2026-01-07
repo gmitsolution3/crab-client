@@ -4,24 +4,19 @@ import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { CardButtons } from "../(public)/shop/components/cardButtons";
+import { ProductFormData } from "@/utils/product";
 
-interface Product {
-  _id: string;
-  title: string;
-  shortDescription: string;
-  thumbnail: string;
-}
 
-const ProductCarousel = ({ products }: { products: any }) => {
+const ProductCarousel = ({ products }: { products: ProductFormData[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [visibleCards, setVisibleCards] = useState(3); // default 3
+  const [visibleCards, setVisibleCards] = useState(3);
 
-  // Update visible cards based on screen width
+  // Responsive visible cards update
   const updateVisibleCards = () => {
     const width = window.innerWidth;
-    if (width < 640) setVisibleCards(1);
-    else if (width < 1024) setVisibleCards(2);
-    else setVisibleCards(3);
+    if (width < 640) setVisibleCards(2);
+    else if (width < 1024) setVisibleCards(3);
+    else setVisibleCards(4);
   };
 
   useEffect(() => {
@@ -32,7 +27,7 @@ const ProductCarousel = ({ products }: { products: any }) => {
 
   const handlePrev = () => {
     setCurrentIndex((prev) =>
-      prev === 0 ? products.length - visibleCards : prev - 1
+      prev <= 0 ? Math.max(products.length - visibleCards, 0) : prev - 1
     );
   };
 
@@ -42,77 +37,101 @@ const ProductCarousel = ({ products }: { products: any }) => {
     );
   };
 
+  // If no products, show nothing or placeholder
+  if (!products || products.length === 0) return null;
+
   return (
-    <div className="w-full py-12 px-4">
+    <div className="w-full py-12">
       <div className="max-w-7xl mx-auto">
-        {/* Title */}
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-2">
           Featured Products
         </h2>
-        <p className="text-gray-600 text-center mb-8">
+        <p className="text-gray-600 text-center mb-10">
           Check out our latest products and bestsellers.
         </p>
 
         <div className="relative">
-          {/* Carousel Items */}
-          <div className="overflow-hidden">
+          {/* Carousel Container */}
+          <div className="overflow-hidden rounded-xl">
             <div
-              className="flex transition-transform duration-500 justify-center"
+              className="flex transition-transform duration-500 ease-in-out"
               style={{
                 transform: `translateX(-${
                   (currentIndex * 100) / visibleCards
                 }%)`,
-                width: `${(products.length * 100) / visibleCards}%`,
               }}
             >
-              {products.map((product: any) => (
-                <Link
-                  href={`/shop/${product.categoryId}/${product.slug}`}
+              {products.map((product) => (
+                <div
                   key={product._id}
-                  className="shrink-0 w-full sm:w-1/2 lg:w-1/3 px-2 "
+                  className="shrink-0 px-3"
+                  style={{ width: `${100 / visibleCards}%` }}
                 >
-                  <div>
-                    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl h-full flex flex-col">
-                      <div className="relative w-full h-48 md:h-56">
+                  <Link href={`/shop/${product.categoryId}/${product.slug}`}>
+                    <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col">
+                      {/* Fixed Aspect Ratio Image */}
+                      <div className="relative w-full aspect-4/3 overflow-hidden bg-gray-100">
                         <img
-                          src={product.thumbnail}
+                          src={product.thumbnail!}
                           alt={product.title}
-                          className="w-full h-full object-cover"
+                          className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
                         />
                       </div>
-                      <div className="p-4 flex flex-col grow">
-                        <h3 className="text-base md:text-lg font-semibold mb-2">
+
+                      {/* Content - Fixed height & consistent layout */}
+                      <div className="p-5 flex flex-col grow">
+                        <h3 className="font-semibold text-lg line-clamp-2 text-gray-900 mb-3">
                           {product.title}
                         </h3>
-                        <p className="text-xs text-gray-600">
+                        <p className="text-gray-600 text-sm line-clamp-3 grow">
                           {product.shortDescription}
                         </p>
                       </div>
-                      <div className="p-3">
+
+                      {/* Buttons at bottom */}
+                      <div className="px-2 pb-5 mt-auto">
                         <CardButtons product={product} />
                       </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Left Arrow */}
+          {/* Navigation Arrows */}
           <button
             onClick={handlePrev}
-            className="absolute top-1/2 -translate-y-1/2 left-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow flex items-center justify-center z-10"
+            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center z-10 backdrop-blur"
+            aria-label="Previous"
           >
-            <ChevronLeft className="w-6 h-6 text-gray-700" />
+            <ChevronLeft className="w-6 h-6 text-gray-800" />
           </button>
 
-          {/* Right Arrow */}
           <button
             onClick={handleNext}
-            className="absolute top-1/2 -translate-y-1/2 right-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow flex items-center justify-center z-10"
+            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center z-10 backdrop-blur"
+            aria-label="Next"
           >
-            <ChevronRight className="w-6 h-6 text-gray-700" />
+            <ChevronRight className="w-6 h-6 text-gray-800" />
           </button>
+
+          {/* Dots Indicator (Optional - for mobile) */}
+          <div className="flex justify-center mt-6 gap-2">
+            {Array.from({
+              length: Math.ceil(products.length / visibleCards),
+            }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i * visibleCards)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  Math.floor(currentIndex / visibleCards) === i
+                    ? "bg-blue-600 w-8"
+                    : "bg-gray-300"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

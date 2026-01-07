@@ -7,6 +7,7 @@ import { Menu } from "lucide-react";
 import { getCategories } from "@/lib/categories";
 import { MenuNavbar } from "../components/Menu";
 import AccountDropdown from "../components/AccountDropdown";
+import MarqueeText from "../components/marquee";
 
 const Navbar = async () => {
   const getAllCategories = await getCategories();
@@ -42,8 +43,11 @@ const Navbar = async () => {
             <BookCard />
           </div>
         </div>
-        <div className="sticky top-0 z-50 bg-white border-b border-gray-300 shadow-md">
+        <div className="bg-white border-b border-gray-300 shadow-md">
           <MenuNavbar categories={getAllCategories.data} />
+        </div>
+        <div className="bg-white border-b border-gray-300 shadow-md">
+          <MarqueeText/>
         </div>
       </div>
     </header>

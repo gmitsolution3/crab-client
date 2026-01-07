@@ -48,7 +48,7 @@ export const CardButtons = ({ product }: Product) => {
 
   return (
     <>
-      <div className="space-y-3">
+      <div className="space-y-3 hidden md:block">
         <button
           onClick={handleBuyNow}
           className="w-full bg-linear-to-t from-[#0970B4] to-[#3CB1FF] hover:from-[#3CB1FF] hover:to-[#0970B4] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 transition"
@@ -56,7 +56,7 @@ export const CardButtons = ({ product }: Product) => {
           <ShoppingBag /> BUY NOW
         </button>
 
-        <button className="w-full bg-linear-to-t from-[#073d19] to-[#09b442] hover:from-[#09b442] hover:to-[#073d19] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-xs md:text-sm gap-2 transition">
+        <button className="w-full bg-linear-to-t from-[#073d19] to-[#09b442] hover:from-[#09b442] hover:to-[#073d19] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-xs   md:text-sm gap-2 transition">
           <FaWhatsapp />
           ORDER VIA WHATSAPP
         </button>
@@ -66,6 +66,27 @@ export const CardButtons = ({ product }: Product) => {
           className="w-full border border-[#269ED9] text-[#269ED9] py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[#269ED9] hover:text-white transition"
         >
           <ShoppingCart /> ADD TO CART
+        </button>
+      </div>
+      <div className="space-y-3 md:hidden">
+        <div className=" flex gap-2">
+          <button
+            onClick={handleBuyNow}
+            className="w-full bg-linear-to-t from-[#0970B4] to-[#3CB1FF] hover:from-[#3CB1FF] hover:to-[#0970B4] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 transition"
+          >
+            <ShoppingBag />
+          </button>
+
+          <button className="w-full bg-linear-to-t from-[#073d19] to-[#09b442] hover:from-[#09b442] hover:to-[#073d19] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-xs   md:text-sm gap-2 transition">
+            <FaWhatsapp size={28} />
+          </button>
+        </div>
+
+        <button
+          onClick={handleAddToCart}
+          className="w-full border border-[#269ED9] text-[#269ED9] py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[#269ED9] hover:text-white transition"
+        >
+          <ShoppingCart />
         </button>
       </div>
 

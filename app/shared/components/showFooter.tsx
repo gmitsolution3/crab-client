@@ -28,9 +28,12 @@ const ShowFooter: React.FC = () => {
     { label: 'About Us', url: '#' },
     { label: 'Contact', url: '#' },
     { label: 'Careers', url: '#' },
-    { label: 'Press', url: '#' },
-    { label: 'Sitemap', url: '#' },
+    { label: 'Privacy Policy', url: '#' },
+    { label: 'Terms and Conditions', url: '#' },
+    { label: 'Return & Exchange Policy', url: '#' },
+    { label: 'Refund Policy', url: '#' },
   ];
+
 
   const supportLinks: FooterLink[] = [
     { label: 'Help Center', url: '#' },
@@ -56,12 +59,14 @@ const ShowFooter: React.FC = () => {
           {/* Column 1: Company Description */}
           <div className="lg:col-span-1">
             <div className="mb-4">
-              <ComLogo/>
+              <ComLogo />
             </div>
             <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-              Your trusted online destination for quality products and exceptional service. We're committed to delivering excellence in every interaction.
+              Your trusted online destination for quality products and
+              exceptional service. We're committed to delivering excellence in
+              every interaction.
             </p>
-            
+
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-start gap-3">
@@ -74,7 +79,9 @@ const ShowFooter: React.FC = () => {
               </div>
               <div className="flex items-start gap-3">
                 <Mail size={20} className="text-[#0970B4] shrink-0 mt-0.5" />
-                <p className="text-gray-300 text-sm break-all">info@brand.com</p>
+                <p className="text-gray-300 text-sm break-all">
+                  info@brand.com
+                </p>
               </div>
             </div>
           </div>
@@ -158,6 +165,12 @@ const ShowFooter: React.FC = () => {
                   {social.icon}
                 </a>
               ))}
+            </div>
+            <div>
+              <img
+                src="https://i.postimg.cc/8ctcRTKS/SSLCommerz-Pay-With-logo-All-Size-01-2048x330-removebg-preview.png"
+                alt="sslComerz"
+              />
             </div>
           </div>
 

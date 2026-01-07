@@ -11,6 +11,9 @@ interface Product {
 }
 
 export const ProductCard = ({ products }: Product) => {
+
+  console.log({products: products})
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-3">
       {products.map((pro: ProductFormData, index: number) => (
@@ -32,7 +35,7 @@ export const ProductCard = ({ products }: Product) => {
                   {pro.title}
                 </h3>
                 <p className="text-xs">{pro.shortDescription}</p>
-
+ 
                 <div className="flex items-center gap-2">
                   <span className="text-lg font-bold text-gray-900">
                     {pro.discount.type === "percentage"
