@@ -79,17 +79,15 @@ export default function CheckoutForm() {
 
     setCartItems(updatedItems);
     updateCartItems(updatedItems);
-    
   };
 
-
   const handleRemoveItem = (index: number) => {
-      const updatedItems = cartItems.filter((_, i) => i !== index);
-      setCartItems(updatedItems);
-  
-      // sync localStorage immediately
-      updateCartItems(updatedItems);
-    };
+    const updatedItems = cartItems.filter((_, i) => i !== index);
+    setCartItems(updatedItems);
+
+    // sync localStorage immediately
+    updateCartItems(updatedItems);
+  };
 
   const subtotal = cartItems.reduce((total, item) => {
     return total + item.productPrice * item.quantity;
@@ -156,14 +154,12 @@ export default function CheckoutForm() {
       paymentStatus: "pending",
     };
 
-
- 
     if (isSubmitting) return;
     setIsSubmitting(true);
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/create-order",
+        `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/create-order`,
         orderData
       );
 
@@ -174,7 +170,7 @@ export default function CheckoutForm() {
           icon: "success",
         });
 
-        clearCart()
+        clearCart();
 
         router.push("/");
         // if (paymentMethod === "sslcommerz" && response.data.paymentUrl) {

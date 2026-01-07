@@ -78,113 +78,6 @@ interface EditFormData {
   category: string;
 }
 
-// ============ INITIAL DATA ============
-// const INITIAL_PRODUCTS: Product[] = [
-//   {
-//     _id: "6953b1e32801a9159834ce74",
-//     title: "Men Winter Puffer Jacket",
-//     slug: "men-winter-puffer-jacket",
-//     description:
-//       "Warm and stylish puffer jacket for winter season. Lightweight and comfortable.",
-//     shortDescription: "Stylish winter puffer jacket for men.",
-//     basePrice: "4500",
-//     discount: { type: "percentage", value: "15" },
-//     sku: "WIN-JAC-M-456",
-//     stockQuantity: "60",
-//     stockStatus: "in-stock",
-//     categoryId: "695390c32801a9159834ce6e",
-//     subCategoryId: "3b157b1c-626e-4711-a75b-38776c9bce8c",
-//     category: "Winter Items",
-//     subCategory: "",
-//     tags: ["winter", "jacket", "men"],
-//     thumbnail:
-//       "https://res.cloudinary.com/dqyfwfeed/image/upload/v1767092599/cpsyjyrcyjjrwfxdkqwe.jpg",
-//     gallery: [
-//       "https://res.cloudinary.com/dqyfwfeed/image/upload/v1767092603/izbm7esvjvzcpedgjvmj.jpg",
-//       "https://res.cloudinary.com/dqyfwfeed/image/upload/v1767092604/wirc8s9awo7azi8ifu9v.jpg",
-//     ],
-//     variants: [
-//       {
-//         attributes: { color: "Black", size: "M" },
-//         sku: "WIN-JAC-BLK-M",
-//         stock: 20,
-//       },
-//       {
-//         attributes: { color: "Black", size: "L" },
-//         sku: "WIN-JAC-BLK-L",
-//         stock: 20,
-//       },
-//       {
-//         attributes: { color: "Navy", size: "M" },
-//         sku: "WIN-JAC-NAV-M",
-//         stock: 20,
-//       },
-//     ],
-//     seo: {
-//       metaTitle: "Men Winter Jacket | Winter Items",
-//       metaDescription:
-//         "Premium quality men winter puffer jacket available at best price.",
-//     },
-//     isDraft: false,
-//     featured: false,
-//     isDelete: false,
-//     deletedAt: "",
-//     createdAt: "30/12/2025, 17:05:07",
-//   },
-//   {
-//     _id: "6953aff02801a9159834ce73",
-//     title: "Reusable Cotton Face Mask",
-//     slug: "reusable-cotton-face-mask",
-//     description:
-//       "High quality reusable cotton face mask suitable for daily use. Comfortable, washable and breathable.",
-//     shortDescription: "Reusable cotton face mask for daily protection.",
-//     basePrice: "250",
-//     discount: { type: "percentage", value: "10" },
-//     sku: "HEA-FAC-NA-123",
-//     stockQuantity: "150",
-//     stockStatus: "in-stock",
-//     categoryId: "695390232801a9159834ce6d",
-//     subCategoryId: "918a5831-57ce-477e-810d-45eac07f592b",
-//     category: "Health Accessories",
-//     subCategory: "",
-//     tags: ["mask", "health", "cotton"],
-//     thumbnail:
-//       "https://res.cloudinary.com/dqyfwfeed/image/upload/v1767092036/eekblo4imtiylwjjhh8o.webp",
-//     gallery: [
-//       "https://res.cloudinary.com/dqyfwfeed/image/upload/v1767092039/p7e9rm7z8uhiqgwxbqp1.jpg",
-//       "https://res.cloudinary.com/dqyfwfeed/image/upload/v1767092040/goamntlmq6hsakmmsltd.jpg",
-//       "https://res.cloudinary.com/dqyfwfeed/image/upload/v1767092040/uspae7nkezypd2vjfi4l.jpg",
-//     ],
-//     variants: [
-//       {
-//         attributes: { color: "White", size: "One Size" },
-//         sku: "HEA-FAC-WHT-OS",
-//         stock: 50,
-//       },
-//       {
-//         attributes: { color: "Black", size: "One Size" },
-//         sku: "HEA-FAC-BLK-OS",
-//         stock: 50,
-//       },
-//       {
-//         attributes: { color: "Blue", size: "One Size" },
-//         sku: "HEA-FAC-BLU-OS",
-//         stock: 50,
-//       },
-//     ],
-//     seo: {
-//       metaTitle: "Reusable Cotton Face Mask | Health Accessories",
-//       metaDescription:
-//         "Buy reusable cotton face mask for daily protection at best price.",
-//     },
-//     isDraft: false,
-//     featured: false,
-//     isDelete: false,
-//     deletedAt: "",
-//     createdAt: "30/12/2025, 16:56:48",
-//   },
-// ];
-
 // ============ EDIT MODAL COMPONENT ============
 interface EditModalProps {
   product: Product | null;
@@ -467,7 +360,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
 
 // ============ MAIN TABLE COMPONENT ============
 const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
-  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS || []);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   const handleStatusToggle = (id: string, status: any): void => {

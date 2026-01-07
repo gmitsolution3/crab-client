@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { Trash2, Search } from "lucide-react";
 import axios from "axios";
+import config from "@/lib/config";
 
 // Types
 interface Variant {
@@ -57,7 +58,7 @@ interface OrderData {
 
 interface FormInputs {
   orderStatus: string;
-  paymentStatus: string,
+  paymentStatus: string;
   firstName: string;
   lastName: string;
   phone: string;
@@ -72,9 +73,7 @@ interface FormInputs {
   orderNote: string;
 }
 
-const OrderDetailsPage = ({ orderData }: { orderData : OrderData}) => {
-
-
+const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
   const [products, setProducts] = useState<Product[]>(orderData.products);
   const [searchId, setSearchId] = useState<string>("");
   const { control, handleSubmit } = useForm<FormInputs>({
@@ -135,7 +134,7 @@ const OrderDetailsPage = ({ orderData }: { orderData : OrderData}) => {
     );
   };
 
-  const onSubmit: SubmitHandler<FormInputs> =async (data: FormInputs) => {
+  const onSubmit: SubmitHandler<FormInputs> = async (data: FormInputs) => {
     const updatedOrderData: Partial<OrderData> & Partial<FormInputs> = {
       ...orderData,
       ...data,
@@ -156,7 +155,7 @@ const OrderDetailsPage = ({ orderData }: { orderData : OrderData}) => {
 
     try {
       const res = await axios.put(
-        `http://localhost:5000/create-order/update-order/${orderData._id}`,
+        `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/create-order/update-order/${orderData._id}`,
         updatedOrderData
       );
 
@@ -168,7 +167,6 @@ const OrderDetailsPage = ({ orderData }: { orderData : OrderData}) => {
       alert("Failed to update order");
     }
 
-   
     alert("Order updated successfully!");
   };
 
