@@ -5,8 +5,7 @@ import { getCart } from "@/utils/cartStorage";
 import CheckoutCartTable from "@/app/components/checkoutCartTable";
 import { ComLogo } from "@/app/shared/components/ComLogo";
 
-
-export const CheckoutCart = ({ brandInfo }:any) => {
+export const CheckoutCart = ({ brandInfo }: any) => {
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
@@ -40,4 +39,3 @@ export const CheckoutCart = ({ brandInfo }:any) => {
     </div>
   );
 };
-
