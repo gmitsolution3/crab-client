@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Eye, EyeOff, LogIn, Mail, Lock, UserLock } from "lucide-react";
+import { Eye, EyeOff, LogIn, Mail, Lock, UserLock, CheckCircle } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
 import Link from "next/link";
+import { toast } from "sonner";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,14 +14,46 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter()
 
-  const handleLogin = (e: any) => {
+
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
+    try {
+      if (!email || !password) {
+        toast.error("Password and email is required");
+        return;
+      }
+      const payload = {
+        email: email,
+        password: password,
+        rememberMe: rememberMe,
+        loginAt: new Date().toLocaleString(),
+      };
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/v1/auth/sign-in`,
+        payload
+      );
+
+      if (!res.data.success) {
+        toast.error(`${res.data.message}`);
+      }
       setLoading(false);
-      alert(`Login successful!\nEmail: ${email}\nPassword: ${password}`);
-    }, 1500);
+      setSuccessMessage(
+        "Account created successfully! Redirecting to login..."
+      );
+      router.push("/")
+    } catch (err: any) {
+      const message = err?.response?.data?.message || "Something went wrong";
+
+      toast.error(message);
+      setLoading(false);
+      setSuccessMessage("");
+      setErrorMessage(`${message}`);
+    }
   };
 
   return (
@@ -56,8 +91,21 @@ const LoginForm = () => {
                 </p>
               </div>
 
+              {successMessage && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
+                  <CheckCircle className="text-green-600 shrink-0" size={20} />
+                  <p className="text-green-800 text-sm">{successMessage}</p>
+                </div>
+              )}
+              {errorMessage && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
+                  <CheckCircle className="text-red-600 shrink-0" size={20} />
+                  <p className="text-red-800 text-sm">{errorMessage}</p>
+                </div>
+              )}
+
               {/* Login Form */}
-              <div className="space-y-5 sm:space-y-6">
+              <form onSubmit={handleLogin} className="space-y-5 sm:space-y-6">
                 {/* Email Input */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -126,7 +174,7 @@ const LoginForm = () => {
 
                 {/* Login Button */}
                 <button
-                  onClick={handleLogin}
+                  type="submit"
                   disabled={loading}
                   className="w-full bg-linear-to-r from-[#0970B4] to-[#064a8a] hover:from-[#0855a0] hover:to-[#053d78] text-white font-semibold py-2.5 sm:py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base hover:cursor-pointer"
                 >
@@ -142,7 +190,7 @@ const LoginForm = () => {
                     </>
                   )}
                 </button>
-              </div>
+              </form>
 
               {/* Divider */}
               <div className="relative my-6 sm:my-8">
@@ -170,10 +218,8 @@ const LoginForm = () => {
               <p className="text-center text-gray-600 text-sm mt-6 sm:mt-8">
                 Don't have an account?{" "}
                 <Link href="/auth/sign-up" className="text-[#0970B4] font-bold">
-                
                   Sign up here
                 </Link>
-                
               </p>
             </div>
 

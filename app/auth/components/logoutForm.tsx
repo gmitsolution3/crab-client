@@ -46,10 +46,6 @@ const LogoutForm = () => {
   const password = watch("password");
 
   const onSubmit = async (data: any) => {
-    console.log(data);
-
-    // setLoading(true);
-
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/v1/auth/sign-up`,
@@ -72,17 +68,6 @@ const LogoutForm = () => {
       setSuccessMessage("")
       setErrorMessage(`${message}`)
     }
-
-    // setTimeout(() => {
-    //   setLoading(false);
-    //   setSuccessMessage(
-    //     "Account created successfully! Redirecting to login..."
-    //   );
-    //   console.log("Form Data:", data);
-    //   setTimeout(() => {
-    //     setSuccessMessage("");
-    //   }, 3000);
-    // }, 1500);
   };
 
   return (
