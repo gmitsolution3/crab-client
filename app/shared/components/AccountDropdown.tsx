@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 export default function AccountDropdown() {
@@ -17,9 +18,11 @@ export default function AccountDropdown() {
       {open && (
         <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-md">
           <ul className="py-2 text-sm text-gray-700">
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-              Log in
-            </li>
+            <Link href="/auth/sign-in">
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                Log in
+              </li>
+            </Link>
             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
               Register
             </li>
