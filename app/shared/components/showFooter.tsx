@@ -69,7 +69,7 @@ const ShowFooter: React.FC =async () => {
           {/* Column 1: Company Description */}
           <div className="lg:col-span-1">
             <div className="mb-4">
-              <ComLogo logo={brandInfo.logo} />
+              <ComLogo/>
             </div>
             <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
               Your trusted online destination for quality products and

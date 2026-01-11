@@ -6,6 +6,7 @@ import { MenuNavbar } from "../components/Menu";
 import AccountDropdown from "../components/AccountDropdown";
 import MarqueeText from "../components/marquee";
 import { getBrandInfo } from "@/lib/social";
+import Link from "next/link";
 
 const Navbar = async () => {
   const getAllCategories = await getCategories();
@@ -26,9 +27,12 @@ const Navbar = async () => {
           <div className="h-14 max-w-400 mx-auto px-4 flex justify-between items-center text-white">
             <h5>Welcome to our website</h5>
             <div className="hidden md:flex items-center gap-4 ">
-              <h5 className="hover:cursor-pointer px-3 py-2 border border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]">
+              <Link
+                href="/auth/sign-in"
+                className="hover:cursor-pointer px-3 py-2 border border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]"
+              >
                 Log in
-              </h5>
+              </Link>
               <h5 className="hover:cursor-pointer px-3 py-2 border border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]">
                 Order Tracking
               </h5>
@@ -43,7 +47,7 @@ const Navbar = async () => {
         </div>
         <div className="border-b border-gray-300">
           <div className="max-w-7xl mx-auto px-4 flex flex-row gap-4 lg:gap-0 justify-between items-center py-5">
-            <ComLogo logo={brandInfo.logo} />
+            <ComLogo />
             <div className="hidden md:block">
               <HeaderSearchBar
                 categories={getAllCategories.data}
