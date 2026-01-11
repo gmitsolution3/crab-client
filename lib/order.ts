@@ -22,10 +22,21 @@ export const getOrderById = async (id: string) => {
 
 export const getHistory = async (phone: string) => {
   const res = await fetch(
-    `${process.env.NEXT_EXPRESS_SERVER_LOCAL_URL}/create-order/get-history/${phone}`,
+    `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/create-order/get-history/${phone}`,
     {
       next: { revalidate: 300 },
     }
   );
   return res.json();
 };
+
+
+export const MainDashboardAnalytics = async ()=>{
+  const res = await fetch(
+    `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/create-order/dashboard-analytics`,{
+      next: {revalidate:300},
+    }
+  );
+
+  return res.json();
+}
