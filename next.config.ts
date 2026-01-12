@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: ":path*",
+        source: "/api/:path*",
         destination: "https://low-e-commerce-server.vercel.app/:path*",
       },
     ];
