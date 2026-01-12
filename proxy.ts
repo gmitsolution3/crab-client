@@ -37,8 +37,6 @@
 // };
 
 
-
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -56,10 +54,8 @@ export async function proxy(request: NextRequest) {
   if (!isProtectedRoute) {
     return NextResponse.next();
   }
-  const cookieStore =await cookies();
 
-
-  const token = cookieStore.get("token");
+  const token = request.cookies.get("token")?.value;
 
   // If no token, redirect to login
   if (!token) {
@@ -68,7 +64,35 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.next();
+  try {
+    const backendResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/v1/auth/me`,
+      {
+        method: "GET",
+        headers: {
+          Cookie: `token=${token}`,
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
+
+    // If backend returns 401/403, user is not authenticated
+    if (!backendResponse.ok) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    // Token is valid, allow access
+    return NextResponse.next();
+  } catch (error) {
+    console.error("[v0] Auth verification error:", error);
+    // On error, redirect to login for safety
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
 }
 
 // Configure which routes to run middleware on
@@ -79,4 +103,3 @@ export const config = {
     "/profile/:path*",
   ],
 };
-
