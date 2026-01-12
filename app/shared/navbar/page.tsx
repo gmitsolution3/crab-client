@@ -29,14 +29,14 @@ const Navbar = async () => {
             <div className="hidden md:flex items-center gap-4 ">
               <Link
                 href="/auth/sign-in"
-                className="hover:cursor-pointer px-3 py-2 border border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]"
+                className="hover:cursor-pointer px-3 py-2 border font-bold border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]"
               >
                 Log in
               </Link>
-              <h5 className="hover:cursor-pointer px-3 py-2 border border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]">
+              <h5 className="hover:cursor-pointer px-3 py-2 border font-bold border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]">
                 Order Tracking
               </h5>
-              <h5 className="hover:cursor-pointer px-3 py-2 border border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]">
+              <h5 className="hover:cursor-pointer px-3 py-2 border font-bold border-[#1594e9] rounded-lg hover:bg-white hover:text-[#0970B4]">
                 Return Policy
               </h5>
             </div>
