@@ -37,8 +37,77 @@
 // };
 
 
+// import { NextResponse } from "next/server";
+// import type { NextRequest } from "next/server";
+
+// // Protected routes that require authentication
+// const protectedRoutes = ["/admin", "/profile"];
+
+// export async function proxy(request: NextRequest) {
+//   const pathname = request.nextUrl.pathname;
+
+//   // Check if the current path is a protected route
+//   const isProtectedRoute = protectedRoutes.some((route) =>
+//     pathname.startsWith(route)
+//   );
+
+//   if (!isProtectedRoute) {
+//     return NextResponse.next();
+//   }
+
+//   const token = request.cookies.get("token")?.value;
+
+//   // If no token, redirect to login
+//   if (!token) {
+//     const loginUrl = new URL("/login", request.url);
+//     loginUrl.searchParams.set("redirect", pathname);
+//     return NextResponse.redirect(loginUrl);
+//   }
+
+//   try {
+//     const backendResponse = await fetch(
+//       `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/v1/auth/me`,
+//       {
+//         method: "GET",
+//         headers: {
+//           Cookie: `token=${token}`,
+//           "Content-Type": "application/json",
+//         },
+//         credentials: "include",
+//       }
+//     );
+
+//     // If backend returns 401/403, user is not authenticated
+//     if (!backendResponse.ok) {
+//       const loginUrl = new URL("/login", request.url);
+//       loginUrl.searchParams.set("redirect", pathname);
+//       return NextResponse.redirect(loginUrl);
+//     }
+
+//     // Token is valid, allow access
+//     return NextResponse.next();
+//   } catch (error) {
+//     console.error("[v0] Auth verification error:", error);
+//     // On error, redirect to login for safety
+//     const loginUrl = new URL("/login", request.url);
+//     loginUrl.searchParams.set("redirect", pathname);
+//     return NextResponse.redirect(loginUrl);
+//   }
+// }
+
+// // Configure which routes to run middleware on
+// export const config = {
+//   matcher: [
+//     // Protected routes
+//     "/admin/:path*",
+//     "/profile/:path*",
+//   ],
+// };
+
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import jwt from "jsonwebtoken";
 
 // Protected routes that require authentication
 const protectedRoutes = ["/admin", "/profile"];
@@ -57,6 +126,8 @@ export async function proxy(request: NextRequest) {
 
   const token = request.cookies.get("token")?.value;
 
+  console.log("token get", token)
+
   // If no token, redirect to login
   if (!token) {
     const loginUrl = new URL("/login", request.url);
@@ -65,20 +136,10 @@ export async function proxy(request: NextRequest) {
   }
 
   try {
-    const backendResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/v1/auth/me`,
-      {
-        method: "GET",
-        headers: {
-          Cookie: `token=${token}`,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
+    // This is faster and avoids CORS/cookie domain issues
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as any;
 
-    // If backend returns 401/403, user is not authenticated
-    if (!backendResponse.ok) {
+    if (!decoded || !decoded.email) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
@@ -103,3 +164,4 @@ export const config = {
     "/profile/:path*",
   ],
 };
+
