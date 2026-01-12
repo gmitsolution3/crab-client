@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: ":path*",
+        destination: "https://low-e-commerce-server.vercel.app/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
