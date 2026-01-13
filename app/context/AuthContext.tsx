@@ -43,7 +43,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         phone: res.data.data.phone,
       });
     } catch (err: any) {
-      toast.error(`Error: ${err.message}`);
       setUser(null);
     } finally {
       setLoading(false);
