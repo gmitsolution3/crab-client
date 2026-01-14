@@ -44,43 +44,48 @@ export const TopCategories = ({ categories }: TopCategoriesProps) => {
       <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
         Top Categories
       </h2>
+      {!categories || categories.length === 0 ? (
+        <div className="text-2xl text-center text-[#0970B4]">
+          No Category found
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+          {categories.map((cat, index) => {
+            // Pick a random icon for each category (based on index to keep consistent)
+            const IconComponent = iconList[index % iconList.length];
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
-        {categories.map((cat, index) => {
-          // Pick a random icon for each category (based on index to keep consistent)
-          const IconComponent = iconList[index % iconList.length];
+            return (
+              <Link href={`/shop/${cat._id}`} key={cat._id}>
+                <div
+                  key={cat._id}
+                  className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer text-center"
+                >
+                  {/* Icon */}
+                  {cat.image ? (
+                    <div>
+                      <Image
+                        src={cat?.image}
+                        alt={cat.name}
+                        width={30}
+                        height={30}
+                      />
+                    </div>
+                  ) : (
+                    <div className="bg-[#E6F0FA] rounded-full p-3 mb-2">
+                      <IconComponent size={28} className="text-[#0970B4]" />
+                    </div>
+                  )}
 
-          return (
-            <Link href={`/shop/${cat._id}`} key={cat._id}>
-              <div
-                key={cat._id}
-                className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer text-center"
-              >
-                {/* Icon */}
-                {cat.image ? (
-                  <div>
-                    <Image
-                      src={cat?.image}
-                      alt={cat.name}
-                      width={30}
-                      height={30}
-                    />
-                  </div>
-                ) : (
-                  <div className="bg-[#E6F0FA] rounded-full p-3 mb-2">
-                    <IconComponent size={28} className="text-[#0970B4]" />
-                  </div>
-                )}
-
-                {/* Name */}
-                <span className="text-sm sm:text-base font-medium text-gray-900">
-                  {cat.name}
-                </span>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+                  {/* Name */}
+                  <span className="text-sm sm:text-base font-medium text-gray-900">
+                    {cat.name}
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 };

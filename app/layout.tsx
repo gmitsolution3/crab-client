@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GM-Commerce",
+  title: "Hat-khola",
   description: "Developed by GM IT Solution",
 };
 
@@ -45,7 +45,7 @@ export default async function RootLayout({
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '${facebookCredential?.fbPixelId}');
+              fbq('init', '${facebookCredential?.fbPixelId || ""}');
               fbq('track', 'PageView');
             `,
           }}

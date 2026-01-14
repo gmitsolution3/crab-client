@@ -5,7 +5,7 @@ import ProductCarousel from "./productCarousel";
 export const FeaturedProduct = async () => {
   const result = await getFeaturedProduct();
 
-  if (result.data.length === 0) {
+  if (!result.data || result.data.length === 0) {
     return (
       <div>
         <h2 className="text-2xl font-semibold mb-4">Featured Products</h2>

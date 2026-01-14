@@ -93,7 +93,7 @@ const CategoryManagement = ({ allCategories }: AllCategoriesProps) => {
     }
   };
 
-  if(categories.length===0){
+  if(!categories || categories.length===0){
     return (
       <div className="min-h-screen flex justify-center items-center">
         <h1 className="text-3xl text-center text-[#0970B4]">

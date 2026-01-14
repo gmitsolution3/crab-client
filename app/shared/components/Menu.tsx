@@ -15,7 +15,7 @@ export const MenuNavbar = ({ categories }: any) => {
   };
 
   useEffect(() => {
-    const path = window.location.pathname; 
+    const path = window.location.pathname;
     const segments = path.split("/").filter(Boolean);
     const lastSegment = segments[segments.length - 1] || "home";
     setActiveCategory(lastSegment);
@@ -74,22 +74,29 @@ export const MenuNavbar = ({ categories }: any) => {
               </button>
             </Link>
 
+            {!categories || !categories.length ? (
+              <div className="text-center text-[#0970B4] text-2xl">
+                No Category found
+              </div>
+            ) : (
+              categories.map((category: any) => (
+                <Link href={`/shop/${category._id}`} key={category._id}>
+                  <button
+                    onClick={() => handleClick(category._id)}
+                    className={clsx(
+                      "w-full lg:w-auto text-left px-4 py-2 text-sm font-semibold rounded-md transition whitespace-nowrap",
+                      activeCategory === category._id
+                        ? "bg-linear-to-t from-[#0970B4] to-[#3CB1FF] text-white"
+                        : "text-gray-700 hover:bg-linear-to-t hover:from-[#0970B4] hover:to-[#3CB1FF] hover:text-white"
+                    )}
+                  >
+                    {category.name}
+                  </button>
+                </Link>
+              ))
+            )}
+
             {/* Categories */}
-            {categories.map((category: any) => (
-              <Link href={`/shop/${category._id}`} key={category._id}>
-                <button
-                  onClick={() => handleClick(category._id)}
-                  className={clsx(
-                    "w-full lg:w-auto text-left px-4 py-2 text-sm font-semibold rounded-md transition whitespace-nowrap",
-                    activeCategory === category._id
-                      ? "bg-linear-to-t from-[#0970B4] to-[#3CB1FF] text-white"
-                      : "text-gray-700 hover:bg-linear-to-t hover:from-[#0970B4] hover:to-[#3CB1FF] hover:text-white"
-                  )}
-                >
-                  {category.name}
-                </button>
-              </Link>
-            ))}
           </div>
         </div>
       </div>

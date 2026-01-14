@@ -1,7 +1,17 @@
-import React from 'react';
-import { Mail, MapPin, Phone, Linkedin, Facebook, Instagram, Youtube } from 'lucide-react';
-import { ComLogo } from './ComLogo';
-import { getBrandInfo } from '@/lib/social';
+import React from "react";
+import {
+  Mail,
+  MapPin,
+  Phone,
+  Linkedin,
+  Facebook,
+  Instagram,
+  Youtube,
+} from "lucide-react";
+import { ComLogo } from "./ComLogo";
+import { getBrandInfo } from "@/lib/social";
+import SocialIcons from "./SocialIcons";
+import Link from "next/link";
 
 interface SocialLink {
   icon: React.ReactNode;
@@ -14,50 +24,49 @@ interface FooterLink {
   url: string;
 }
 
-const ShowFooter: React.FC =async () => {
+const ShowFooter: React.FC = async () => {
   const currentYear: number = new Date().getFullYear();
 
   const brandInfoRaw = await getBrandInfo();
-  
-    const brandInfo = {
-      logo: brandInfoRaw?.data?.logo ?? "/placeholder.svg",
-      name: brandInfoRaw?.data?.name ?? "GMIT",
-      phone: brandInfoRaw?.data?.phone ?? "+88001234567",
-      socials: brandInfoRaw?.data?.socials ?? [],
-    };
+
+  const brandInfo = {
+    logo: brandInfoRaw?.data?.logo ?? "/placeholder.svg",
+    name: brandInfoRaw?.data?.name ?? "GMIT",
+    phone: brandInfoRaw?.data?.phone ?? "+88001234567",
+    socials: brandInfoRaw?.data?.socials ?? [],
+  };
+
+  console.log({ brandInfo: brandInfo.socials });
 
   const quickLinks: FooterLink[] = [
-    { label: 'Home', url: '#' },
-    { label: 'Shop', url: '#' },
-    { label: 'Products', url: '#' },
-    { label: 'Deals', url: '#' },
-    { label: 'Blog', url: '#' },
+    { label: "Home", url: "#" },
+    { label: "Shop", url: "#" },
+    { label: "Products", url: "#" },
+    { label: "Deals", url: "#" },
+    { label: "Blog", url: "#" },
   ];
 
   const aboutLinks: FooterLink[] = [
-    { label: 'About Us', url: '#' },
-    { label: 'Contact', url: '#' },
-    { label: 'Careers', url: '#' },
-    { label: 'Privacy Policy', url: '#' },
-    { label: 'Terms and Conditions', url: '#' },
-    { label: 'Return & Exchange Policy', url: '#' },
-    { label: 'Refund Policy', url: '#' },
+    { label: "About Us", url: "/support/about-us" },
+    { label: "Contact", url: "/support/contact" },
+    { label: "Careers", url: "/support/careers" },
+    { label: "Terms and Conditions", url: "/support/terms-and-conditions" },
+    { label: "Refund Policy", url: "/support/refund-policy" },
   ];
 
-
   const supportLinks: FooterLink[] = [
-    { label: 'Help Center', url: '#' },
-    { label: 'FAQs', url: '#' },
-    { label: 'Shipping Info', url: '#' },
-    { label: 'Returns', url: '#' },
-    { label: 'Privacy Policy', url: '#' },
+    { label: "Help Center", url: "/support/help-center" },
+    { label: "FAQs", url: "support/faq" },
+    { label: "Shipping Info", url: "/support/shipping-info" },
+    { label: "Return & Exchange Policy", url: "/support/return-and-exchange" },
+    { label: "Privacy Policy", url: "/support/privacy-policy" },
   ];
 
   const socialLinks: SocialLink[] = [
-    { icon: <Linkedin size={24} />, url: '#', label: 'LinkedIn' },
-    { icon: <Facebook size={24} />, url: '#', label: 'Facebook' },
-    { icon: <Instagram size={24} />, url: '#', label: 'Instagram' },
-    { icon: <Youtube size={24} />, url: '#', label: 'YouTube' },
+    { icon: <Linkedin size={24} />, url: "#", label: "LinkedIn" },
+    { icon: <Facebook size={24} />, url: "#", label: "Facebook" },
+    { icon: <Instagram size={24} />, url: "#", label: "Instagram" },
+    { icon: <Youtube size={24} />, url: "#", label: "YouTube" },
   ];
 
   return (
@@ -69,7 +78,7 @@ const ShowFooter: React.FC =async () => {
           {/* Column 1: Company Description */}
           <div className="lg:col-span-1">
             <div className="mb-4">
-              <ComLogo/>
+              <ComLogo />
             </div>
             <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
               Your trusted online destination for quality products and
@@ -85,7 +94,7 @@ const ShowFooter: React.FC =async () => {
               </div>
               <div className="flex items-start gap-3">
                 <Phone size={20} className="text-[#0970B4] shrink-0 mt-0.5" />
-                <p className="text-gray-300 text-sm">+880 1234 567890</p>
+                <p className="text-gray-300 text-sm">{brandInfo.phone}</p>
               </div>
               <div className="flex items-start gap-3">
                 <Mail size={20} className="text-[#0970B4] shrink-0 mt-0.5" />
@@ -123,12 +132,12 @@ const ShowFooter: React.FC =async () => {
             <ul className="space-y-3">
               {aboutLinks.map((link: FooterLink, idx: number) => (
                 <li key={idx}>
-                  <a
+                  <Link
                     href={link.url}
                     className="text-gray-300 hover:text-[#0970B4] transition-colors duration-300 text-sm md:text-base"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -142,12 +151,12 @@ const ShowFooter: React.FC =async () => {
             <ul className="space-y-3">
               {supportLinks.map((link: FooterLink, idx: number) => (
                 <li key={idx}>
-                  <a
+                  <Link
                     href={link.url}
                     className="text-gray-300 hover:text-[#0970B4] transition-colors duration-300 text-sm md:text-base"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -165,23 +174,14 @@ const ShowFooter: React.FC =async () => {
           <div className="flex items-center gap-4">
             <p className="text-gray-300 text-sm md:text-base">Follow us:</p>
             <div className="flex gap-4">
-              {socialLinks.map((social: SocialLink, idx: number) => (
-                <a
-                  key={idx}
-                  href={social.url}
-                  aria-label={social.label}
-                  className="w-10 h-10 rounded-full bg-linear-to-br from-[#0970B4] to-blue-500 flex items-center justify-center text-white hover:scale-110 hover:shadow-lg transition-transform duration-300"
-                >
-                  {social.icon}
-                </a>
-              ))}
+              <SocialIcons socials={brandInfo.socials} />
             </div>
-            <div>
-              <img
-                src="https://i.postimg.cc/8ctcRTKS/SSLCommerz-Pay-With-logo-All-Size-01-2048x330-removebg-preview.png"
-                alt="sslComerz"
-              />
-            </div>
+          </div>
+          <div>
+            <img
+              src="https://i.postimg.cc/8ctcRTKS/SSLCommerz-Pay-With-logo-All-Size-01-2048x330-removebg-preview.png"
+              alt="sslComerz"
+            />
           </div>
 
           {/* Copyright */}
@@ -190,7 +190,12 @@ const ShowFooter: React.FC =async () => {
               © {currentYear} Your Brand. All rights reserved.
             </p>
             <p className="text-gray-500 text-xs mt-1">
-              Designed & Developed with GM IT Solution
+              Designed & Developed with{" "}
+              <span className="hover:text-white">
+                <a href="https://www.gmitsolution.net" target="_blank">
+                  GM IT Solution
+                </a>
+              </span>
             </p>
           </div>
         </div>

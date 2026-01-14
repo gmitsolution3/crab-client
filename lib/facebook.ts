@@ -6,7 +6,6 @@ export const getFacebookPixelCredential = async () => {
     }
   );
 
-  if (!res.ok) throw new Error("Failed to fetch FB credentials");
 
   return res.json();
 };
