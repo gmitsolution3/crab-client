@@ -12,6 +12,16 @@ const Categories = async ({ params }: ProductCategoryProps) => {
   const { category } = await params;
 
   const products = await getProductByCategory(category);
+
+   if (!products || !products.data.length) {
+     return (
+       <div className="text-2xl text-[#0970B4] flex justify-center min-h-screen items-center">
+         No Data found
+       </div>
+     );
+   }
+
+
   return (
     <div className="max-w-7xl mx-auto my-20">
       <div className="my-5">
