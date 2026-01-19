@@ -54,20 +54,20 @@ export const NavBarMenu = () => {
             >
               <Link
                 href="/profile"
-                className="block px-4 py-2 text-gray-700 hover:bg-[#0970B4] hover:text-white hover:cursor-pointer"
+                className="block px-4 py-2 text-gray-700 hover:bg-[#f58313] hover:text-white hover:cursor-pointer"
               >
                 Profile
               </Link>
-              <h5 className="block px-4 py-2 text-gray-700 hover:bg-[#0970B4] hover:text-white hover:cursor-pointer">
+              <h5 className="block px-4 py-2 text-gray-700 hover:bg-[#f58313] hover:text-white hover:cursor-pointer">
                 Order Tracking
               </h5>
-              <h5 className="block px-4 py-2 text-gray-700 hover:bg-[#0970B4] hover:text-white hover:cursor-pointer">
+              <h5 className="block px-4 py-2 text-gray-700 hover:bg-[#f58313] hover:text-white hover:cursor-pointer">
                 Return Policy
               </h5>
 
               <button
                 onClick={handleLogout}
-                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-[#0970B4] hover:text-white hover:cursor-pointer border-t border-gray-300"
+                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-[#f58313] hover:text-white hover:cursor-pointer border-t border-gray-300"
               >
                 Logout
               </button>
