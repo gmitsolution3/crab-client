@@ -38,7 +38,7 @@ export const NavBarMenu = () => {
         <div className="relative">
           {/* Profile circle */}
           <div
-            className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold cursor-pointer"
+            className="w-10 h-10 rounded-full bg-[#f58313] flex items-center justify-center text-white font-bold cursor-pointer"
             onMouseEnter={() => setDropdownOpen(true)}
             // onMouseLeave={() => setDropdownOpen(false)}
           >
@@ -48,7 +48,7 @@ export const NavBarMenu = () => {
           {/* Dropdown menu */}
           {dropdownOpen && (
             <div
-              className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+              className="absolute right-0 mt-4 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
               onMouseEnter={() => setDropdownOpen(true)}
               onMouseLeave={() => setDropdownOpen(false)}
             >
