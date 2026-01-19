@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import Navbar from "../shared/navbar/page";
-import { SidebarWrapper } from "../components/SidebarWrapper";
 import { ToastContainer } from "react-toastify";
 import { MenuNavbar } from "../shared/components/Menu";
 import ShowFooter from "../shared/components/showFooter";
