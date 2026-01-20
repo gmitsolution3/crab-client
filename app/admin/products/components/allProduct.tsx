@@ -425,7 +425,7 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
           }
         );
 
-        console.log({ response: response });
+
         if (response.status === 200) {
           setProducts((prevProducts) =>
             prevProducts.filter((p) => p._id !== id)

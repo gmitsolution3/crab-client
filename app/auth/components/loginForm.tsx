@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { Eye, EyeOff, LogIn, Mail, Lock, UserLock, CheckCircle } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  LogIn,
+  Mail,
+  Lock,
+  UserLock,
+  CheckCircle,
+} from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -17,15 +25,12 @@ const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter()
-   const { refetchUser, isAuthenticated } = useAuth();
+  const router = useRouter();
+  const { refetchUser, isAuthenticated } = useAuth();
 
-
-   if(isAuthenticated){
-    return
-   }
-
-
+  if (isAuthenticated) {
+    return router.push("/");
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,19 +48,30 @@ const LoginForm = () => {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/v1/auth/sign-in`,
         payload,
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       if (!res.data.success) {
         toast.error(`${res.data.message}`);
       }
-      setLoading(false);
-      setSuccessMessage(
-        "User Login in successfully"
+
+      const user = await axios.get(
+        `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/v1/auth/me`,
+        { withCredentials: true },
       );
-      toast.success(res.data.message)
+
+
+
+      setLoading(false);
+      setSuccessMessage("User Login in successfully");
+      toast.success(res.data.message);
       await refetchUser();
-      router.push("/")
+
+      if (user.data.data.role === "admin") {
+        router.push("/admin");
+      }else{
+        router.push("/");
+      }
     } catch (err: any) {
       const message = err?.response?.data?.message || "Something went wrong";
 
@@ -97,7 +113,7 @@ const LoginForm = () => {
                   Login
                 </h1>
                 <p className="text-gray-500 text-sm mt-2">
-                  Welcome back to GMIT
+                  Welcome back to Yellow Furniture
                 </p>
               </div>
 

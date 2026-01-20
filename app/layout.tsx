@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hat-khola",
-  description: "Developed by GM IT Solution",
+  title: "Yellow Furniture",
+  description: "Build your trust",
 };
 
 export default async function RootLayout({
