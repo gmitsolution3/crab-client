@@ -28,7 +28,7 @@ export const getProductDetails = async (slug: string) => {
 export const getTopSellingProduct = async()=>{
   const res = await fetch(
     `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/api/products/get-top-selling-product`,{
-      next : {revalidate: 300}
+      cache: "no-store"
     }
   );
 
@@ -107,7 +107,7 @@ export async function getFeaturedProduct() {
   const res = await fetch(
     `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/api/products/featured`,
     {
-      next: { revalidate: 300 },
+      cache: "no-cache",
     }
   );
 

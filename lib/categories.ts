@@ -5,7 +5,7 @@ export async function getCategories() {
   const res = await fetch(
     `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/create-category`,
     {
-      next: { revalidate: 300 }, // 5 minutes cache
+      cache: "no-store"
     }
   );
 

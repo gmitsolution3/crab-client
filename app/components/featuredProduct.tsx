@@ -7,7 +7,7 @@ export const FeaturedProduct = async () => {
 
   if (!result.data || result.data.length === 0) {
     return (
-      <div>
+      <div className="text-center min-h-[30vh]">
         <h2 className="text-2xl font-semibold mb-4">Featured Products</h2>
         <p className="text-gray-600">No featured products available.</p>
       </div>

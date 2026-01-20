@@ -45,7 +45,7 @@ export default function CheckoutForm() {
   });
 
   const [deliveryMethod, setDeliveryMethod] = useState("inside");
-  const [paymentMethod, setPaymentMethod] = useState("sslcommerz");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (
@@ -427,6 +427,48 @@ export default function CheckoutForm() {
                 </p>
 
                 <div className="space-y-4">
+                  {/* Cash on Delivery */}
+                  <label className="block cursor-pointer">
+                    <div className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                      <input
+                        type="radio"
+                        name="payment"
+                        value="cash"
+                        checked={paymentMethod === "cash"}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        className="h-4 w-4"
+                      />
+                      <span className="flex-1 font-medium text-gray-900">
+                        Cash on Delivery
+                      </span>
+                    </div>
+                  </label>
+                  {/* bkash */}
+                  <label className="block cursor-pointer">
+                    <div className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
+                      <input
+                        type="radio"
+                        name="payment"
+                        value="bkash"
+                        checked={paymentMethod === "bkash"}
+                        // onChange={(e) => setPaymentMethod(e.target.value)}
+                        className="h-4 w-4"
+                      />
+                      <span className="flex-1 font-medium text-gray-900">
+                        bkash
+                      </span>
+                      <div className="flex gap-2">
+                        <span className="inline-block">
+                          <img
+                            src="https://i.postimg.cc/C1Q00cqc/BKash-b-Kash2-Logo-wine-removebg-preview.png"
+                            alt="bkash"
+                            className="h-20 w-30"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+
                   {/* SSLCOMMERZ */}
                   <label className="block cursor-pointer">
                     <div className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
@@ -435,7 +477,7 @@ export default function CheckoutForm() {
                         name="payment"
                         value="sslcommerz"
                         checked={paymentMethod === "sslcommerz"}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        // onChange={(e) => setPaymentMethod(e.target.value)}
                         className="h-4 w-4"
                       />
                       <span className="flex-1 font-medium text-gray-900">
@@ -452,23 +494,6 @@ export default function CheckoutForm() {
                           AM
                         </span>
                       </div>
-                    </div>
-                  </label>
-
-                  {/* Cash on Delivery */}
-                  <label className="block cursor-pointer">
-                    <div className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
-                      <input
-                        type="radio"
-                        name="payment"
-                        value="cash"
-                        checked={paymentMethod === "cash"}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                        className="h-4 w-4"
-                      />
-                      <span className="flex-1 font-medium text-gray-900">
-                        Cash on Delivery
-                      </span>
                     </div>
                   </label>
                 </div>

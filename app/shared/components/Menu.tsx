@@ -54,7 +54,7 @@ export const MenuNavbar = ({ categories }: any) => {
                   "w-full lg:w-auto text-left px-4 py-2 text-sm font-semibold rounded-md transition whitespace-nowrap",
                   activeCategory === "home"
                     ? "bg-linear-to-t from-[#f58313] to-[#f35b1c] text-white"
-                    : "text-gray-700 hover:bg-linear-to-t hover:from-[#0970B4] hover:to-[#3CB1FF] hover:text-white",
+                    : "text-gray-700 hover:bg-linear-to-t hover:from-[#f58313] hover:to-[#a5580c] hover:text-white",
                 )}
               >
                 Home

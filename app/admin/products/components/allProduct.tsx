@@ -6,6 +6,8 @@ import { Edit2, Trash2 } from "lucide-react";
 import StockStatusDropdown from "./stockStatusDropdown";
 import { MdPublishedWithChanges } from "react-icons/md";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 // ============ TYPE DEFINITIONS ============
 interface Discount {
@@ -415,29 +417,38 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
   //   }
   // };
 
-  const handleDelete = async (id: string): Promise<void> => {
-    if (window.confirm("Are you sure you want to restore this product?")) {
-      try {
-        const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/products/primary-delete/${id}`,
-          {
-            isDeleted: false,
-          }
-        );
-
-
-        if (response.status === 200) {
-          setProducts((prevProducts) =>
-            prevProducts.filter((p) => p._id !== id)
+  const handleDelete = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.patch(
+            `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/products/primary-delete/${id}`,
+            {
+              isDeleted: false,
+            },
           );
 
-          alert("Product updated successfully!");
+          if (response.status === 200) {
+            setProducts((prevProducts) =>
+              prevProducts.filter((p) => p._id !== id),
+            );
+
+            toast.success("Product deleted successfully")
+          }
+        } catch (error) {
+          console.error("Error delete product:", error);
+          toast.error("Failed to delete product. Please try again.");
         }
-      } catch (error) {
-        console.error("Error updating product:", error);
-        alert("Failed to update product. Please try again.");
       }
-    }
+    });
   };
 
   return (

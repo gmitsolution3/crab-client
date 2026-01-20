@@ -1,7 +1,9 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { Trash2, Edit2, Check, X } from "lucide-react";
+import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 // Type definitions
 interface Category {
@@ -32,18 +34,32 @@ const CategoryManagement = ({ allCategories }: AllCategoriesProps) => {
 
   // Handle status toggle
   const handleStatusToggle = async (id: string): Promise<void> => {
+    setStatusPopup({ isOpen: false, categoryId: null });
+
     try {
       const category = categories.find((cat) => cat._id === id);
       if (!category) return;
 
       // API call - uncomment and update with your endpoint
-      // const response = await fetch(`/api/categories/${id}/toggle-status`, {
-      //   method: 'PATCH',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ isActive: !category.isActive })
-      // });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/create-category/toggle-status/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ isActive: !category.isActive }),
+        },
+      );
+
+      const result = await response.json();
+
+      if (!result.success) {
+        toast.error(`error: ${result.message}`);
+        return;
+      }
+
+      console.log(result)
 
       // if (!response.ok) {
       //   throw new Error('Failed to update status');
@@ -52,11 +68,15 @@ const CategoryManagement = ({ allCategories }: AllCategoriesProps) => {
       // Update local state
       setCategories((prevCategories) =>
         prevCategories.map((cat) =>
-          cat._id === id ? { ...cat, isActive: !cat.isActive } : cat
-        )
+          cat._id === id
+            ? {
+                ...cat,
+                isActive: !cat.isActive,
+              }
+            : cat,
+        ),
       );
-
-      setStatusPopup({ isOpen: false, categoryId: null });
+      toast.success("Data updated successfully");
     } catch (error) {
       console.error("Error updating status:", error);
       // Add error handling/notification here
@@ -64,36 +84,54 @@ const CategoryManagement = ({ allCategories }: AllCategoriesProps) => {
   };
 
   // Handle delete
-  const handleDelete = async (id: string): Promise<void> => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this category?"
-    );
-    if (!confirmed) return;
+  const handleDelete = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#f58313",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // API call - uncomment and update with your endpoint
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/create-category/drop-category/${id}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            },
+          );
 
-    try {
-      // API call - uncomment and update with your endpoint
-      // const response = await fetch(`/api/categories/${id}`, {
-      //   method: 'DELETE',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   }
-      // });
+          const result = await response.json();
 
-      // if (!response.ok) {
-      //   throw new Error('Failed to delete category');
-      // }
+          if (!result.success) {
+            toast.error(`${result.message}`);
+          }
 
-      // Update local state
-      setCategories((prevCategories) =>
-        prevCategories.filter((cat) => cat._id !== id)
-      );
-    } catch (error) {
-      console.error("Error deleting category:", error);
-      // Add error handling/notification here
-    }
+          // if (!response.ok) {
+          //   throw new Error('Failed to delete category');
+          // }
+
+          // Update local state
+          setCategories((prevCategories) =>
+            prevCategories.filter((cat) => cat._id !== id),
+          );
+          toast.success(`${result.message}`);
+        } catch (error) {
+          console.error("Error deleting category:", error);
+          // Add error handling/notification here
+          toast.error(`Error: ${error}`);
+        }
+      }
+    });
   };
 
-  if(!categories || categories.length===0){
+  if (!categories || categories.length === 0) {
     return (
       <div className="min-h-screen flex justify-center items-center">
         <h1 className="text-3xl text-center text-[#f58313]">
@@ -105,11 +143,8 @@ const CategoryManagement = ({ allCategories }: AllCategoriesProps) => {
 
   // Get current category for popup
   const currentCategory = categories.find(
-    (cat) => cat._id === statusPopup.categoryId
+    (cat) => cat._id === statusPopup.categoryId,
   );
-
-
-
 
   return (
     <div className="min-h-screen p-4 sm:p-6 lg:p-8">
@@ -128,9 +163,7 @@ const CategoryManagement = ({ allCategories }: AllCategoriesProps) => {
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr
-                  className="bg-[#f58313] border-b-2 text-white"
-                >
+                <tr className="bg-[#f58313] border-b-2 text-white">
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Category Name
                   </th>
