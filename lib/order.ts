@@ -2,8 +2,8 @@ export const getAllOrder = async () => {
   const res = await fetch(
     `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/create-order/all-product`,
     {
-      next: { revalidate: 60 },
-    }
+      cache: "no-store",
+    },
   );
 
   return res.json();
@@ -13,8 +13,8 @@ export const getOrderById = async (id: string) => {
   const res = await fetch(
     `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/create-order/get-Order/${id}`,
     {
-      next: { revalidate: 60 },
-    }
+      cache: "no-cache",
+    },
   );
 
   return res.json();
@@ -24,20 +24,20 @@ export const getHistory = async (phone: string) => {
   const res = await fetch(
     `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/create-order/get-history/${phone}`,
     {
-      next: { revalidate: 60 },
-    }
+      cache: "no-cache",
+    },
   );
   return res.json();
 };
 
-export const MainDashboardAnalytics = async ()=>{
+export const MainDashboardAnalytics = async () => {
   const baseUrl = process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL;
 
   if (!baseUrl) {
     throw new Error("API Base URL is not defined in environment variables");
   }
   const res = await fetch(`${baseUrl}/create-order/dashboard-analytics`, {
-    next: { revalidate: 60 },
+    cache: "no-cache",
   });
 
   if (!res.ok) {
@@ -47,4 +47,4 @@ export const MainDashboardAnalytics = async ()=>{
   }
 
   return res.json();
-}
+};

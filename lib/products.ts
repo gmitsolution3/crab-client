@@ -62,7 +62,7 @@ export async function getProductByCategory(category: string) {
   const res = await fetch(
     `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/get-product-by-category/${category}`,
     {
-      next: { revalidate: 60 },
+      cache: "no-store",
     }
   );
 
@@ -85,8 +85,8 @@ export async function getDraftProduct() {
   const res = await fetch(
     `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/api/products/draft`,
     {
-      next: { revalidate: 60 },
-    }
+      cache: "no-cache",
+    },
   );
 
   return res.json();
@@ -96,8 +96,8 @@ export async function getDeletedProduct() {
   const res = await fetch(
     `${process.env.NEXT_EXPRESS_SERVER_BASE_URL}/api/products/delete-product`,
     {
-      next: { revalidate: 60 },
-    }
+      cache: "no-cache",
+    },
   );
 
   return res.json();
