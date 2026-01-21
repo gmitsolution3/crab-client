@@ -126,7 +126,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* CTA */}
-      <section className="rounded-2xl bg-linear-to-br from-blue-600 to-blue-500 p-10 text-white text-center">
+      <section className="rounded-2xl bg-linear-to-br from-primary to-blue-500 p-10 text-white text-center">
         <h2 className="text-2xl font-semibold mb-3">Work With Us</h2>
         <p className="text-blue-100 mb-6">
           Interested in joining our team? Check out our Careers page for current
@@ -134,7 +134,7 @@ export default function AboutUsPage() {
         </p>
         <a
           href="/careers"
-          className="inline-flex items-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-full font-medium hover:bg-blue-50 transition"
+          className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-medium hover:bg-blue-50 transition"
         >
           Careers
         </a>

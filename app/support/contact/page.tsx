@@ -34,7 +34,7 @@ export default function ContactPage() {
       {/* Contact Info */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 text-gray-700">
         <div className="flex flex-col items-center text-center p-6 border rounded-2xl hover:shadow-lg transition">
-          <div className="w-12 h-12 mb-3 text-blue-600">
+          <div className="w-12 h-12 mb-3 text-primary">
             <MapPin size={32} />
           </div>
           <h3 className="font-semibold text-lg mb-1">Address</h3>
@@ -42,7 +42,7 @@ export default function ContactPage() {
         </div>
 
         <div className="flex flex-col items-center text-center p-6 border rounded-2xl hover:shadow-lg transition">
-          <div className="w-12 h-12 mb-3 text-blue-600">
+          <div className="w-12 h-12 mb-3 text-primary">
             <Phone size={32} />
           </div>
           <h3 className="font-semibold text-lg mb-1">Phone</h3>
@@ -50,7 +50,7 @@ export default function ContactPage() {
         </div>
 
         <div className="flex flex-col items-center text-center p-6 border rounded-2xl hover:shadow-lg transition">
-          <div className="w-12 h-12 mb-3 text-blue-600">
+          <div className="w-12 h-12 mb-3 text-primary">
             <Mail size={32} />
           </div>
           <h3 className="font-semibold text-lg mb-1">Email</h3>
@@ -131,7 +131,7 @@ export default function ContactPage() {
 
           <button
             type="submit"
-            className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition"
+            className="inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition"
           >
             Send Message
           </button>

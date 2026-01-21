@@ -29,9 +29,8 @@ export const LoginForm = () => {
   const { refetchUser, isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return
+    return;
   }
-  
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,15 +80,12 @@ export const LoginForm = () => {
     }
   };
 
-  
-
-
   return (
     <div className="max-w-7xl mx-auto">
       <div className="p-6">
         <Link
           href="/"
-          className="px-4 py-2 border border-[#f58313] rounded-lg hover:bg-[#f58313] font-bold hover:text-white"
+          className="px-4 py-2 border border-primary rounded-lg hover:bg-primary font-bold hover:text-white"
         >
           Go Home
         </Link>
@@ -102,13 +98,13 @@ export const LoginForm = () => {
           {/* Card */}
           <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
             {/* Top Accent Bar */}
-            <div className="h-1 bg-linear-to-r from-[#f58313] via-[#cc6b0a] to-[#db7108]"></div>
+            <div className="h-1 bg-linear-to-r from-primary via-primary to-primary-foreground"></div>
 
             {/* Content */}
             <div className="p-6 sm:p-8 md:p-10">
               {/* Logo Section */}
               <div className="text-center mb-8 sm:mb-10">
-                <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-[#f58313] to-[#f58313] rounded-2xl mb-4 shadow-lg">
+                <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-primary to-primary rounded-2xl mb-4 shadow-lg">
                   <UserLock size={40} color="white" />
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mt-4">
@@ -149,7 +145,7 @@ export const LoginForm = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="admin@example.com"
-                      className="w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#f58313] focus:ring-2 focus:ring-[#cf6c09] focus:ring-opacity-20 transition text-sm sm:text-base"
+                      className="w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-foreground focus:ring-opacity-20 transition text-sm sm:text-base"
                     />
                   </div>
                 </div>
@@ -169,7 +165,7 @@ export const LoginForm = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-10 sm:pl-12 pr-12 sm:pr-14 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#f58313] focus:ring-2 focus:ring-[#cf6c09] focus:ring-opacity-20 transition text-sm sm:text-base"
+                      className="w-full pl-10 sm:pl-12 pr-12 sm:pr-14 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-foreground focus:ring-opacity-20 transition text-sm sm:text-base"
                     />
                     <button
                       type="button"
@@ -188,13 +184,13 @@ export const LoginForm = () => {
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      className="w-4 h-4 rounded border-gray-300 cursor-pointer accent-[#f58313]"
+                      className="w-4 h-4 rounded border-gray-300 cursor-pointer accent-primary"
                     />
                     <span className="text-gray-600">Remember me</span>
                   </label>
                   <a
                     href="#"
-                    className="text-[#0970B4] hover:text-[#064a8a] font-semibold transition"
+                    className="text-primary hover:text-[#064a8a] font-semibold transition"
                   >
                     Forgot password?
                   </a>
@@ -204,7 +200,7 @@ export const LoginForm = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-linear-to-r from-[#f58313] to-[#cf6c09] hover:from-[#cf6c09] hover:to-[#f58313] text-white font-semibold py-2.5 sm:py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base hover:cursor-pointer"
+                  className="w-full bg-linear-to-r from-primary to-primary-foreground hover:from-primary-foreground hover:to-primary text-white font-semibold py-2.5 sm:py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base hover:cursor-pointer"
                 >
                   {loading ? (
                     <>
@@ -234,7 +230,7 @@ export const LoginForm = () => {
 
               {/* Social Login */}
               <div className="grid gap-3 sm:gap-4">
-                <button className="flex items-center bg-linear-to-r hover:from-[#f58313] hover:to-[#cf6c09] justify-center gap-2 px-4 py-2.5 sm:py-3 border border-[#f58313] rounded-lg hover:bg-gray-50 transition text-sm sm:text-base font-medium text-gray-700 hover:text-white hover:cursor-pointer">
+                <button className="flex items-center bg-linear-to-r hover:from-primary hover:to-primary-foreground justify-center gap-2 px-4 py-2.5 sm:py-3 border border-primary rounded-lg hover:bg-gray-50 transition text-sm sm:text-base font-medium text-gray-700 hover:text-white hover:cursor-pointer">
                   <span>
                     <FaGoogle size={28} />
                   </span>
@@ -245,7 +241,7 @@ export const LoginForm = () => {
               {/* Sign Up Link */}
               <p className="text-center text-gray-600 text-sm mt-6 sm:mt-8">
                 Don't have an account?{" "}
-                <Link href="/auth/sign-up" className="text-[#f58313] font-bold">
+                <Link href="/auth/sign-up" className="text-primary font-bold">
                   Sign up here
                 </Link>
               </p>
@@ -255,11 +251,11 @@ export const LoginForm = () => {
             <div className="bg-gray-50 px-6 sm:px-8 md:px-10 py-4 border-t border-gray-200">
               <p className="text-center text-gray-500 text-xs sm:text-sm">
                 By signing in, you agree to our{" "}
-                <a href="#" className="text-[#f58313] hover:underline">
+                <a href="#" className="text-primary hover:underline">
                   Terms of Service
                 </a>{" "}
                 and{" "}
-                <a href="#" className="text-[#f58313] hover:underline">
+                <a href="#" className="text-primary hover:underline">
                   Privacy Policy
                 </a>
               </p>
@@ -270,5 +266,3 @@ export const LoginForm = () => {
     </div>
   );
 };
-
-

@@ -63,7 +63,7 @@ const SocialIcons = ({ socials, size = 22 }: SocialIconsProps) => {
             rel="noopener noreferrer"
             aria-label={config.label}
             className="w-10 h-10 rounded-full
-            bg-linear-to-br from-[#0970B4] to-blue-500
+            bg-linear-to-br from-primary to-blue-500
             flex items-center justify-center text-white
             hover:scale-110 hover:shadow-lg
             transition-all duration-300"

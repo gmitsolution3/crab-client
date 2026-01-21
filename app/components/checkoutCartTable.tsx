@@ -36,7 +36,6 @@ export default function CheckoutCartTable({
 
     setCartItems(updatedItems);
     updateCartItems(updatedItems);
-   
   };
 
   const handleRemoveItem = (index: number) => {
@@ -52,7 +51,6 @@ export default function CheckoutCartTable({
   };
 
   const handleGoCheckout = () => {
-    
     const normalizedCart = cartItems.map((item) => ({
       ...item,
       quantity: Number(item.quantity),
@@ -227,14 +225,14 @@ export default function CheckoutCartTable({
 
               <div className="flex gap-3 justify-end mt-4">
                 <Link href="/">
-                  <button className="px-3 py-2 border-2 border-[#f58313] hover:bg-[#f58313] hover:cursor-pointer hover:text-white font-bold ">
+                  <button className="px-3 py-2 border-2 border-primary hover:bg-primary hover:cursor-pointer hover:text-white font-bold ">
                     Continue Shopping
                   </button>
                 </Link>
                 <Link href="/checkout">
                   <button
                     onClick={handleGoCheckout}
-                    className="px-3 py-2 border border-[#f58313] bg-[#f58313] text-white hover:cursor-pointer hover:bg-[#f58313] font-bold"
+                    className="px-3 py-2 border border-primary bg-primary text-white hover:cursor-pointer hover:bg-primary font-bold"
                   >
                     Go Checkout
                   </button>

@@ -28,7 +28,7 @@ export const CardButtons = ({ product }: Product) => {
     product.discount.type === "percentage"
       ? Math.floor(
           Number(product.basePrice) -
-            (Number(product.basePrice) * Number(product.discount.value)) / 100
+            (Number(product.basePrice) * Number(product.discount.value)) / 100,
         )
       : Math.max(Number(product.basePrice) - Number(product.discount.value), 0);
 
@@ -45,25 +45,25 @@ export const CardButtons = ({ product }: Product) => {
     setIsCartModalOpen(true);
     setIsBuyNow(true);
   };
-  
+
   return (
     <>
       <div className="space-y-3 hidden md:block">
         <button
           onClick={handleBuyNow}
-          className="w-full bg-linear-to-t from-[#f58313] to-[#f35b1c] hover:from-[#f35b1c] hover:to-[#f58313] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 transition"
+          className="w-full bg-linear-to-t from-primary to-primary-foreground hover:from-primary-foreground hover:to-primary text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 transition"
         >
           <ShoppingBag /> BUY NOW
         </button>
 
-        <button className="w-full bg-linear-to-t from-[#0970B4] to-[#3CB1FF] hover:from-[#3CB1FF] hover:to-[#0970B4] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-xs   md:text-sm gap-2 transition">
+        <button className="w-full bg-linear-to-t from-primary to-primary-foreground hover:from-primary-foreground hover:to-primary text-white py-3 rounded-lg font-semibold flex items-center justify-center text-xs   md:text-sm gap-2 transition">
           <FaWhatsapp />
           ORDER VIA WHATSAPP
         </button>
 
         <button
           onClick={handleAddToCart}
-          className="w-full border border-[#f58313] text-[#f58313] py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[#f58313] hover:text-white transition"
+          className="w-full border border-primary text-primary py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-primary hover:text-white transition"
         >
           <ShoppingCart /> ADD TO CART
         </button>
@@ -72,7 +72,7 @@ export const CardButtons = ({ product }: Product) => {
         <div className=" flex gap-2">
           <button
             onClick={handleBuyNow}
-            className="w-full bg-linear-to-t from-[#0970B4] to-[#3CB1FF] hover:from-[#3CB1FF] hover:to-[#0970B4] text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 transition"
+            className="w-full bg-linear-to-t from-primary to-primary-foreground hover:from-primary-foreground hover:to-primary text-white py-3 rounded-lg font-semibold flex items-center justify-center text-sm gap-2 transition"
           >
             <ShoppingBag />
           </button>
@@ -84,7 +84,7 @@ export const CardButtons = ({ product }: Product) => {
 
         <button
           onClick={handleAddToCart}
-          className="w-full border border-[#f58313] text-[#f35b1c] py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[#f58313] hover:text-white transition"
+          className="w-full border border-primary text-primary-foreground py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-primary hover:text-white transition"
         >
           <ShoppingCart />
         </button>

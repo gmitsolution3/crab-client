@@ -8,7 +8,7 @@ const ManageProducts = async () => {
 
   if (products.length === 0) {
     return (
-      <div className="text-4xl text-[#f58313] min-h-screen flex justify-center items-center">
+      <div className="text-4xl text-primary min-h-screen flex justify-center items-center">
         no product found
       </div>
     );

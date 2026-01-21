@@ -74,7 +74,7 @@ const MainPage = async () => {
         </div>
 
         {products.length === 0 ? (
-          <div className="min-h-screen flex justify-center items-center text-3xl text-blue-800">
+          <div className="min-h-screen flex justify-center items-center text-3xl text-primary">
             no data found
           </div>
         ) : (

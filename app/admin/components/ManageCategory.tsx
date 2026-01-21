@@ -132,7 +132,7 @@ const CategoryManagement = ({ allCategories }: AllCategoriesProps) => {
   if (!categories || categories.length === 0) {
     return (
       <div className="min-h-screen flex justify-center items-center">
-        <h1 className="text-3xl text-center text-[#f58313]">
+        <h1 className="text-3xl text-center text-primary">
           No Categories found
         </h1>
       </div>
@@ -161,7 +161,7 @@ const CategoryManagement = ({ allCategories }: AllCategoriesProps) => {
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-[#f58313] border-b-2 text-white">
+                <tr className="bg-primary border-b-2 text-white">
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Category Name
                   </th>

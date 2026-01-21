@@ -15,7 +15,7 @@ const EditOrder = async ({ params }: ParamsProps) => {
 
   if (!result?.success) {
     return (
-      <div className="min-h-screen flex justify-center items-center text-blue-600">
+      <div className="min-h-screen flex justify-center items-center text-primary">
         Order not found
       </div>
     );

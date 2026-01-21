@@ -179,13 +179,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
       },
       variants,
     });
-
-    
   };
-
-  
-
-
 
   return (
     <div className="fixed inset-0 bg-white/30 backdrop-blur-md flex items-center justify-center z-50 p-4">
@@ -214,7 +208,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                   setValue("slug", slug);
                 },
               })}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313] ${
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
                 errors.title ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -232,7 +226,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
             {/* <input
               type="text"
               {...register("slug", { required: "Slug is required" })}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313] ${
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
                 errors.slug ? "border-red-500" : "border-gray-300"
               }`}
             /> */}
@@ -240,7 +234,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               type="text"
               readOnly
               {...register("slug", { required: "Slug is required" })}
-              className={`w-full px-4 py-2 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#f58313] ${
+              className={`w-full px-4 py-2 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary ${
                 errors.slug ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -259,7 +253,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                 {...register("basePrice", {
                   required: "Base Price is required",
                 })}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313] ${
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
                   errors.basePrice ? "border-red-500" : "border-gray-300"
                 }`}
               />
@@ -278,7 +272,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                 {...register("stockQuantity", {
                   required: "Stock Quantity is required",
                 })}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313] ${
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
                   errors.stockQuantity ? "border-red-500" : "border-gray-300"
                 }`}
               />
@@ -298,7 +292,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               <input
                 type="text"
                 {...register("sku", { required: "SKU is required" })}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313] ${
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
                   errors.sku ? "border-red-500" : "border-gray-300"
                 }`}
               />
@@ -315,7 +309,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               <input
                 type="text"
                 {...register("category", { required: "Category is required" })}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313] ${
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
                   errors.category ? "border-red-500" : "border-gray-300"
                 }`}
               />
@@ -336,7 +330,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               {...register("shortDescription", {
                 required: "Short Description is required",
               })}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313] ${
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
                 errors.shortDescription ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -356,7 +350,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                 required: "Description is required",
               })}
               rows={4}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313] ${
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
                 errors.description ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -374,7 +368,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               </label>
               <select
                 {...register("discountType")}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               >
                 <option value="percentage">Percentage</option>
                 <option value="fixed">Fixed</option>
@@ -387,7 +381,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               <input
                 type="text"
                 {...register("discountValue")}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div>
@@ -396,7 +390,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               </label>
               <select
                 {...register("stockStatus")}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f58313]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               >
                 <option value="in-stock">In Stock</option>
                 <option value="out-of-stock">Out of Stock</option>
@@ -469,7 +463,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                 </label>
                 <input
                   {...register("seoMetaTitle")}
-                  className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[#f58313]"
+                  className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-primary"
                 />
               </div>
 
@@ -480,7 +474,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                 <textarea
                   {...register("seoMetaDescription")}
                   rows={2}
-                  className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[#f58313]"
+                  className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
@@ -534,7 +528,6 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
   };
 
   const handleUpdateProduct = async (formData: any) => {
-
     if (!editingProduct) return;
 
     try {
@@ -727,7 +720,7 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEdit(product)}
-                          className="p-2 hover:bg-blue-50 rounded-lg transition-colors text-[#f58313] hover:text-[#f58313]"
+                          className="p-2 hover:bg-blue-50 rounded-lg transition-colors text-primary hover:text-primary"
                           title="Edit"
                         >
                           <Edit2 size={18} />
@@ -782,7 +775,7 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
                     </p>
 
                     <div className="mt-2 flex gap-4 text-xs">
-                      <span className="font-semibold text-[#f58313]">
+                      <span className="font-semibold text-primary">
                         ৳{product.basePrice}
                       </span>
                       <span className="text-gray-600">

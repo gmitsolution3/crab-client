@@ -8,7 +8,6 @@ import config from "@/lib/config";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
 
-
 // Types
 interface Variant {
   attributes: {
@@ -77,9 +76,7 @@ interface FormInputs {
 }
 
 const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
-
   const BASE_URL = process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL;
-
 
   const [products, setProducts] = useState<Product[]>(orderData.products);
   const [searchId, setSearchId] = useState<string>("");
@@ -106,49 +103,48 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
   //   setProducts(products.filter((p) => p.productId !== productId));
   // };
 
-    const handleDeleteProduct = (id: string) => {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#0970B4",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          try {
-            const response = await axios.delete(
-              `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/create-order/delete-order/${id}`
-            );
+  const handleDeleteProduct = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0970B4",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.delete(
+            `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/create-order/delete-order/${id}`,
+          );
 
-            if (response.status === 200) {
-              setProducts(products.filter((p) => p.productId !== id));
-              toast.success(response.data.message ?? "Deleted successfully");
-            } else {
-              alert("Failed to delete the order. Please try again.");
-            }
-          } catch (error: any) {
-            console.error("Delete Error:", error);
-            alert(
-              error?.response?.data?.message ||
-                "Something went wrong while deleting."
-            );
+          if (response.status === 200) {
+            setProducts(products.filter((p) => p.productId !== id));
+            toast.success(response.data.message ?? "Deleted successfully");
+          } else {
+            alert("Failed to delete the order. Please try again.");
           }
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
+        } catch (error: any) {
+          console.error("Delete Error:", error);
+          alert(
+            error?.response?.data?.message ||
+              "Something went wrong while deleting.",
+          );
         }
-      });
-    };
-
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
 
   const handleProductChange = (
     productId: string,
     field: keyof Product | "color" | "size",
-    value: string | number
+    value: string | number,
   ): void => {
     setProducts(
       products.map((p) => {
@@ -176,7 +172,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
           return { ...p, [field]: value };
         }
         return p;
-      })
+      }),
     );
   };
 
@@ -199,12 +195,10 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
       },
     };
 
-    
-
     try {
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/create-order/update-order/${orderData._id}`,
-        updatedOrderData
+        updatedOrderData,
       );
       if (res.data.success) {
         toast.success("Order updated successfully!");
@@ -218,7 +212,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
   const filteredProducts = products.filter(
     (p) =>
       p.productId.includes(searchId) ||
-      p.title.toLowerCase().includes(searchId.toLowerCase())
+      p.title.toLowerCase().includes(searchId.toLowerCase()),
   );
 
   return (
@@ -244,7 +238,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
               render={({ field }) => (
                 <select
                   {...field}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent bg-white"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
                 >
                   <option value="pending">Pending Order</option>
                   <option value="processing">Processing Order</option>
@@ -267,7 +261,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
               render={({ field }) => (
                 <select
                   {...field}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent bg-white"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
                 >
                   <option value="pending">Pending</option>
                   <option value="success">Success</option>
@@ -286,7 +280,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                 placeholder="Search order by id or title..."
                 value={searchId}
                 onChange={(e) => setSearchId(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
               />
             </div>
           </div>
@@ -352,7 +346,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                             e.target.value,
                           )
                         }
-                        className="w-20 px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#f58313]"
+                        className="w-20 px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-primary"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -366,7 +360,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                             e.target.value,
                           )
                         }
-                        className="w-20 px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#f58313]"
+                        className="w-20 px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-primary"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -380,7 +374,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                             e.target.value,
                           )
                         }
-                        className="w-16 px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#f58313]"
+                        className="w-16 px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-primary"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -394,7 +388,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                             e.target.value,
                           )
                         }
-                        className="w-24 px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-[#f58313]"
+                        className="w-24 px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-primary"
                       />
                     </td>
                     <td className="px-6 py-4 font-semibold text-gray-900">
@@ -434,7 +428,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                     <input
                       {...field}
                       type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   )}
                 />
@@ -450,7 +444,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                     <input
                       {...field}
                       type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   )}
                 />
@@ -466,7 +460,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                     <input
                       {...field}
                       type="tel"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   )}
                 />
@@ -482,7 +476,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                     <input
                       {...field}
                       type="email"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   )}
                 />
@@ -507,7 +501,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                     <input
                       {...field}
                       type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   )}
                 />
@@ -523,7 +517,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                     <input
                       {...field}
                       type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   )}
                 />
@@ -539,7 +533,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                     <input
                       {...field}
                       type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   )}
                 />
@@ -563,7 +557,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                   render={({ field }) => (
                     <select
                       {...field}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent bg-white"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
                     >
                       <option value="inside">Inside Dhaka</option>
                       <option value="outside">Outside Dhaka</option>
@@ -581,7 +575,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                   render={({ field }) => (
                     <select
                       {...field}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent bg-white"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
                     >
                       <option value="">Select Courier</option>
                       <option value="pathao">Pathao</option>
@@ -603,7 +597,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                       {...field}
                       type="text"
                       placeholder="Enter tracking ID"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   )}
                 />
@@ -620,7 +614,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                       {...field}
                       type="number"
                       placeholder="0"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   )}
                 />
@@ -639,7 +633,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
                     {...field}
                     rows={4}
                     placeholder="Add any notes about this order..."
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58313] focus:border-transparent resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
                   />
                 )}
               />
@@ -650,7 +644,7 @@ const OrderDetailsPage = ({ orderData }: { orderData: OrderData }) => {
           <div className="mt-8 flex flex-col md:flex-row gap-4">
             <button
               onClick={handleSubmit(onSubmit)}
-              className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-[#f58313] transition w-full md:w-auto"
+              className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary transition w-full md:w-auto"
             >
               Update Order
             </button>

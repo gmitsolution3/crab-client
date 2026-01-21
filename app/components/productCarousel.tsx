@@ -32,13 +32,13 @@ const ProductCarousel = ({
 
   const handlePrev = () => {
     setCurrentIndex((prev) =>
-      prev <= 0 ? Math.max(products.length - visibleCards, 0) : prev - 1
+      prev <= 0 ? Math.max(products.length - visibleCards, 0) : prev - 1,
     );
   };
 
   const handleNext = () => {
     setCurrentIndex((prev) =>
-      prev + visibleCards >= products.length ? 0 : prev + 1
+      prev + visibleCards >= products.length ? 0 : prev + 1,
     );
   };
 
@@ -144,7 +144,7 @@ const ProductCarousel = ({
                 onClick={() => setCurrentIndex(i * visibleCards)}
                 className={`w-2 h-2 rounded-full transition-all ${
                   Math.floor(currentIndex / visibleCards) === i
-                    ? "bg-[#f58313] w-8"
+                    ? "bg-primary w-8"
                     : "bg-[#e9dbcd]"
                 }`}
               />

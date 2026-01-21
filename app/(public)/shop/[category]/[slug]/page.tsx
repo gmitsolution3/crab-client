@@ -14,7 +14,7 @@ const ProductDetails = async ({ params }: ProductPageProps) => {
 
   if (!result || !result.data) {
     return (
-      <div className="text-2xl text-[#f58313] flex justify-center min-h-screen items-center">
+      <div className="text-2xl text-primary flex justify-center min-h-screen items-center">
         No Data found
       </div>
     );

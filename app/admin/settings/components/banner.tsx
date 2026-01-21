@@ -37,7 +37,7 @@ export const Banner = () => {
 
   const handleBannerChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    type: BannerKey
+    type: BannerKey,
   ) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
@@ -62,7 +62,7 @@ export const Banner = () => {
       }));
 
       const previewUrls = selectedFiles.map((file) =>
-        URL.createObjectURL(file)
+        URL.createObjectURL(file),
       );
       setPreviews((prev) => ({
         ...prev,
@@ -116,7 +116,7 @@ export const Banner = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
-        }
+        },
       );
 
       const result = await res.json();
@@ -209,7 +209,7 @@ export const Banner = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex items-center gap-2 px-6 py-2 bg-[#f58313] text-white rounded-lg hover:bg-[#ad5d0c] disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-lg hover:bg-[#ad5d0c] disabled:opacity-50"
         >
           {isSubmitting && <Loader2 className="animate-spin" size={18} />}
           Save Banner

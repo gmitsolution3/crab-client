@@ -38,6 +38,7 @@ const ShowFooter: React.FC = async () => {
     address: brandInfoRaw?.data?.address ?? "Dhaka, Bangladesh",
   };
 
+  console.log(brandInfoRaw);
 
   const quickLinks: FooterLink[] = [
     { label: "Home", url: "#" },
@@ -90,15 +91,15 @@ const ShowFooter: React.FC = async () => {
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-start gap-3">
-                <MapPin size={20} className="text-[#0970B4] shrink-0 mt-0.5" />
+                <MapPin size={20} className="text-primary shrink-0 mt-0.5" />
                 <p className="text-gray-300 text-sm">{brandInfo.address}</p>
               </div>
               <div className="flex items-start gap-3">
-                <Phone size={20} className="text-[#0970B4] shrink-0 mt-0.5" />
+                <Phone size={20} className="text-primary shrink-0 mt-0.5" />
                 <p className="text-gray-300 text-sm">{brandInfo.phone}</p>
               </div>
               <div className="flex items-start gap-3">
-                <Mail size={20} className="text-[#0970B4] shrink-0 mt-0.5" />
+                <Mail size={20} className="text-primary shrink-0 mt-0.5" />
                 <p className="text-gray-300 text-sm break-all">
                   {brandInfo.email}
                 </p>
@@ -108,7 +109,7 @@ const ShowFooter: React.FC = async () => {
 
           {/* Column 2: Quick Links */}
           <div className="sm:col-span-1">
-            <h4 className="text-lg md:text-xl font-bold text-white mb-6 pb-2 border-b-2 border-[#0970B4]">
+            <h4 className="text-lg md:text-xl font-bold text-white mb-6 pb-2 border-b-2 border-primary">
               Quick Links
             </h4>
             <ul className="space-y-3">
@@ -116,7 +117,7 @@ const ShowFooter: React.FC = async () => {
                 <li key={idx}>
                   <a
                     href={link.url}
-                    className="text-gray-300 hover:text-[#0970B4] transition-colors duration-300 text-sm md:text-base"
+                    className="text-gray-300 hover:text-primary transition-colors duration-300 text-sm md:text-base"
                   >
                     {link.label}
                   </a>
@@ -127,7 +128,7 @@ const ShowFooter: React.FC = async () => {
 
           {/* Column 3: About */}
           <div className="sm:col-span-1">
-            <h4 className="text-lg md:text-xl font-bold text-white mb-6 pb-2 border-b-2 border-[#0970B4]">
+            <h4 className="text-lg md:text-xl font-bold text-white mb-6 pb-2 border-b-2 border-primary">
               About
             </h4>
             <ul className="space-y-3">
@@ -135,7 +136,7 @@ const ShowFooter: React.FC = async () => {
                 <li key={idx}>
                   <Link
                     href={link.url}
-                    className="text-gray-300 hover:text-[#0970B4] transition-colors duration-300 text-sm md:text-base"
+                    className="text-gray-300 hover:text-primary transition-colors duration-300 text-sm md:text-base"
                   >
                     {link.label}
                   </Link>
@@ -146,7 +147,7 @@ const ShowFooter: React.FC = async () => {
 
           {/* Column 4: Support */}
           <div className="sm:col-span-1">
-            <h4 className="text-lg md:text-xl font-bold text-white mb-6 pb-2 border-b-2 border-[#0970B4]">
+            <h4 className="text-lg md:text-xl font-bold text-white mb-6 pb-2 border-b-2 border-primary">
               Support
             </h4>
             <ul className="space-y-3">
@@ -154,7 +155,7 @@ const ShowFooter: React.FC = async () => {
                 <li key={idx}>
                   <Link
                     href={link.url}
-                    className="text-gray-300 hover:text-[#0970B4] transition-colors duration-300 text-sm md:text-base"
+                    className="text-gray-300 hover:text-primary transition-colors duration-300 text-sm md:text-base"
                   >
                     {link.label}
                   </Link>

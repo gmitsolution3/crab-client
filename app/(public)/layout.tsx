@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Yellow Furniture",
+  title: "GM Logistic",
   description: "Build your trust",
 };
 

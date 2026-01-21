@@ -32,10 +32,10 @@ export default function NotFound() {
             inline-block
             px-10 py-5
             text-lg md:text-xl font-semibold
-            bg-linear-to-r from-blue-600 to-purple-600
+            bg-linear-to-r from-primary to-purple-600
             hover:from-blue-700 hover:to-purple-700
             text-white rounded-full
-            shadow-lg shadow-blue-600/30
+            shadow-lg shadow-primary/30
             transition-all duration-300
             transform hover:scale-105 hover:shadow-xl hover:shadow-purple-600/40
             focus:outline-none focus:ring-4 focus:ring-purple-500/50

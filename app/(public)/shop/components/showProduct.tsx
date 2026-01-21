@@ -28,7 +28,7 @@ const ProductCard = ({ products }: { products: ProductFormData[] }) => {
             categoryName={categoryName}
             products={categoryProducts}
           />
-        )
+        ),
       )}
     </div>
   );
@@ -60,13 +60,13 @@ const CategoryCarousel = ({
 
   const handlePrev = () => {
     setCurrentIndex((prev) =>
-      prev <= 0 ? Math.max(products.length - visibleCards, 0) : prev - 1
+      prev <= 0 ? Math.max(products.length - visibleCards, 0) : prev - 1,
     );
   };
 
   const handleNext = () => {
     setCurrentIndex((prev) =>
-      prev + visibleCards >= products.length ? 0 : prev + 1
+      prev + visibleCards >= products.length ? 0 : prev + 1,
     );
   };
 
@@ -106,7 +106,7 @@ const CategoryCarousel = ({
                   className="shrink-0 "
                   style={{ width: `${100 / visibleCards}%` }}
                 >
-                  <div className="rounded-xl border border-gray-200 bg-white hover:shadow-xl hover:border-[#f58313] transition-all duration-300 overflow-hidden h-full flex flex-col">
+                  <div className="rounded-xl border border-gray-200 bg-white hover:shadow-xl hover:border-primary transition-all duration-300 overflow-hidden h-full flex flex-col">
                     <Link
                       href={`/shop/${pro.categoryId}/${pro.slug}`}
                       className="flex flex-col grow"
@@ -182,7 +182,7 @@ const CategoryCarousel = ({
               onClick={() => setCurrentIndex(i * visibleCards)}
               className={`h-2 rounded-full transition-all duration-300 ${
                 Math.floor(currentIndex / visibleCards) === i
-                  ? "bg-[#f58313] w-8"
+                  ? "bg-primary w-8"
                   : "bg-gray-300 w-2"
               }`}
             />
@@ -190,7 +190,7 @@ const CategoryCarousel = ({
         </div>
       </div>
       {/* <div className="w-full flex justify-center">
-        <div className="max-w-50 border border-[#0970B4] text-[#0970B4] text-center mt-2 rounded-lg text-lg cursor-pointer hover:bg-[#0970B4] font-bold hover:text-white transition py-4 px-4 ">
+        <div className="max-w-50 border border-primary text-primary text-center mt-2 rounded-lg text-lg cursor-pointer hover:bg-primary font-bold hover:text-white transition py-4 px-4 ">
           See All Products
         </div>
       </div> */}

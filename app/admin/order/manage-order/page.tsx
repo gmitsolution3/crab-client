@@ -12,7 +12,7 @@ export default async function ManageOrdersPage() {
 
   if (!response.data.length) {
     return (
-      <div className="min-h-screen text-2xl text-[#f58313] flex justify-center items-center">
+      <div className="min-h-screen text-2xl text-primary flex justify-center items-center">
         No Order found
       </div>
     );

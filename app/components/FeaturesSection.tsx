@@ -34,7 +34,7 @@ export const FeaturesSection = () => {
                 } as any,
               )}
             </div>
-            <span className="text-sm sm:text-base font-medium text-gray-900 group-hover:text-[#f58313] transition-colors duration-300">
+            <span className="text-sm sm:text-base font-medium text-gray-900 group-hover:text-primary transition-colors duration-300">
               {feature.title}
             </span>
           </div>

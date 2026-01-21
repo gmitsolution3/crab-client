@@ -117,6 +117,8 @@ const SingleSlider = ({
 }
 
 export default function ProductSliderSection({ mainSlider, sideSliders }: ProductSliderSectionProps) {
+
+  
   return (
     <section className="w-full bg-white px-4 md:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
       <div className="max-w-full mx-auto">

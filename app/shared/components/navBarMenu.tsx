@@ -23,14 +23,14 @@ export const NavBarMenu = () => {
         <>
           <Link
             href="/auth/sign-in"
-            className="hover:cursor-pointer px-3 py-2 border font-bold border-[#f58313] rounded-lg hover:bg-white hover:text-[#f58313]"
+            className="hover:cursor-pointer px-3 py-2 border font-bold border-secondary rounded-lg hover:bg-secondary hover:text-primary"
           >
             Log in
           </Link>
-          <h5 className="hover:cursor-pointer px-3 py-2 border font-bold border-[#f58313] rounded-lg hover:bg-white hover:text-[#f58313]">
+          <h5 className="hover:cursor-pointer px-3 py-2 border font-bold border-secondary rounded-lg hover:bg-white hover:text-primary">
             Order Tracking
           </h5>
-          <h5 className="hover:cursor-pointer px-3 py-2 border font-bold border-[#f58313] rounded-lg hover:bg-white hover:text-[#f58313]">
+          <h5 className="hover:cursor-pointer px-3 py-2 border font-bold border-secondary rounded-lg hover:bg-white hover:text-primary">
             Return Policy
           </h5>
         </>
@@ -38,7 +38,7 @@ export const NavBarMenu = () => {
         <div className="relative">
           {/* Profile circle */}
           <div
-            className="w-10 h-10 rounded-full bg-[#b35901] flex items-center justify-center text-white font-bold cursor-pointer"
+            className="w-10 h-10 rounded-full bg-background flex items-center justify-center text-foreground font-bold cursor-pointer"
             onMouseEnter={() => setDropdownOpen(true)}
             // onMouseLeave={() => setDropdownOpen(false)}
           >
@@ -54,20 +54,20 @@ export const NavBarMenu = () => {
             >
               <Link
                 href="/profile"
-                className="block px-4 py-2 text-gray-700 hover:bg-[#f58313] hover:text-white hover:cursor-pointer"
+                className="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white hover:cursor-pointer"
               >
                 Profile
               </Link>
-              <h5 className="block px-4 py-2 text-gray-700 hover:bg-[#f58313] hover:text-white hover:cursor-pointer">
+              <h5 className="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white hover:cursor-pointer">
                 Order Tracking
               </h5>
-              <h5 className="block px-4 py-2 text-gray-700 hover:bg-[#f58313] hover:text-white hover:cursor-pointer">
+              <h5 className="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white hover:cursor-pointer">
                 Return Policy
               </h5>
 
               <button
                 onClick={handleLogout}
-                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-[#f58313] hover:text-white hover:cursor-pointer border-t border-gray-300"
+                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-primary hover:text-white hover:cursor-pointer border-t border-gray-300"
               >
                 Logout
               </button>

@@ -13,10 +13,9 @@ const History = async ({ params }: ParamsProps) => {
 
   const result = await getHistory(id);
 
-
   if (!result?.success) {
     return (
-      <div className="min-h-screen flex justify-center items-center text-blue-600">
+      <div className="min-h-screen flex justify-center items-center text-primary">
         No history found
       </div>
     );

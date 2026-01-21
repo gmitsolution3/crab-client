@@ -45,7 +45,7 @@ export const TopCategories = ({ categories }: TopCategoriesProps) => {
         Top Categories
       </h2>
       {!categories || categories.length === 0 ? (
-        <div className="text-2xl text-center text-[#f58313]">
+        <div className="text-2xl text-center text-primary">
           No Category found
         </div>
       ) : (
@@ -73,7 +73,7 @@ export const TopCategories = ({ categories }: TopCategoriesProps) => {
                     </div>
                   ) : (
                     <div className="bg-[#ebdfd4] rounded-full p-3 mb-2">
-                      <IconComponent size={28} className="text-[#f58313]" />
+                      <IconComponent size={28} className="text-primary" />
                     </div>
                   )}
 

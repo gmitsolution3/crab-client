@@ -77,9 +77,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
               key={index}
               onClick={() => handleGalleryClick(index)}
               className={`relative w-16 h-16 shrink-0 rounded overflow-hidden cursor-pointer border-2 ${
-                index === activeIndex
-                  ? "border-[#f58313]"
-                  : "border-transparent"
+                index === activeIndex ? "border-primary" : "border-transparent"
               }`}
             >
               <Image

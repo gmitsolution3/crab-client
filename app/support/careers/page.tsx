@@ -69,7 +69,7 @@ export default function CareersPage() {
             key={idx}
             className="border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition-all bg-white"
           >
-            <div className="flex items-center gap-2 mb-4 text-blue-600">
+            <div className="flex items-center gap-2 mb-4 text-primary">
               <Briefcase size={24} />
               <h2 className="text-lg font-semibold text-gray-900">
                 {job.title}
@@ -81,7 +81,7 @@ export default function CareersPage() {
             <p className="text-gray-700 mb-4">{job.description}</p>
             <a
               href={job.applyLink}
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-700 transition"
+              className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full font-medium hover:bg-blue-700 transition"
             >
               <Mail size={16} />
               Apply Now
@@ -91,7 +91,7 @@ export default function CareersPage() {
       </section>
 
       {/* Join Our Team CTA */}
-      <section className="rounded-2xl bg-linear-to-br from-blue-600 to-blue-500 p-10 text-white text-center">
+      <section className="rounded-2xl bg-linear-to-br from-primary to-blue-500 p-10 text-white text-center">
         <h2 className="text-2xl font-semibold mb-3">
           Can't find a suitable role?
         </h2>
@@ -101,7 +101,7 @@ export default function CareersPage() {
         </p>
         <a
           href="mailto:hr@gmitsolution.net"
-          className="inline-flex items-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-full font-medium hover:bg-blue-50 transition"
+          className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-medium hover:bg-blue-50 transition"
         >
           <Mail size={18} />
           Submit Resume

@@ -58,7 +58,7 @@ export function ProfileSection({ user }: ProfileSectionProps) {
       <div className="w-full max-w-2xl animate-slide-in">
         <Link
           href="/"
-          className="px-4 py-2 border border-[#f58313] max-w-30 my-6 rounded-lg font-bold flex justify-center hover:bg-[#f58313] hover:text-white hover:cursor-pointer"
+          className="px-4 py-2 border border-primary max-w-30 my-6 rounded-lg font-bold flex justify-center hover:bg-primary hover:text-white hover:cursor-pointer"
         >
           Go Home
         </Link>
@@ -66,7 +66,7 @@ export function ProfileSection({ user }: ProfileSectionProps) {
         {/* Profile Card */}
         <Card className="overflow-hidden shadow-2xl border-0 bg-white">
           {/* Header Background */}
-          <div className="h-32 md:h-40 bg-linear-to-r from-primary via-[#f58313] to-[#a05305] relative overflow-hidden">
+          <div className="h-32 md:h-40 bg-linear-to-r from-primary via-primary to-[#a05305] relative overflow-hidden">
             <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full -ml-16 -mb-16"></div>
           </div>
@@ -100,7 +100,7 @@ export function ProfileSection({ user }: ProfileSectionProps) {
                 {/* Upload Button Badge */}
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-primary hover:bg-[#f58313] text-white shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
+                  className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-primary hover:bg-primary text-white shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
                 >
                   <Camera className="w-5 h-5" />
                 </button>
@@ -234,7 +234,7 @@ export function ProfileSection({ user }: ProfileSectionProps) {
                   <Button
                     onClick={handleSave}
                     disabled={isSaving}
-                    className="bg-primary hover:bg-[#f58313] text-white px-8 gap-2 transition-all duration-300"
+                    className="bg-primary hover:bg-primary text-white px-8 gap-2 transition-all duration-300"
                   >
                     <Check className="w-4 h-4" />
                     {isSaving ? "Saving..." : "Save Changes"}

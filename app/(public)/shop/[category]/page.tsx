@@ -12,22 +12,22 @@ const Categories = async ({ params }: ProductCategoryProps) => {
   const { category } = await params;
 
   const products = await getProductByCategory(category);
-   if (!products || !products.success) {
-     return (
-       <div className="text-2xl text-[#f58313] flex justify-center min-h-screen items-center">
-         No Data found
-       </div>
-     );
-   }
+  if (!products || !products.success) {
+    return (
+      <div className="text-2xl text-primary flex justify-center min-h-screen items-center">
+        No Data found
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto my-20">
       <div className="my-5">
-          <h1 className="text-4xl font-bold pl-4">All Product</h1>
-          <p className="text-sm pl-4 text-gray-700">
-            We provide our best quality
-          </p>
-        </div>
+        <h1 className="text-4xl font-bold pl-4">All Product</h1>
+        <p className="text-sm pl-4 text-gray-700">
+          We provide our best quality
+        </p>
+      </div>
       <div>
         <ProductCard products={products.data} />
       </div>

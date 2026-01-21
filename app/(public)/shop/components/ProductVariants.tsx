@@ -78,8 +78,8 @@ export default function ProductVariant({
       variants.map((v) => [
         v.attributes.color,
         { name: v.attributes.color, hex: v.attributes.colorHex },
-      ])
-    ).values()
+      ]),
+    ).values(),
   );
 
   //   catch the available size in the variants
@@ -90,9 +90,8 @@ export default function ProductVariant({
 
   const productSize = selectedSize.split(",");
 
-
   const [selectedProductSize, setSelectedProductSize] = useState(
-    productSize[0]
+    productSize[0],
   );
   const [quantity, setQuantity] = useState(1);
 
@@ -167,10 +166,9 @@ export default function ProductVariant({
     const message = `I want to order ${quantity} item(s)`;
     window.open(
       `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
-      "_blank"
+      "_blank",
     );
   };
-
 
   //   function  normalize
   function normalize(value: string) {
@@ -185,7 +183,7 @@ export default function ProductVariant({
     setSelectedColor(colorObj);
 
     const firstAvailableVariantForColor = variants.find(
-      (v) => normalize(v.attributes.color) === normalize(colorObj.name)
+      (v) => normalize(v.attributes.color) === normalize(colorObj.name),
     );
 
     if (firstAvailableVariantForColor) {
@@ -197,7 +195,7 @@ export default function ProductVariant({
   const selectedVariant = variants.find(
     (v) =>
       normalize(v.attributes.color) === normalize(selectedColor.name) &&
-      normalize(v.attributes.size) === normalize(selectedSize)
+      normalize(v.attributes.size) === normalize(selectedSize),
   );
 
   //   condition for display the stock
@@ -256,7 +254,7 @@ export default function ProductVariant({
                 className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition
                   ${
                     selectedColor.name === color.name
-                      ? "border-[#f58313] ring-1 ring-[#f58313]"
+                      ? "border-primary ring-1 ring-primary"
                       : "border-gray-300"
                   }`}
               >
@@ -306,7 +304,7 @@ export default function ProductVariant({
             <Minus />
           </button>
 
-          <span className="px-6 py-2 border-x border-[#f58313] bg-white font-semibold">
+          <span className="px-6 py-2 border-x border-primary bg-white font-semibold">
             {quantity}
           </span>
 
@@ -323,7 +321,7 @@ export default function ProductVariant({
             {/* Add to cart */}
             <button
               onClick={() => handleAddToCart()}
-              className="flex items-center gap-2 px-4 py-2 border border-[#f58313] text-[#f58313] rounded-lg hover:bg-[#f58313] hover:text-white hover:cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white hover:cursor-pointer"
             >
               <ShoppingCart size={18} /> Add to Cart
             </button>
@@ -340,7 +338,7 @@ export default function ProductVariant({
             {/* Buy Now */}
             <button
               onClick={handleBuyNow}
-              className="px-5 py-2 bg-linear-to-t from-[#f58313] to-[#be650c] text-white rounded-lg font-semibold hover:opacity-90 hover:from-[#f58313] hover:cursor-pointer hover:to-[#f58313]"
+              className="px-5 py-2 bg-linear-to-t from-primary to-[#be650c] text-white rounded-lg font-semibold hover:opacity-90 hover:from-primary hover:cursor-pointer hover:to-primary"
             >
               Buy Now
             </button>
@@ -358,14 +356,14 @@ export default function ProductVariant({
           {isBuyNow === true ? (
             <button
               onClick={handleBuyNow}
-              className="flex-1 bg-[#f58313] text-white py-2 rounded-lg text-sm hover:bg-[#b66e25]"
+              className="flex-1 bg-primary text-white py-2 rounded-lg text-sm hover:bg-[#b66e25]"
             >
               Buy Now
             </button>
           ) : (
             <button
               onClick={() => handleAddToCart()}
-              className="flex-1 bg-[#f58313] text-white py-2 rounded-lg text-sm hover:bg-[#b9630d]"
+              className="flex-1 bg-primary text-white py-2 rounded-lg text-sm hover:bg-[#b9630d]"
             >
               Add to card
             </button>

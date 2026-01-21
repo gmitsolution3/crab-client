@@ -82,7 +82,7 @@ export default function HelpCenterPage() {
             hover:shadow-lg hover:-translate-y-1
             transition-all duration-300 bg-white"
           >
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 text-primary flex items-center justify-center mb-4">
               {topic.icon}
             </div>
             <h2 className="text-lg font-semibold text-gray-900">
@@ -94,7 +94,7 @@ export default function HelpCenterPage() {
       </section>
 
       {/* Contact Support */}
-      <section className="rounded-2xl bg-linear-to-br from-blue-600 to-blue-500 p-8 text-white text-center">
+      <section className="rounded-2xl bg-linear-to-br from-primary to-blue-500 p-8 text-white text-center">
         <h2 className="text-2xl font-semibold mb-3">Still need help?</h2>
         <p className="text-blue-100 mb-6">
           Our support team is always ready to assist you.
@@ -102,7 +102,7 @@ export default function HelpCenterPage() {
 
         <a
           href="/contact"
-          className="inline-flex items-center gap-2 bg-white text-blue-600
+          className="inline-flex items-center gap-2 bg-white text-primary
           px-6 py-3 rounded-full font-medium
           hover:bg-blue-50 transition"
         >

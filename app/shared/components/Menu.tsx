@@ -53,8 +53,8 @@ export const MenuNavbar = ({ categories }: any) => {
                 className={clsx(
                   "w-full lg:w-auto text-left px-4 py-2 text-sm font-semibold rounded-md transition whitespace-nowrap",
                   activeCategory === "home"
-                    ? "bg-linear-to-t from-[#f58313] to-[#f35b1c] text-white"
-                    : "text-gray-700 hover:bg-linear-to-t hover:from-[#f58313] hover:to-[#a5580c] hover:text-white",
+                    ? "bg-linear-to-t from-primary to-primary-foreground text-white"
+                    : "text-gray-700 hover:bg-linear-to-t hover:from-primary hover:to-primary-foreground hover:text-white",
                 )}
               >
                 Home
@@ -66,8 +66,8 @@ export const MenuNavbar = ({ categories }: any) => {
                 className={clsx(
                   "w-full lg:w-auto text-left px-4 py-2 text-sm font-semibold rounded-md transition whitespace-nowrap",
                   activeCategory === "all"
-                    ? "bg-linear-to-t from-[#f58313] to-[#f35b1c] text-white"
-                    : "text-gray-700 hover:bg-linear-to-t hover:from-[#f35b1c] hover:to-[#f58313] hover:text-white",
+                    ? "bg-linear-to-t from-primary to-primary-foreground text-white"
+                    : "text-gray-700 hover:bg-linear-to-t hover:from-primary-foreground hover:to-primary hover:text-white",
                 )}
               >
                 All Product
@@ -75,7 +75,7 @@ export const MenuNavbar = ({ categories }: any) => {
             </Link>
 
             {!categories || !categories.length ? (
-              <div className="text-center text-[#0970B4] text-2xl">
+              <div className="text-center text-primary text-2xl">
                 No Category found
               </div>
             ) : (
@@ -86,8 +86,8 @@ export const MenuNavbar = ({ categories }: any) => {
                     className={clsx(
                       "w-full lg:w-auto text-left px-4 py-2 text-sm font-semibold rounded-md transition whitespace-nowrap",
                       activeCategory === category._id
-                        ? "bg-linear-to-t from-[#f58313] to-[#f35b1c] text-white"
-                        : "text-gray-700 hover:bg-linear-to-t hover:from-[#f35b1c] hover:to-[#f58313] hover:text-white",
+                        ? "bg-linear-to-t from-primary to-primary-foreground text-white"
+                        : "text-gray-700 hover:bg-linear-to-t hover:from-primary-foreground hover:to-primary hover:text-white",
                     )}
                   >
                     {category.name}

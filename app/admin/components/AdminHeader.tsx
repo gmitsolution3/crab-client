@@ -54,7 +54,7 @@ export function AdminHeader() {
             </button>
 
             {/* Logo */}
-            <div className="w-8 h-8 rounded-lg bg-[#f58313] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <span className="text-white font-bold text-lg">A</span>
             </div>
 
@@ -89,7 +89,7 @@ export function AdminHeader() {
               }}
               className="flex items-center gap-2 ml-2 pl-2 border-l border-gray-200"
             >
-              <div className="w-9 h-9 rounded-full bg-[#f58313] text-white flex items-center justify-center font-semibold">
+              <div className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-semibold">
                 {user?.name?.slice(0, 2).toUpperCase() || "AD"}
               </div>
 
@@ -126,7 +126,7 @@ export function AdminHeader() {
                 </div>
 
                 <ul>
-                  <li className="border-b hover:bg-[#f58313] hover:text-white">
+                  <li className="border-b hover:bg-primary hover:text-white">
                     <Link
                       href="/profile"
                       onClick={() => setIsDropdownOpen(false)}
@@ -136,7 +136,7 @@ export function AdminHeader() {
                     </Link>
                   </li>
 
-                  <li className="border-b hover:bg-[#f58313] hover:text-white">
+                  <li className="border-b hover:bg-primary hover:text-white">
                     <Link
                       href="/admin/settings/general"
                       onClick={() => setIsDropdownOpen(false)}
@@ -191,4 +191,3 @@ export function AdminHeader() {
     </>
   );
 }
-

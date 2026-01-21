@@ -23,7 +23,7 @@ export default function AccountDropdown() {
       {!isAuthenticated ? (
         <button
           onClick={() => setOpen((prev) => !prev)}
-          className="cursor-pointer border px-3 py-2 text-sm rounded-lg font-bold bg-[#f58313] text-white hover:bg-[#d9720f] transition-colors"
+          className="cursor-pointer border px-3 py-2 text-sm rounded-lg font-bold bg-primary text-white hover:bg-[#d9720f] transition-colors"
         >
           My Account
         </button>
@@ -48,18 +48,18 @@ export default function AccountDropdown() {
                 <li>
                   <Link
                     href="/auth/sign-in"
-                    className="block px-4 py-2 font-bold text-gray-800 hover:bg-[#f58313] hover:text-white rounded-t-lg transition-colors"
+                    className="block px-4 py-2 font-bold text-gray-800 hover:bg-primary hover:text-white rounded-t-lg transition-colors"
                   >
                     Log in
                   </Link>
                 </li>
                 <li>
-                  <button className="w-full text-left px-4 py-2 font-bold text-gray-800 hover:bg-[#f58313] hover:text-white transition-colors">
+                  <button className="w-full text-left px-4 py-2 font-bold text-gray-800 hover:bg-primary hover:text-white transition-colors">
                     Order Tracking
                   </button>
                 </li>
                 <li>
-                  <button className="w-full text-left px-4 py-2 font-bold text-gray-800 hover:bg-[#f58313] hover:text-white rounded-b-lg transition-colors">
+                  <button className="w-full text-left px-4 py-2 font-bold text-gray-800 hover:bg-primary hover:text-white rounded-b-lg transition-colors">
                     Return Policy
                   </button>
                 </li>
@@ -71,25 +71,25 @@ export default function AccountDropdown() {
                 <li>
                   <Link
                     href="/profile"
-                    className="block px-4 py-2 font-bold text-gray-800 hover:bg-[#f58313] hover:text-white rounded-t-lg transition-colors"
+                    className="block px-4 py-2 font-bold text-gray-800 hover:bg-primary hover:text-white rounded-t-lg transition-colors"
                   >
                     Profile
                   </Link>
                 </li>
                 <li>
-                  <button className="w-full text-left px-4 py-2 font-bold text-gray-800 hover:bg-[#f58313] hover:text-white transition-colors">
+                  <button className="w-full text-left px-4 py-2 font-bold text-gray-800 hover:bg-primary hover:text-white transition-colors">
                     Order Tracking
                   </button>
                 </li>
                 <li>
-                  <button className="w-full text-left px-4 py-2 font-bold text-gray-800 hover:bg-[#f58313] hover:text-white transition-colors">
+                  <button className="w-full text-left px-4 py-2 font-bold text-gray-800 hover:bg-primary hover:text-white transition-colors">
                     Return Policy
                   </button>
                 </li>
                 <li>
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 font-bold text-gray-800 hover:bg-[#f58313] hover:text-white rounded-b-lg border-t border-gray-200 transition-colors"
+                    className="w-full text-left px-4 py-2 font-bold text-gray-800 hover:bg-primary hover:text-white rounded-b-lg border-t border-gray-200 transition-colors"
                   >
                     Logout
                   </button>
@@ -102,4 +102,3 @@ export default function AccountDropdown() {
     </div>
   );
 }
-

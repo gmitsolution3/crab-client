@@ -49,7 +49,7 @@ export default function CheckoutForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -62,7 +62,7 @@ export default function CheckoutForm() {
     const updateCart = () => {
       const latestCart = getCart();
       setCartItems((prev) =>
-        JSON.stringify(prev) !== JSON.stringify(latestCart) ? latestCart : prev
+        JSON.stringify(prev) !== JSON.stringify(latestCart) ? latestCart : prev,
       );
     };
 
@@ -115,7 +115,7 @@ export default function CheckoutForm() {
     }
 
     const missingField = requiredFields.find(
-      (field) => !formData[field as keyof typeof formData]
+      (field) => !formData[field as keyof typeof formData],
     );
 
     if (missingField) {
@@ -155,16 +155,13 @@ export default function CheckoutForm() {
       sourceUrl: window.location.href,
     };
 
-
- 
-
     if (isSubmitting) return;
     setIsSubmitting(true);
 
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/create-order`,
-        orderData
+        orderData,
       );
 
       if (response.data.success) {
@@ -187,7 +184,7 @@ export default function CheckoutForm() {
       console.error("Order submission error:", error);
       toast.error(
         error.response?.data?.message ||
-          "Something went wrong. Please try again letter."
+          "Something went wrong. Please try again letter.",
       );
     } finally {
       setIsSubmitting(false);
@@ -371,7 +368,7 @@ export default function CheckoutForm() {
                       className="w-full border-gray-300 bg-gray-50"
                     />
                   </div>
-                  <Button className="w-full bg-[#f58313] hover:bg-[#b45f09]">
+                  <Button className="w-full bg-primary hover:bg-primary-foreground">
                     Apply Now
                   </Button>
                 </div>
@@ -484,7 +481,7 @@ export default function CheckoutForm() {
                         SSLCOMMERZ
                       </span>
                       <div className="flex gap-2">
-                        <span className="inline-block h-6 w-9 rounded bg-[#f58313] text-xs font-bold text-white items-center justify-center">
+                        <span className="inline-block h-6 w-9 rounded bg-primary text-xs font-bold text-white items-center justify-center">
                           V
                         </span>
                         <span className="inline-block h-6 w-9 rounded bg-red-600 text-xs font-bold text-white items-center justify-center">
@@ -598,7 +595,7 @@ export default function CheckoutForm() {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="mt-6 w-full bg-[#f58313] hover:bg-[#aa5a0a] py-2 text-base font-semibold"
+                    className="mt-6 w-full bg-primary hover:bg-[#aa5a0a] py-2 text-base font-semibold"
                   >
                     {isSubmitting ? "Placing Order..." : "Place Order"}
                   </Button>

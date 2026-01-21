@@ -10,17 +10,15 @@ interface ProductDetailsProps {
 }
 
 export const ProductDetail = ({ product }: ProductDetailsProps) => {
-
   const productPrice =
     product.discount.type === "percentage"
       ? Math.floor(
           Number(product.basePrice) -
-            (Number(product.basePrice) * Number(product.discount.value)) / 100
+            (Number(product.basePrice) * Number(product.discount.value)) / 100,
         )
       : Math.max(Number(product.basePrice) - Number(product.discount.value), 0);
 
   const { title, slug, thumbnail } = product;
-
 
   const productDetails = {
     productPrice,
@@ -71,7 +69,7 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
       </div> */}
 
       <div className="px-5 pb-10 mb-20">
-        <h1 className="text-4xl font-bold text-[#f58313] mb-2">Description</h1>
+        <h1 className="text-4xl font-bold text-primary mb-2">Description</h1>
         <p>{product.description}</p>
       </div>
     </div>

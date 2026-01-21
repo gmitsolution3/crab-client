@@ -6,19 +6,17 @@ const AllOrder = async () => {
 
   const result = res.data;
 
-
-   if (!result.length) {
-     return (
-       <div className="min-h-screen text-2xl text-[#f58313] flex justify-center items-center">
-         No Order found
-       </div>
-     );
-   }
-
+  if (!result.length) {
+    return (
+      <div className="min-h-screen text-2xl text-primary flex justify-center items-center">
+        No Order found
+      </div>
+    );
+  }
 
   return (
     <div>
-      <AllProductTable INITIAL_ORDERS={result}/>
+      <AllProductTable INITIAL_ORDERS={result} />
     </div>
   );
 };

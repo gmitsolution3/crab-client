@@ -187,7 +187,7 @@ const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           </div>
 
           <div className="flex items-center gap-2 text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">
-            <Calendar size={18} className="text-blue-600" />
+            <Calendar size={18} className="text-primary" />
             <span>
               <strong>Ordered on:</strong> {formatDate(order.createdAt)}
             </span>
@@ -322,13 +322,13 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
 
   const handleDelete = async (id: string) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this order?"
+      "Are you sure you want to delete this order?",
     );
     if (!confirmDelete) return;
 
     try {
       const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/create-order/delete-order/${id}`
+        `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/create-order/delete-order/${id}`,
       );
 
       if (response.status === 200) {
@@ -340,7 +340,8 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
     } catch (error: any) {
       console.error("Delete Error:", error);
       alert(
-        error?.response?.data?.message || "Something went wrong while deleting."
+        error?.response?.data?.message ||
+          "Something went wrong while deleting.",
       );
     }
   };
@@ -363,7 +364,7 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
         }</p><p><strong>Phone:</strong> ${
           order.customerInfo.phone
         }</p></div><div class="section"><h3>Address</h3><p>${getFullAddress(
-          order.shippingAddress
+          order.shippingAddress,
         )}, ${
           order.shippingAddress.postalCode
         }</p></div><div class="section"><h3>Items</h3><table><tr><th>Product</th><th>SKU</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>${order.products
@@ -372,18 +373,18 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
               `<tr><td>${p.title}</td><td>${p.variant.sku}</td><td>${
                 p.quantity
               }</td><td>৳${p.price.toFixed(2)}</td><td>৳${p.subtotal.toFixed(
-                2
-              )}</td></tr>`
+                2,
+              )}</td></tr>`,
           )
           .join(
-            ""
+            "",
           )}</table></div><div class="section"><p>Subtotal: <strong>৳${order.subtotal.toFixed(
-          2
+          2,
         )}</strong></p><p>Delivery: <strong>৳${order.deliveryCharge.toFixed(
-          2
+          2,
         )}</strong></p><p class="total">Grand Total: ৳${order.grandTotal.toFixed(
-          2
-        )}</p></div></body></html>`
+          2,
+        )}</p></div></body></html>`,
       );
       printWindow.document.close();
       printWindow.print();
@@ -515,7 +516,7 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
                       <div className="flex gap-2">
                         <button
                           onClick={() => setSelectedOrder(order)}
-                          className="p-2 hover:bg-blue-50 rounded-lg text-[#f58313]"
+                          className="p-2 hover:bg-blue-50 rounded-lg text-primary"
                           title="View"
                         >
                           <Eye size={18} />
@@ -662,7 +663,7 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
                 <div className="grid grid-cols-5 gap-2">
                   <button
                     onClick={() => setSelectedOrder(order)}
-                    className="py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium flex items-center justify-center"
+                    className="py-2 bg-blue-50 text-primary rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium flex items-center justify-center"
                   >
                     <Eye size={16} />
                   </button>

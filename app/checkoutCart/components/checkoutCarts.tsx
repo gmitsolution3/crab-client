@@ -34,7 +34,7 @@ export const CheckoutCart = ({ brandInfo }: any) => {
       </nav>
 
       {cartData === undefined || cartData.length === 0 ? (
-        <div className="min-h-screen flex justify-center items-center text-[#f58313] text-2xl">
+        <div className="min-h-screen flex justify-center items-center text-primary text-2xl">
           No Data found
         </div>
       ) : (

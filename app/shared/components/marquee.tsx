@@ -10,7 +10,7 @@ const MarqueeText: React.FC<MarqueeTextProps> = ({
   speed = 20,
 }) => {
   return (
-    <div className="w-full overflow-hidden bg-[#f58313] text-white py-2">
+    <div className="w-full overflow-hidden bg-primary text-white py-2">
       <div className="flex animate-marquee">
         <span className="whitespace-nowrap text-sm md:text-base font-medium px-4">
           {text}

@@ -24,8 +24,8 @@ const LogoutForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("")
-  const router = useRouter()
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   const {
     register,
@@ -51,7 +51,7 @@ const LogoutForm = () => {
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/v1/auth/sign-up`,
-        data
+        data,
       );
 
       if (!res.data) {
@@ -59,17 +59,17 @@ const LogoutForm = () => {
       }
       setLoading(false);
       setSuccessMessage(
-        "Account created successfully! Redirecting to login..."
+        "Account created successfully! Redirecting to login...",
       );
       toast.success(res.data.message);
-      router.push("/auth/sign-in")
+      router.push("/auth/sign-in");
     } catch (err: any) {
       const message = err?.response?.data?.message || "Something went wrong";
 
       toast.error(message);
       setLoading(false);
-      setSuccessMessage("")
-      setErrorMessage(`${message}`)
+      setSuccessMessage("");
+      setErrorMessage(`${message}`);
     }
   };
 
@@ -78,7 +78,7 @@ const LogoutForm = () => {
       <div className="p-4">
         <Link
           href="/"
-          className="px-4 py-2 border border-[#f58313] rounded-lg hover:bg-[#f58313] font-bold hover:text-white"
+          className="px-4 py-2 border border-primary rounded-lg hover:bg-primary font-bold hover:text-white"
         >
           Go Home
         </Link>
@@ -89,13 +89,13 @@ const LogoutForm = () => {
           {/* Card */}
           <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
             {/* Top Accent Bar */}
-            <div className="h-1 bg-linear-to-r from-[#f58313] via-[#a35507] to-[#cf6c09]"></div>
+            <div className="h-1 bg-linear-to-r from-primary to-primary-foreground"></div>
 
             {/* Content */}
             <div className="p-6 sm:p-8 md:p-10">
               {/* Header Section */}
               <div className="text-center mb-8 sm:mb-10">
-                <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-[#f58313] to-[#cf6c09] rounded-2xl mb-4 shadow-lg">
+                <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-linear-to-br from-primary to-primary-foreground rounded-2xl mb-4 shadow-lg">
                   <UserPlus className="text-white" size={32} />
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mt-4">
@@ -150,7 +150,7 @@ const LogoutForm = () => {
                         className={`w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-2.5 sm:py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-20 transition text-sm sm:text-base ${
                           errors.firstName
                             ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                            : "border-gray-300 focus:border-[#f58313] focus:ring-[#f58313]"
+                            : "border-gray-300 focus:border-primary focus:ring-primary"
                         }`}
                       />
                     </div>
@@ -184,7 +184,7 @@ const LogoutForm = () => {
                         className={`w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-2.5 sm:py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-20 transition text-sm sm:text-base ${
                           errors.lastName
                             ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                            : "border-gray-300 focus:border-[#f58313] focus:ring-[#f58313]"
+                            : "border-gray-300 focus:border-primary focus:ring-primary"
                         }`}
                       />
                     </div>
@@ -220,7 +220,7 @@ const LogoutForm = () => {
                       className={`w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-2.5 sm:py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-20 transition text-sm sm:text-base ${
                         errors.email
                           ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                          : "border-gray-300 focus:border-[#f58313] focus:ring-[#f58313]"
+                          : "border-gray-300 focus:border-primary focus:ring-primary"
                       }`}
                     />
                   </div>
@@ -257,7 +257,7 @@ const LogoutForm = () => {
                         className={`w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-2.5 sm:py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-20 transition text-sm sm:text-base ${
                           errors.phone
                             ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                            : "border-gray-300 focus:border-[#f58313] focus:ring-[#f58313]"
+                            : "border-gray-300 focus:border-primary focus:ring-primary"
                         }`}
                       />
                     </div>
@@ -288,7 +288,7 @@ const LogoutForm = () => {
                             message: "Admin must be valid",
                           },
                         })}
-                        className="w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#f58313] focus:ring-2 focus:ring-[#f58313] focus:ring-opacity-20 transition text-sm sm:text-base"
+                        className="w-full pl-10 sm:pl-12 pr-4 sm:pr-5 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-20 transition text-sm sm:text-base"
                       />
                     </div>
                   </div>
@@ -322,7 +322,7 @@ const LogoutForm = () => {
                       className={`w-full pl-10 sm:pl-12 pr-12 sm:pr-14 py-2.5 sm:py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-20 transition text-sm sm:text-base ${
                         errors.password
                           ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                          : "border-gray-300 focus:border-[#f58313] focus:ring-[#f58313]"
+                          : "border-gray-300 focus:border-primary focus:ring-primary"
                       }`}
                     />
                     <button
@@ -362,7 +362,7 @@ const LogoutForm = () => {
                       className={`w-full pl-10 sm:pl-12 pr-12 sm:pr-14 py-2.5 sm:py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-20 transition text-sm sm:text-base ${
                         errors.confirmPassword
                           ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                          : "border-gray-300 focus:border-[#f58313] focus:ring-[#f58313]"
+                          : "border-gray-300 focus:border-primary focus:ring-primary"
                       }`}
                     />
                     <button
@@ -395,20 +395,20 @@ const LogoutForm = () => {
                       {...register("agreeTerms", {
                         required: "You must agree to the terms and conditions",
                       })}
-                      className="w-4 h-4 mt-1 rounded border-gray-300 cursor-pointer accent-[#f58313]"
+                      className="w-4 h-4 mt-1 rounded border-gray-300 cursor-pointer accent-primary"
                     />
                     <span className="text-gray-600 text-sm">
                       I agree to the{" "}
                       <a
                         href="#"
-                        className="text-[#f58313] hover:underline font-semibold"
+                        className="text-primary hover:underline font-semibold"
                       >
                         Terms of Service
                       </a>{" "}
                       and{" "}
                       <a
                         href="#"
-                        className="text-[#f58313] hover:underline font-semibold"
+                        className="text-primary hover:underline font-semibold"
                       >
                         Privacy Policy
                       </a>
@@ -426,7 +426,7 @@ const LogoutForm = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-linear-to-r from-[#f58313] to-[#cf6c09] hover:from-[#dd8125] hover:to-[#cf6c09] text-white font-semibold py-2.5 sm:py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+                  className="w-full bg-linear-to-r from-primary to-primary-foreground hover:from-primary hover:to-primary-foreground text-white font-semibold py-2.5 sm:py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base hover:cursor-pointer"
                 >
                   {loading ? (
                     <>
@@ -447,7 +447,7 @@ const LogoutForm = () => {
                 Already have an account?{" "}
                 <Link
                   href="/auth/sign-in"
-                  className="text-[#f58313] hover:text-[#cf6c09] font-semibold transition"
+                  className="text-primary hover:text-primary-foreground font-semibold transition"
                 >
                   Sign in here
                 </Link>
