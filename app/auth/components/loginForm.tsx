@@ -61,8 +61,6 @@ export const LoginForm = () => {
         { withCredentials: true },
       );
 
-      console.log({user: user.data.data.role})
-
       setLoading(false);
       setSuccessMessage("User Login in successfully");
       toast.success(res.data.message);

@@ -94,6 +94,7 @@ interface EditModalProps {
 }
 
 const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
+  if (!product) return null;
   const {
     register,
     handleSubmit,
@@ -179,12 +180,12 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
       variants,
     });
 
-    console.log({ data: data });
+    
   };
 
-  if (!product) return null;
+  
 
-  console.log({ product: product });
+
 
   return (
     <div className="fixed inset-0 bg-white/30 backdrop-blur-md flex items-center justify-center z-50 p-4">
@@ -537,24 +538,22 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
     if (!editingProduct) return;
 
     try {
-      // const res = await fetch(
-      //   `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/products/${editingProduct?._id}`,
-      //   {
-      //     method: "PUT",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(formData),
-      //   },
-      // );
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/products/update-product/${editingProduct?._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        },
+      );
 
-      // const result = await res.json();
+      const result = await res.json();
 
-      // if (!res.ok) {
-      //   throw new Error(result.message || "Update failed");
-      // }
-
-      console.log(formData)
+      if (!res.ok) {
+        throw new Error(result.message || "Update failed");
+      }
 
       toast.success("Product updated successfully");
       setProducts((prev) =>
