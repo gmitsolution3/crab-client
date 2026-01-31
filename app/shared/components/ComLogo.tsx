@@ -11,7 +11,7 @@ export const ComLogo =async () => {
       <div className="hover:cursor-pointer">
         <Image
           src={brandInfoRaw?.data?.logo || "/placeholder.svg"}
-          alt={brandInfoRaw.data.name || "Crab fashion"}
+          alt={brandInfoRaw?.data?.name || "Crab fashion"}
           width={79}
           height={66}
         />
