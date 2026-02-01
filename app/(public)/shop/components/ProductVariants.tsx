@@ -8,6 +8,7 @@ import { CardButtons } from "./cardButtons";
 import { addToCart, getCart } from "@/utils/cartStorage";
 import { toast } from "react-toastify";
 import { fbEvent } from "@/utils/fbPixel";
+import { handleWhatsApp } from "./handleWhatsApp";
 
 type Variant = {
   attributes: {
@@ -162,12 +163,13 @@ export default function ProductVariant({
 
   // redirect on the what 's app
   const handleOrderWhatsApp = () => {
-    const phoneNumber = "01706310521"; // replace with your number
-    const message = `I want to order ${quantity} item(s)`;
-    window.open(
-      `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
-      "_blank",
-    );
+    // const phoneNumber = "01706310521";
+    // const message = `I want to order ${quantity} item(s)`;
+    // window.open(
+    //   `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
+    //   "_blank",
+    // );
+    handleWhatsApp(quantity);
   };
 
   //   function  normalize

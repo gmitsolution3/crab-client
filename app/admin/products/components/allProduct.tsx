@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 // ============ TYPE DEFINITIONS ============
 interface Discount {
-  type: "percentage" | "fixed";
+  type: "percentage" | "flat";
   value: string;
 }
 
@@ -74,8 +74,9 @@ interface EditFormData {
   description: string;
   shortDescription: string;
   basePrice: string;
-  discountType: "percentage" | "fixed";
+  discountType: "percentage" | "flat";
   discountValue: string;
+  discount: { type: "percentage" | "flat"; value: string };
   sku: string;
   stockQuantity: string;
   stockStatus: "in-stock" | "out-of-stock";
@@ -86,11 +87,20 @@ interface EditFormData {
   seo: SEO;
 }
 
+type UpdateProductPayload = Omit<
+  EditFormData,
+  "discountType" | "discountValue" | "seoMetaTitle" | "seoMetaDescription"
+> & {
+  discount: { type: "percentage" | "flat"; value: string };
+  seo: SEO;
+  variants: Variant[];
+};
+
 // ============ EDIT MODAL COMPONENT ============
 interface EditModalProps {
   product: Product | null;
   onClose: () => void;
-  onSave: (data: EditFormData) => void;
+  onSave: (data: UpdateProductPayload) => void;
 }
 
 const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
@@ -143,25 +153,65 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
     }
   }, [product, reset]);
 
+  // const handleVariantChange = (
+  //   index: number,
+  //   field: "color" | "size" | "sku" | "stock",
+  //   value: any,
+  // ) => {
+  //   const updated = [...variants];
+
+  //   if (field === "color" || field === "size") {
+  //     updated[index].attributes = {
+  //       ...updated[index].attributes,
+  //       [field]: value,
+  //     };
+  //   } else if (field === "stock") {
+  //     updated[index].stock = Number(value);
+  //   } else if (field === "sku") {
+  //     updated[index].sku = value;
+  //   }
+
+  //   setVariants(updated);
+  // };
+
+  // Auto generate slug
+  
   const handleVariantChange = (
     index: number,
     field: "color" | "size" | "sku" | "stock",
     value: any,
   ) => {
-    const updated = [...variants];
+    setVariants((prev) => {
+      const updated = [...prev];
 
-    if (field === "color" || field === "size") {
-      updated[index].attributes[field] = value;
-    } else if (field === "stock") {
-      updated[index].stock = Number(value);
-    } else if (field === "sku") {
-      updated[index].sku = value;
-    }
+      const v = updated[index];
 
-    setVariants(updated);
+      if (field === "color" || field === "size") {
+        v.attributes = {
+          ...v.attributes,
+          [field]: value,
+        };
+
+        const color = v.attributes.color || "";
+        const size = v.attributes.size || "";
+
+        v.sku = generateSKU(product!.title, color, size);
+      }
+
+      if (field === "stock") {
+        v.stock = Number(value);
+      }
+
+      if (field === "sku") {
+        v.sku = value;
+      }
+
+      return updated;
+    });
   };
 
-  // Auto generate slug
+  
+  
   const generateSlug = (title: string) => {
     return title
       .toLowerCase()
@@ -170,12 +220,51 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
       .replace(/\s+/g, "-");
   };
 
+
+
+  const addVariant = () => {
+    setVariants((prev) => [
+      ...prev,
+      {
+        attributes: { color: "", size: "" },
+        sku: generateSKU(product!.title, "", ""),
+        stock: 0,
+      },
+    ]);
+  };
+
+  const generateSKU = (productTitle: string, color: string, size: string) => {
+    const productCode = productTitle.substring(0, 3).toUpperCase();
+    const colorCode = color ? color.substring(0, 3).toUpperCase() : "NA";
+    const sizeCode = size ? size.substring(0, 3).toUpperCase() : "ST";
+    const random = Math.floor(100 + Math.random() * 900);
+
+    return `${productCode}-${colorCode}-${sizeCode}-${random}`;
+  };
+
+  const removeVariant = (index: number) => {
+    setVariants(variants.filter((_, i) => i !== index));
+  };
+
+  // EditFormData
   const onSubmit = (data: EditFormData) => {
+    console.log({ data: data });
+
+    const {
+      discountType,
+      discountValue,
+      seoMetaTitle,
+      seoMetaDescription,
+      ...payload
+    } = data;
+    console.log({ payload: payload });
+
     onSave({
-      ...data,
+      ...payload,
+      discount: { type: data.discountType, value: data.discountValue },
       seo: {
-        metaTitle: data.seoMetaTitle!,
-        metaDescription: data.seoMetaDescription!,
+        metaTitle: data.seoMetaTitle || "",
+        metaDescription: data.seoMetaDescription || "",
       },
       variants,
     });
@@ -371,7 +460,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               >
                 <option value="percentage">Percentage</option>
-                <option value="fixed">Fixed</option>
+                <option value="flat">Flat</option>
               </select>
             </div>
             <div>
@@ -397,7 +486,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               </select>
             </div>
           </div>
-          <div className="pt-6">
+          {/* <div className="pt-6">
             <h3 className="text-lg font-semibold mb-3">Variants</h3>
 
             {variants.map((variant: any, index: number) => (
@@ -449,8 +538,134 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                     className="w-full px-2 py-2 border rounded"
                   />
                 </div>
+
+                <div className="flex mb-3">
+                  <button
+                    type="button"
+                    onClick={addVariant}
+                    className="px-3 py-1 bg-green-600 text-white rounded"
+                  >
+                    + Add Variant
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => removeVariant(index)}
+                    className="text-red-600 text-sm mt-5"
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             ))}
+          </div> */}
+          <div className="pt-6">
+            <h3 className="text-lg font-semibold mb-4">Variants</h3>
+
+            <div className="space-y-4">
+              {variants.map((variant: any, index: number) => (
+                <div
+                  key={index}
+                  className="p-4 border rounded-lg bg-gray-50 shadow-sm hover:shadow transition-shadow"
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <h4 className="font-medium text-gray-700">
+                      Variant #{index + 1}
+                    </h4>
+                    <button
+                      type="button"
+                      onClick={() => removeVariant(index)}
+                      className="px-3 py-1 text-sm bg-red-50 text-red-600 hover:bg-red-100 rounded-md transition-colors"
+                    >
+                      Remove
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Color
+                      </label>
+                      <input
+                        value={variant.attributes.color}
+                        onChange={(e) =>
+                          handleVariantChange(index, "color", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        placeholder="e.g. Black"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Size
+                      </label>
+                      <input
+                        value={variant.attributes.size}
+                        onChange={(e) =>
+                          handleVariantChange(index, "size", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        placeholder="e.g. M"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        SKU
+                      </label>
+                      <input
+                        value={variant.sku}
+                        readOnly
+                        onChange={(e) =>
+                          handleVariantChange(index, "sku", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        placeholder="e.g. PROD-BLK-M"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Stock
+                      </label>
+                      <input
+                        type="number"
+                        value={variant.stock}
+                        onChange={(e) =>
+                          handleVariantChange(index, "stock", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        min="0"
+                        placeholder="0"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 pt-4 border-t">
+              <button
+                type="button"
+                onClick={addVariant}
+                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md flex items-center gap-2 transition-colors"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                Add New Variant
+              </button>
+            </div>
           </div>
 
           <div className="pt-4">
@@ -527,8 +742,10 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
     setEditingProduct(product);
   };
 
-  const handleUpdateProduct = async (formData: any) => {
+  const handleUpdateProduct = async (formData: UpdateProductPayload) => {
     if (!editingProduct) return;
+
+    console.log({ formData: formData });
 
     try {
       const res = await fetch(

@@ -285,17 +285,24 @@ export default function CheckoutForm() {
                 <div className="space-y-4">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                      Street Name & House Number{" "}
-                      <span className="text-red-500">*</span>
+                      Select Region
                     </label>
-                    <Input
-                      type="text"
-                      name="streetAddress"
-                      placeholder="Enter"
-                      value={formData.streetAddress}
+                    <select
+                      name="region"
+                      value={formData.region}
                       onChange={handleInputChange}
-                      className="w-full border-gray-300 bg-gray-50"
-                    />
+                      className="w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm"
+                    >
+                      <option value="">Select</option>
+                      <option value="dhaka">Dhaka</option>
+                      <option value="chittagong">Chittagong</option>
+                      <option value="sylhet">Sylhet</option>
+                      <option value="khulna">Khulna</option>
+                      <option value="rajshahi">Rajshahi</option>
+                      <option value="rangpur">Rangpur</option>
+                      <option value="barishal">Barishal</option>
+                      <option value="mymensingh">Mymensingh</option>
+                    </select>
                   </div>
 
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -329,24 +336,17 @@ export default function CheckoutForm() {
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                      Select Region
+                      Street Name & House Number{" "}
+                      <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      name="region"
-                      value={formData.region}
+                    <Input
+                      type="text"
+                      name="streetAddress"
+                      placeholder="Enter"
+                      value={formData.streetAddress}
                       onChange={handleInputChange}
-                      className="w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm"
-                    >
-                      <option value="">Select</option>
-                      <option value="dhaka">Dhaka</option>
-                      <option value="chittagong">Chittagong</option>
-                      <option value="sylhet">Sylhet</option>
-                      <option value="khulna">Khulna</option>
-                      <option value="rajshahi">Rajshahi</option>
-                      <option value="rangpur">Rangpur</option>
-                      <option value="barishal">Barishal</option>
-                      <option value="mymensingh">Mymensingh</option>
-                    </select>
+                      className="w-full border-gray-300 bg-gray-50"
+                    />
                   </div>
                 </div>
               </div>

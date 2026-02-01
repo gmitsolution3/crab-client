@@ -12,6 +12,9 @@ const AllProductShow =async () => {
       subTitle: "Manage your product inventory",
     };
 
+
+    console.log({products: products})
+
   return (
     <div>
       <ProductTable
