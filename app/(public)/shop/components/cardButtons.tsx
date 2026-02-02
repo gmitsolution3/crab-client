@@ -121,6 +121,7 @@ export const CardButtons = ({ product }: Product) => {
                   productDetails={productDetails}
                   onCloseModal={closeModal}
                   isBuyNow={isBuyNow}
+                  product={product}
                 />
               </div>
             </div>

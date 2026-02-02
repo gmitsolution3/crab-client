@@ -73,7 +73,7 @@ export default function ProductVariant({
   onCloseModal,
   onSelectionChange,
   isBuyNow,
-  product
+  product,
 }: Props) {
   const router = useRouter();
 
@@ -219,7 +219,6 @@ export default function ProductVariant({
       sku,
     });
   }, [selectedProductSize, quantity, selectedColor, selectedVariant]);
-
 
   //   main components
   return (
