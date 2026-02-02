@@ -4,7 +4,6 @@ import { toast } from "sonner";
 export const handleWhatsApp = async (quantity: string | Number = "0") => {
   const brandInfo: any = await getBrandInfo();
 
-  console.log({brandInfo: brandInfo})
 
   if(!brandInfo.data.phone){
     toast.error("What's app Number is require!!")

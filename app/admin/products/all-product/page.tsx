@@ -13,8 +13,6 @@ const AllProductShow =async () => {
     };
 
 
-    console.log({products: products})
-
   return (
     <div>
       <ProductTable

@@ -1,7 +1,7 @@
 import { ComLogo } from "../components/ComLogo";
 import HeaderSearchBar from "../components/HeaderSearchBar";
 import { BookCard } from "../components/BookCard";
-import { getCategories } from "@/lib/categories";
+import { getCategories, getMarquee } from "@/lib/categories";
 import { MenuNavbar } from "../components/Menu";
 import MarqueeText from "../components/marquee";
 import { getBrandInfo } from "@/lib/social";
@@ -12,8 +12,8 @@ import AccountDropdown from "../components/AccountDropdown";
 
 const Navbar = async () => {
   const getAllCategories = await getCategories();
-
   const brandInfoRaw = await getBrandInfo();
+  const marqueeText = await getMarquee()
 
   const brandInfo = {
     logo: brandInfoRaw?.data?.logo ?? "/placeholder.svg",
@@ -53,7 +53,7 @@ const Navbar = async () => {
           <MenuNavbar categories={getAllCategories.data} />
         </div>
         <div className="bg-white border-b border-gray-300 shadow-md">
-          <MarqueeText />
+          <MarqueeText text={marqueeText.data.text}/>
         </div>
       </div>
     </header>

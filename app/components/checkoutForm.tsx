@@ -175,7 +175,6 @@ export default function CheckoutForm() {
 
         router.push("/");
 
-        console.log({response: response.data})
         // if (paymentMethod === "sslcommerz" && response.data.paymentUrl) {
         //   window.location.replace(response.data.paymentUrl);
         // } else {

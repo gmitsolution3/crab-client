@@ -9,6 +9,7 @@ import { addToCart, getCart } from "@/utils/cartStorage";
 import { toast } from "react-toastify";
 import { fbEvent } from "@/utils/fbPixel";
 import { handleWhatsApp } from "./handleWhatsApp";
+import { ProductFormData } from "@/utils/product";
 
 type Variant = {
   attributes: {
@@ -18,6 +19,7 @@ type Variant = {
   };
   sku: string;
   stock: number;
+  price?: string
 };
 
 interface productDetails {
@@ -34,6 +36,7 @@ type Props = {
   onCloseModal?: () => void;
   onSelectionChange?: ((data: any) => void | undefined) | undefined;
   isBuyNow?: boolean;
+  product: ProductFormData
 };
 
 // function that cover color name to hex code
@@ -70,6 +73,7 @@ export default function ProductVariant({
   onCloseModal,
   onSelectionChange,
   isBuyNow,
+  product
 }: Props) {
   const router = useRouter();
 
@@ -163,12 +167,6 @@ export default function ProductVariant({
 
   // redirect on the what 's app
   const handleOrderWhatsApp = () => {
-    // const phoneNumber = "01706310521";
-    // const message = `I want to order ${quantity} item(s)`;
-    // window.open(
-    //   `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
-    //   "_blank",
-    // );
     handleWhatsApp(quantity);
   };
 
@@ -222,9 +220,28 @@ export default function ProductVariant({
     });
   }, [selectedProductSize, quantity, selectedColor, selectedVariant]);
 
+
   //   main components
   return (
     <div className="space-y-2">
+      <div className="flex items-center gap-2">
+        {selectedVariant?.price ? (
+          <span className="text-2xl font-bold text-gray-900">
+            {selectedVariant.price}৳
+          </span>
+        ) : (
+          <span className="text-2xl font-bold text-gray-900">
+            {productDetails.productPrice}৳
+          </span>
+        )}
+
+        {product.discount.value && (
+          <span className="text-lg text-red-500 line-through ml-2">
+            {product.basePrice}৳
+          </span>
+        )}
+      </div>
+
       <div className="flex">
         <h2>
           Availability:{" "}

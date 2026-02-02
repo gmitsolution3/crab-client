@@ -6,7 +6,7 @@ export const ComLogo =async () => {
 
    const brandInfoRaw = await getBrandInfo();
 
-   console.log({brandInfoRaw: brandInfoRaw})
+
 
   return (
     <Link href="/">

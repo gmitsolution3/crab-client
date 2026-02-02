@@ -28,6 +28,7 @@ interface Variant {
   };
   sku: string;
   stock: number;
+  price: string;
 }
 
 interface Product {
@@ -178,8 +179,8 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
   
   const handleVariantChange = (
     index: number,
-    field: "color" | "size" | "sku" | "stock",
-    value: any,
+    field: "color" | "size" | "sku" | "stock" | "price",
+    value: string,
   ) => {
     setVariants((prev) => {
       const updated = [...prev];
@@ -206,6 +207,10 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
         v.sku = value;
       }
 
+      if(field === "price"){
+        v.price = value
+      }
+
       return updated;
     });
   };
@@ -229,6 +234,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
         attributes: { color: "", size: "" },
         sku: generateSKU(product!.title, "", ""),
         stock: 0,
+        price: product.basePrice
       },
     ]);
   };
@@ -248,7 +254,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
 
   // EditFormData
   const onSubmit = (data: EditFormData) => {
-    console.log({ data: data });
+
 
     const {
       discountType,
@@ -257,7 +263,8 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
       seoMetaDescription,
       ...payload
     } = data;
-    console.log({ payload: payload });
+    
+
 
     onSave({
       ...payload,
@@ -486,78 +493,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               </select>
             </div>
           </div>
-          {/* <div className="pt-6">
-            <h3 className="text-lg font-semibold mb-3">Variants</h3>
-
-            {variants.map((variant: any, index: number) => (
-              <div
-                key={index}
-                className="grid grid-cols-1 md:grid-cols-4 gap-3 p-4 mb-3 border rounded-lg bg-gray-50"
-              >
-                <div>
-                  <label className="text-xs">Color</label>
-                  <input
-                    value={variant.attributes.color}
-                    onChange={(e) =>
-                      handleVariantChange(index, "color", e.target.value)
-                    }
-                    className="w-full px-2 py-2 border rounded"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs">Size</label>
-                  <input
-                    value={variant.attributes.size}
-                    onChange={(e) =>
-                      handleVariantChange(index, "size", e.target.value)
-                    }
-                    className="w-full px-2 py-2 border rounded"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs">SKU</label>
-                  <input
-                    value={variant.sku}
-                    onChange={(e) =>
-                      handleVariantChange(index, "sku", e.target.value)
-                    }
-                    className="w-full px-2 py-2 border rounded"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs">Stock</label>
-                  <input
-                    type="number"
-                    value={variant.stock}
-                    onChange={(e) =>
-                      handleVariantChange(index, "stock", e.target.value)
-                    }
-                    className="w-full px-2 py-2 border rounded"
-                  />
-                </div>
-
-                <div className="flex mb-3">
-                  <button
-                    type="button"
-                    onClick={addVariant}
-                    className="px-3 py-1 bg-green-600 text-white rounded"
-                  >
-                    + Add Variant
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => removeVariant(index)}
-                    className="text-red-600 text-sm mt-5"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div> */}
+         
           <div className="pt-6">
             <h3 className="text-lg font-semibold mb-4">Variants</h3>
 
@@ -633,6 +569,21 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                         value={variant.stock}
                         onChange={(e) =>
                           handleVariantChange(index, "stock", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        min="0"
+                        placeholder="0"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Price
+                      </label>
+                      <input
+                        type="text"
+                        value={variant.price}
+                        onChange={(e) =>
+                          handleVariantChange(index, "price", e.target.value)
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         min="0"
@@ -745,7 +696,6 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
   const handleUpdateProduct = async (formData: UpdateProductPayload) => {
     if (!editingProduct) return;
 
-    console.log({ formData: formData });
 
     try {
       const res = await fetch(

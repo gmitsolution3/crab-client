@@ -27,6 +27,10 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
     thumbnail,
   };
 
+
+
+  const cleanHTML = product.description.replace(/<p>\s*<\/p>/g, "");
+
   const from = "productDetails";
   return (
     <div className="space-y-10 max-w-7xl mx-auto">
@@ -39,20 +43,13 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
           />
         </div>
         <div className="space-y-4">
-          <h1 className="text-2xl text-black font-bold">{product.title}</h1>
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-gray-900">
-              {productPrice}৳
-            </span>
-            <span className="text-lg text-red-500 line-through ml-2">
-              {product.basePrice}৳
-            </span>
-          </div>
+          <h1 className="text-2xl text-primary font-bold">{product.title}</h1>
           <div>
             <p>{product.shortDescription}</p>
             <div className="mt-4">
               <ProductVariants
                 variants={product.variants}
+                product= {product}
                 from={from}
                 productDetails={productDetails}
               />
@@ -61,17 +58,24 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
         </div>
       </div>
 
-      {/* <div>
+      <div className="px-5 pb-10 mb-20">
+        <h1 className="text-4xl font-bold text-primary mb-2">Description</h1>
+        <div
+          className="prose prose-lg max-w-none
+             prose-p:my-3
+             prose-h1:my-4
+             prose-h2:my-3
+             prose-h3:my-3
+             prose-li:my-1"
+          dangerouslySetInnerHTML={{ __html: cleanHTML }}
+        />
+      </div>
+      {/* <div className="px-5 pb-10 mb-20">
         <YouTubeVideoPlayer
           videoUrl="https://youtu.be/myJ7x029Ves?si=Xmd-zZiwf1TglrhD"
           thumbnail="https://i.postimg.cc/BQBxkN2C/maxresdefault.jpg"
         />
       </div> */}
-
-      <div className="px-5 pb-10 mb-20">
-        <h1 className="text-4xl font-bold text-primary mb-2">Description</h1>
-        <p>{product.description}</p>
-      </div>
     </div>
   );
 };
