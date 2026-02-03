@@ -38,6 +38,7 @@ interface Product {
   description: string;
   shortDescription: string;
   basePrice: string;
+  purchase?: string;
   discount: Discount;
   sku: string;
   stockQuantity: string;
@@ -75,6 +76,7 @@ interface EditFormData {
   description: string;
   shortDescription: string;
   basePrice: string;
+  purchase?: string;
   discountType: "percentage" | "flat";
   discountValue: string;
   discount: { type: "percentage" | "flat"; value: string };
@@ -121,6 +123,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
           description: product.description,
           shortDescription: product.shortDescription,
           basePrice: product.basePrice,
+          purchase: product.purchase,
           discountType: product.discount.type,
           discountValue: product.discount.value,
           sku: product.sku,
@@ -154,26 +157,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
     }
   }, [product, reset]);
 
-  // const handleVariantChange = (
-  //   index: number,
-  //   field: "color" | "size" | "sku" | "stock",
-  //   value: any,
-  // ) => {
-  //   const updated = [...variants];
 
-  //   if (field === "color" || field === "size") {
-  //     updated[index].attributes = {
-  //       ...updated[index].attributes,
-  //       [field]: value,
-  //     };
-  //   } else if (field === "stock") {
-  //     updated[index].stock = Number(value);
-  //   } else if (field === "sku") {
-  //     updated[index].sku = value;
-  //   }
-
-  //   setVariants(updated);
-  // };
 
   // Auto generate slug
   
@@ -348,6 +332,25 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                 type="text"
                 {...register("basePrice", {
                   required: "Base Price is required",
+                })}
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+                  errors.basePrice ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              {errors.basePrice && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.basePrice.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Purchase Price
+              </label>
+              <input
+                type="text"
+                {...register("purchase", {
+                  required: "purchase price is required",
                 })}
                 className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
                   errors.basePrice ? "border-red-500" : "border-gray-300"

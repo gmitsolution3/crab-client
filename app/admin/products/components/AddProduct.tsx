@@ -18,6 +18,7 @@ export default function AddProductForm({ allCategory }: any) {
     description: "",
     shortDescription: "",
     basePrice: "",
+    purchase: "",
     discount: { type: "percentage", value: "" },
     sku: "",
     stockQuantity: "",
@@ -98,8 +99,6 @@ export default function AddProductForm({ allCategory }: any) {
       .replace(/\s+/g, "-")
       .replace(/-+/g, "-");
   };
-
-
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
@@ -369,7 +368,6 @@ export default function AddProductForm({ allCategory }: any) {
     }
   };
 
-
   return (
     <div className="min-h-screen p-4 sm:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto">
@@ -544,20 +542,37 @@ export default function AddProductForm({ allCategory }: any) {
           {/* PRICING */}
           {activeTab === "pricing" && (
             <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">
-                  Base Price (৳) *
-                </label>
-                <input
-                  type="number"
-                  name="basePrice"
-                  value={formData.basePrice}
-                  onChange={handleInputChange}
-                  placeholder="0.00"
-                  step="0.01"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  required
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                    Base Price (৳) *
+                  </label>
+                  <input
+                    type="number"
+                    name="basePrice"
+                    value={formData.basePrice}
+                    onChange={handleInputChange}
+                    placeholder="0.00"
+                    step="0.01"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                    Purchase price (৳) *
+                  </label>
+                  <input
+                    type="number"
+                    name="purchase"
+                    value={formData.purchase}
+                    onChange={handleInputChange}
+                    placeholder="0.00"
+                    step="0.01"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                    required
+                  />
+                </div>
               </div>
 
               <div className="space-y-4">
