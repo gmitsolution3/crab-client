@@ -11,6 +11,7 @@ import {
   Package,
   X,
   History,
+  Send,
 } from "lucide-react";
 import { ComLogo } from "@/app/shared/components/ComLogo";
 import Link from "next/link";
@@ -76,14 +77,22 @@ export interface Order {
 
 // ============ ORDER DETAIL MODAL ============
 interface OrderDetailModalProps {
+  open: boolean | null;
+  order: Order | null;
+  onClose: () => void;
+}
+interface AssignCourierModalProps {
+  open: boolean | null;
   order: Order | null;
   onClose: () => void;
 }
 
 const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
+  open,
   order,
   onClose,
 }) => {
+  if (!open) return null;
   if (!order) return null;
 
   const formatDate = (dateString: string) => {
@@ -106,8 +115,12 @@ const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           style={{ backgroundColor: "#0970B4" }}
         >
           <div>
-            <h2 className="text-2xl font-bold text-white">Order Details</h2>
-            <p className="text-blue-100 text-sm mt-1">ID: {order._id}</p>
+            <h2 className="text-2xl font-bold text-white">
+              Order Details
+            </h2>
+            <p className="text-blue-100 text-sm mt-1">
+              ID: {order._id}
+            </p>
             {/* <p className="text-blue-100 text-sm mt-1">ID: {order.slug}</p> */}
           </div>
           <button
@@ -128,7 +141,8 @@ const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
                 <div>
                   <p className="text-gray-600">Name</p>
                   <p className="font-semibold text-gray-900">
-                    {order.customerInfo.firstName} {order.customerInfo.lastName}
+                    {order.customerInfo.firstName}{" "}
+                    {order.customerInfo.lastName}
                   </p>
                 </div>
                 <div>
@@ -189,7 +203,8 @@ const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           <div className="flex items-center gap-2 text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">
             <Calendar size={18} className="text-primary" />
             <span>
-              <strong>Ordered on:</strong> {formatDate(order.createdAt)}
+              <strong>Ordered on:</strong>{" "}
+              {formatDate(order.createdAt)}
             </span>
           </div>
 
@@ -212,7 +227,9 @@ const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
                       <p className="font-semibold text-gray-900">
                         {product.title}
                       </p>
-                      <p className="text-xs text-gray-500">{product.slug}</p>
+                      <p className="text-xs text-gray-500">
+                        {product.slug}
+                      </p>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
                       <div>
@@ -306,10 +323,89 @@ const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   );
 };
 
+const AssignCourierModal: React.FC<AssignCourierModalProps> = ({
+  open,
+  order,
+  onClose,
+}) => {
+  if (!open) return;
+  if (!order) return;
+
+  const [courier, setCourier] = React.useState("steadfast");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Selected courier:", courier);
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/courier/assign?courierService=${courier}&orderId=${order._id}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+
+    const data = await res.json();
+
+    if (!data.success) {
+      alert("Failed to assign courier");
+      return;
+    }
+
+    alert(data.message);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-white/30 backdrop-blur-md bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <form
+        onSubmit={handleSubmit}
+        className="relative w-full h-full bg-white rounded-lg p-6 flex flex-col justify-center gap-4 max-w-md mx-auto max-h-min"
+      >
+        {/* Close button */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-black"
+        >
+          ✕
+        </button>
+
+        <h2 className="text-lg font-semibold">Assign to Courier</h2>
+
+        <select
+          className="w-full border rounded-md p-2"
+          value={courier}
+          onChange={(e) => setCourier(e.target.value)}
+        >
+          <option value="">Select courier</option>
+          <option value="steadfast">Stead Fast</option>
+          <option value="pathao">Pathao</option>
+        </select>
+
+        <button
+          type="submit"
+          className="w-full bg-black text-white py-2 rounded-md"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+};
+
 // ============ MAIN ORDER TABLE COMPONENT ============
-const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
+const AllProductTable = ({
+  INITIAL_ORDERS,
+}: {
+  INITIAL_ORDERS: Order[];
+}) => {
   const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(
+    null,
+  );
+
+  const [orderModalOpen, setOrderModalOpen] = useState(false);
+  const [courierModalOpen, setCourierModalOpen] = useState(false);
 
   const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString("en-US", {
@@ -332,8 +428,12 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
       );
 
       if (response.status === 200) {
-        setOrders((prevOrders) => prevOrders.filter((o) => o._id !== id));
-        toast.success(response.data.message ?? "Deleted successfully");
+        setOrders((prevOrders) =>
+          prevOrders.filter((o) => o._id !== id),
+        );
+        toast.success(
+          response.data.message ?? "Deleted successfully",
+        );
       } else {
         alert("Failed to delete the order. Please try again.");
       }
@@ -398,7 +498,9 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
             Orders
           </h1>
-          <p className="text-gray-600 mt-2">Manage and track customer orders</p>
+          <p className="text-gray-600 mt-2">
+            Manage and track customer orders
+          </p>
         </div>
 
         {/* Desktop Table */}
@@ -475,7 +577,10 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-sm font-semibold text-gray-900">
-                        {order.products.reduce((sum, p) => sum + p.quantity, 0)}
+                        {order.products.reduce(
+                          (sum, p) => sum + p.quantity,
+                          0,
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -515,7 +620,10 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
                         <button
-                          onClick={() => setSelectedOrder(order)}
+                          onClick={() => {
+                            setSelectedOrder(order);
+                            setOrderModalOpen(true);
+                          }}
                           className="p-2 hover:bg-blue-50 rounded-lg text-primary"
                           title="View"
                         >
@@ -556,6 +664,16 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
                             <History size={18} />
                           </button>
                         </Link>
+                        <button
+                          onClick={() => {
+                            setCourierModalOpen(true);
+                            setSelectedOrder(order);
+                          }}
+                          className="p-2 hover:bg-green-50 rounded-lg text-green-600"
+                          title="Assign to courier"
+                        >
+                          <Send size={18} />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -575,7 +693,8 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
               <div className="p-4 md:p-6">
                 <div className="mb-4 pb-4 border-b border-gray-200">
                   <h3 className="text-base font-semibold text-gray-900">
-                    {order.customerInfo.firstName} {order.customerInfo.lastName}
+                    {order.customerInfo.firstName}{" "}
+                    {order.customerInfo.lastName}
                   </h3>
                   <p className="text-xs md:text-sm text-gray-600 mt-1">
                     {order.customerInfo.email}
@@ -626,7 +745,9 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
 
                 <div className="mb-4 pb-4 border-b border-gray-200 space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">Total:</span>
+                    <span className="text-sm text-gray-600">
+                      Total:
+                    </span>
                     <span className="text-lg font-semibold text-gray-900">
                       ৳{order.grandTotal.toFixed(2)}
                     </span>
@@ -692,6 +813,13 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
                   >
                     <History size={18} />
                   </button>
+                  <button
+                    onClick={() => setCourierModalOpen(true)}
+                    className="p-2 hover:bg-green-50 rounded-lg text-green-600"
+                    title="Assign to courier"
+                  >
+                    <Send size={18} />
+                  </button>
                 </div>
               </div>
             </div>
@@ -700,8 +828,15 @@ const AllProductTable = ({ INITIAL_ORDERS }: { INITIAL_ORDERS: Order[] }) => {
       </div>
 
       <OrderDetailModal
+        open={orderModalOpen}
         order={selectedOrder}
-        onClose={() => setSelectedOrder(null)}
+        onClose={() => setOrderModalOpen(false)}
+      />
+
+      <AssignCourierModal
+        open={courierModalOpen}
+        order={selectedOrder}
+        onClose={() => setCourierModalOpen(false)}
       />
     </div>
   );
