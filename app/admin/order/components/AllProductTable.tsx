@@ -335,7 +335,6 @@ const AssignCourierModal: React.FC<AssignCourierModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Selected courier:", courier);
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/courier/assign?courierService=${courier}&orderId=${order._id}`,
