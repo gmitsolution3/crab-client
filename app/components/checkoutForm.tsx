@@ -40,7 +40,7 @@ export default function CheckoutForm() {
     streetAddress: "",
     city: "",
     region: "",
-    postalCode: "",
+    // postalCode: "",
     promoCode: "",
   });
 
@@ -134,7 +134,7 @@ export default function CheckoutForm() {
         street: formData.streetAddress,
         city: formData.city,
         region: formData.region,
-        postalCode: formData.postalCode,
+        // postalCode: formData.postalCode,
       },
       products: cartItems.map((item) => ({
         productTitle: item.title,
@@ -246,8 +246,8 @@ export default function CheckoutForm() {
                           defaultValue="BD"
                         >
                           <option>BD</option>
-                          <option>US</option>
-                          <option>UK</option>
+                          {/* <option>US</option>
+                          <option>UK</option> */}
                         </select>
                         <Input
                           type="tel"
@@ -318,7 +318,7 @@ export default function CheckoutForm() {
                         className="w-full border-gray-300 bg-gray-50"
                       />
                     </div>
-                    <div>
+                    {/* <div>
                       <label className="mb-2 block text-sm font-medium text-gray-700">
                         Postal Code
                       </label>
@@ -330,12 +330,12 @@ export default function CheckoutForm() {
                         onChange={handleInputChange}
                         className="w-full border-gray-300 bg-gray-50"
                       />
-                    </div>
+                    </div> */}
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                      Street Name & House Number{" "}
+                      House Number, Thana{" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <Input
@@ -404,13 +404,13 @@ export default function CheckoutForm() {
                       value="outside"
                       checked={deliveryMethod === "outside"}
                       onChange={(e) => setDeliveryMethod(e.target.value)}
-                      className="h-4 w-4"
+                      className="h-4 w-4" 
                     />
                     <div className="flex-1">
                       <p className="font-medium text-gray-900">Outside Dhaka</p>
                       <p className="text-xs text-gray-500">3-4 Days</p>
                     </div>
-                    <span className="font-semibold text-gray-900">৳100.00</span>
+                    <span className="font-semibold text-gray-900">৳130.00</span>
                   </label>
                 </div>
               </div>
