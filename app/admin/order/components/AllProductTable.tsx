@@ -73,6 +73,7 @@ export interface Order {
   note?: string;
   orderStatus?: "pending" | "confirmed" | "shipped" | "delivered";
   paymentStatus?: "pending" | "paid";
+  courier?: {};
 }
 
 // ============ ORDER DETAIL MODAL ============
@@ -403,6 +404,12 @@ const AllProductTable = ({
     null,
   );
 
+  console.log(orders);
+
+  const [selectedOrderIds, setSelectedOrderIds] = useState<string[]>(
+    [],
+  );
+
   const [orderModalOpen, setOrderModalOpen] = useState(false);
   const [courierModalOpen, setCourierModalOpen] = useState(false);
 
@@ -490,16 +497,55 @@ const AllProductTable = ({
     }
   };
 
+  const toggleOrderSelection = (orderId: string) => {
+    setSelectedOrderIds((prev) =>
+      prev.includes(orderId)
+        ? prev.filter((id) => id !== orderId)
+        : [...prev, orderId],
+    );
+  };
+
+  const handleGetSelectedOrders = async () => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/courier/assign/bulk?courierService=steadfast`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(selectedOrderIds),
+      },
+    );
+
+    const data = await res.json();
+
+    if (!data.success) {
+      alert("Failed to assign courier in bulk");
+      return;
+    }
+
+    alert(data.message);
+  };
+
   return (
     <div className="min-h-screen p-4 md:p-6 lg:p-8">
       <div className="max-w-400 mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Orders
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Manage and track customer orders
-          </p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Orders
+            </h1>
+            <p className="text-gray-600 mt-2">
+              Manage and track customer orders
+            </p>
+          </div>
+
+          {selectedOrderIds.length > 0 && (
+            <button
+              onClick={handleGetSelectedOrders}
+              className="bg-primary p-2 px-4 font-semibold rounded text-white"
+            >
+              Assign courier
+            </button>
+          )}
         </div>
 
         {/* Desktop Table */}
@@ -508,6 +554,22 @@ const AllProductTable = ({
             <table className="w-full">
               <thead className="bg-gray-100 border-b-2 border-gray-300">
                 <tr>
+                  <th className="px-6 py-4">
+                    <input
+                      type="checkbox"
+                      checked={
+                        orders.length > 0 &&
+                        selectedOrderIds.length === orders.length
+                      }
+                      onChange={(e) =>
+                        setSelectedOrderIds(
+                          e.target.checked
+                            ? orders.map((o) => o._id)
+                            : [],
+                        )
+                      }
+                    />
+                  </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                     Customer
                   </th>
@@ -541,11 +603,21 @@ const AllProductTable = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {orders.map((order) => (
+                {orders?.map((order) => (
                   <tr
                     key={order._id}
                     className="hover:bg-gray-50 transition-colors"
                   >
+                    <td className="px-6 py-4">
+                      <input
+                        type="checkbox"
+                        checked={selectedOrderIds.includes(order._id)}
+                        onChange={() =>
+                          toggleOrderSelection(order._id)
+                        }
+                      />
+                    </td>
+
                     <td className="px-6 py-4">
                       <div className="text-sm font-semibold text-gray-900">
                         {order.customerInfo.firstName}{" "}
@@ -664,12 +736,17 @@ const AllProductTable = ({
                           </button>
                         </Link>
                         <button
+                          disabled={!!order?.courier}
                           onClick={() => {
                             setCourierModalOpen(true);
                             setSelectedOrder(order);
                           }}
-                          className="p-2 hover:bg-green-50 rounded-lg text-green-600"
-                          title="Assign to courier"
+                          className={`p-2 hover:bg-green-50 rounded-lg ${!!order.courier ? "text-gray-600" : "text-green-600"}`}
+                          title={
+                            !!order.courier
+                              ? "Already Assigned"
+                              : "Assign to courier"
+                          }
                         >
                           <Send size={18} />
                         </button>
@@ -813,7 +890,11 @@ const AllProductTable = ({
                     <History size={18} />
                   </button>
                   <button
-                    onClick={() => setCourierModalOpen(true)}
+                    disabled={!!order?.courier}
+                    onClick={() => {
+                      setCourierModalOpen(true);
+                      setSelectedOrder(order);
+                    }}
                     className="p-2 hover:bg-green-50 rounded-lg text-green-600"
                     title="Assign to courier"
                   >
