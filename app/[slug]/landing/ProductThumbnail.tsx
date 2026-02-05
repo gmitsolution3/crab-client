@@ -2,7 +2,11 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import Link from "next/link";
+import { Minus } from "lucide-react";
+import { Plus } from "lucide-react";
+import { addToCart, clearCart } from "@/utils/cartStorage";
+import { fbEvent } from "@/utils/fbPixel";
+import { useRouter } from "next/navigation";
 
 export interface ProductVariant {
   attributes: {
@@ -54,6 +58,12 @@ const ProductHero = ({ product }: ProductHeroProps) => {
     product.thumbnail,
   );
   const [selectedVariant, setSelectedVariant] = useState(0);
+
+  const [selectedSize, setSelectedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
+
+  const router = useRouter();
+
   const allImages = [product.thumbnail, ...product.gallery];
 
   // Calculate discounted price
@@ -77,6 +87,45 @@ const ProductHero = ({ product }: ProductHeroProps) => {
     .map((v) => v.attributes.size);
 
   const isInStock = product.stockStatus === "in-stock";
+
+  const handleIncrease = () => setQuantity((prev) => prev + 1);
+  const handleDecrease = () =>
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const handleBuyNow = () => {
+    if (!selectedSize) {
+      alert("Select a size first.");
+      return;
+    }
+
+    clearCart();
+
+    const orderData = {
+      selectedProductSize: selectedSize,
+      quantity,
+      selectedColor: {
+        name: selectedColor,
+      },
+      selectedVariant: product.variants[selectedVariant],
+      sku: product.sku,
+      productPrice: Number(product.purchase),
+      slug: product.slug,
+      title: product.title,
+      thumbnail: product.thumbnail,
+    };
+
+    addToCart(orderData);
+
+    fbEvent("InitiateCheckout", {
+      content_ids: [orderData.sku || orderData.slug],
+      content_type: "product",
+      content_name: orderData.title,
+      value: orderData.productPrice,
+      currency: "BDT",
+    });
+
+    router.push("/checkout");
+  };
 
   return (
     <section className="relative min-h-screen flex items-center bg-background overflow-hidden">
@@ -214,9 +263,9 @@ const ProductHero = ({ product }: ProductHeroProps) => {
                         onClick={() =>
                           setSelectedVariant(variantIndex)
                         }
-                        className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all ${
+                        className={`px-4 py-2 rounded-lg border-1 text-sm font-medium transition-all ${
                           isSelected
-                            ? "border-gold bg-gold/10 text-gold"
+                            ? "border-primary bg-gold/10 text-gold"
                             : "border-border hover:border-gold/50 text-muted-foreground"
                         }`}
                       >
@@ -230,33 +279,55 @@ const ProductHero = ({ product }: ProductHeroProps) => {
 
             {/* Size Selector */}
             {sizesForColor.length > 0 && (
-              <div className="mb-8">
+              <div className="mb-4">
                 <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wider">
                   Available Sizes
                 </p>
                 <div className="flex gap-2 flex-wrap">
                   {sizesForColor[0].split(",").map((size) => (
-                    <span
+                    <button
                       key={size}
-                      className="px-4 py-2 rounded-lg border border-border text-sm text-foreground"
+                      onClick={() => setSelectedSize(size.trim())}
+                      className={`px-4 py-2 rounded-lg border cursor-pointer ${selectedSize === size ? "border-primary" : "border-border"} text-sm text-foreground`}
                     >
                       {size.trim()}
-                    </span>
+                    </button>
                   ))}
                 </div>
               </div>
             )}
 
+            <div className="inline-flex items-center border rounded-lg border-gray-400 bg-blue-50 mt-1">
+              <button
+                onClick={handleDecrease}
+                className="px-4 py-2 text-xl font-bold hover:bg-gray-100 rounded-l-lg"
+              >
+                <Minus />
+              </button>
+
+              <span className="px-6 py-2 border-x border-primary bg-white font-semibold">
+                {quantity}
+              </span>
+
+              <button
+                onClick={handleIncrease}
+                className="px-4 py-2 text-xl font-bold hover:bg-gray-100 rounded-r-lg"
+              >
+                <Plus />
+              </button>
+            </div>
+
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <Link href={`/shop/${product._id}/${product.slug}`}><motion.button
+              <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 disabled={!isInStock}
-                className="flex bg-primary text-white items-center justify-center gap-2 font-medium rounded-lg transition-all duration-300 hover:bg-gold/10 disabled:opacity-50 disabled:cursor-not-allowed p-3 px-7"
+                className="flex bg-primary text-white items-center justify-center gap-2 font-medium rounded-lg transition-all duration-300 hover:bg-gold/10 disabled:opacity-50 disabled:cursor-not-allowed p-3 px-7 w-full mt-5"
+                onClick={handleBuyNow}
               >
                 Buy Now
-              </motion.button></Link>
+              </motion.button>
             </div>
 
             <div className="flex items-center gap-2 text-sm">

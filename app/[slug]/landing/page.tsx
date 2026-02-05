@@ -4,6 +4,7 @@ import ProductHero from "./ProductThumbnail";
 import ProductFeatures from "./ProductFeature";
 import ProductSpecs from "./ProductSpecs";
 import Footer from "./Footer";
+import Header from "./Header";
 
 export default async function ProductLanding({
   params,
@@ -20,6 +21,7 @@ export default async function ProductLanding({
 
   return (
     <main className="container mx-auto px-4 py-12">
+      <Header />
       <ProductHero product={product} />
       <ProductFeatures />
       <ProductSpecs product={product} />

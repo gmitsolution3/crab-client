@@ -9,7 +9,6 @@ export const NavBarMenu = () => {
   const { user, isAuthenticated, logout, loading } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-
   if (loading) return <div className="animate">loading...</div>;
 
   const handleLogout = () => {
@@ -58,9 +57,12 @@ export const NavBarMenu = () => {
               >
                 Profile
               </Link>
-              <h5 className="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white hover:cursor-pointer">
-                Order Tracking
-              </h5>
+              <Link
+                href="/order-tracking"
+                className="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white hover:cursor-pointer"
+              >
+               Order Tracking
+              </Link>
               <h5 className="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white hover:cursor-pointer">
                 Return Policy
               </h5>
