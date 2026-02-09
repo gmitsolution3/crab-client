@@ -36,8 +36,6 @@ export default function AdminDashboard() {
     }
   }, [user, loading, router]);
 
-
-
   if (loading || pageLoading) {
     return (
       <div>

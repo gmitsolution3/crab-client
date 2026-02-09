@@ -2,12 +2,13 @@
 
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit2, Trash2, CornerDownRight } from "lucide-react";
 import StockStatusDropdown from "./stockStatusDropdown";
 import { MdPublishedWithChanges } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
+import Link from 'next/link';
 
 // ============ TYPE DEFINITIONS ============
 interface Discount {
@@ -92,7 +93,10 @@ interface EditFormData {
 
 type UpdateProductPayload = Omit<
   EditFormData,
-  "discountType" | "discountValue" | "seoMetaTitle" | "seoMetaDescription"
+  | "discountType"
+  | "discountValue"
+  | "seoMetaTitle"
+  | "seoMetaDescription"
 > & {
   discount: { type: "percentage" | "flat"; value: string };
   seo: SEO;
@@ -106,7 +110,11 @@ interface EditModalProps {
   onSave: (data: UpdateProductPayload) => void;
 }
 
-const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
+const EditModal: React.FC<EditModalProps> = ({
+  product,
+  onClose,
+  onSave,
+}) => {
   if (!product) return null;
   const {
     register,
@@ -135,7 +143,9 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
         }
       : undefined,
   });
-  const [variants, setVariants] = React.useState(product?.variants || []);
+  const [variants, setVariants] = React.useState(
+    product?.variants || [],
+  );
 
   React.useEffect(() => {
     if (product) {
@@ -157,10 +167,8 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
     }
   }, [product, reset]);
 
-
-
   // Auto generate slug
-  
+
   const handleVariantChange = (
     index: number,
     field: "color" | "size" | "sku" | "stock" | "price",
@@ -191,16 +199,14 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
         v.sku = value;
       }
 
-      if(field === "price"){
-        v.price = value
+      if (field === "price") {
+        v.price = value;
       }
 
       return updated;
     });
   };
 
-  
-  
   const generateSlug = (title: string) => {
     return title
       .toLowerCase()
@@ -209,8 +215,6 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
       .replace(/\s+/g, "-");
   };
 
-
-
   const addVariant = () => {
     setVariants((prev) => [
       ...prev,
@@ -218,14 +222,20 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
         attributes: { color: "", size: "" },
         sku: generateSKU(product!.title, "", ""),
         stock: 0,
-        price: product.basePrice
+        price: product.basePrice,
       },
     ]);
   };
 
-  const generateSKU = (productTitle: string, color: string, size: string) => {
+  const generateSKU = (
+    productTitle: string,
+    color: string,
+    size: string,
+  ) => {
     const productCode = productTitle.substring(0, 3).toUpperCase();
-    const colorCode = color ? color.substring(0, 3).toUpperCase() : "NA";
+    const colorCode = color
+      ? color.substring(0, 3).toUpperCase()
+      : "NA";
     const sizeCode = size ? size.substring(0, 3).toUpperCase() : "ST";
     const random = Math.floor(100 + Math.random() * 900);
 
@@ -238,8 +248,6 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
 
   // EditFormData
   const onSubmit = (data: EditFormData) => {
-
-
     const {
       discountType,
       discountValue,
@@ -247,12 +255,13 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
       seoMetaDescription,
       ...payload
     } = data;
-    
-
 
     onSave({
       ...payload,
-      discount: { type: data.discountType, value: data.discountValue },
+      discount: {
+        type: data.discountType,
+        value: data.discountValue,
+      },
       seo: {
         metaTitle: data.seoMetaTitle || "",
         metaDescription: data.seoMetaDescription || "",
@@ -265,7 +274,9 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
     <div className="fixed inset-0 bg-white/30 backdrop-blur-md flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-gray-900">Edit Product</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            Edit Product
+          </h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -319,7 +330,9 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               }`}
             />
             {errors.slug && (
-              <p className="text-red-500 text-sm mt-1">{errors.slug.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.slug.message}
+              </p>
             )}
           </div>
 
@@ -334,7 +347,9 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                   required: "Base Price is required",
                 })}
                 className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
-                  errors.basePrice ? "border-red-500" : "border-gray-300"
+                  errors.basePrice
+                    ? "border-red-500"
+                    : "border-gray-300"
                 }`}
               />
               {errors.basePrice && (
@@ -353,7 +368,9 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                   required: "purchase price is required",
                 })}
                 className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
-                  errors.basePrice ? "border-red-500" : "border-gray-300"
+                  errors.basePrice
+                    ? "border-red-500"
+                    : "border-gray-300"
                 }`}
               />
               {errors.basePrice && (
@@ -372,7 +389,9 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                   required: "Stock Quantity is required",
                 })}
                 className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
-                  errors.stockQuantity ? "border-red-500" : "border-gray-300"
+                  errors.stockQuantity
+                    ? "border-red-500"
+                    : "border-gray-300"
                 }`}
               />
               {errors.stockQuantity && (
@@ -407,9 +426,13 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               </label>
               <input
                 type="text"
-                {...register("category", { required: "Category is required" })}
+                {...register("category", {
+                  required: "Category is required",
+                })}
                 className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
-                  errors.category ? "border-red-500" : "border-gray-300"
+                  errors.category
+                    ? "border-red-500"
+                    : "border-gray-300"
                 }`}
               />
               {errors.category && (
@@ -430,7 +453,9 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                 required: "Short Description is required",
               })}
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
-                errors.shortDescription ? "border-red-500" : "border-gray-300"
+                errors.shortDescription
+                  ? "border-red-500"
+                  : "border-gray-300"
               }`}
             />
             {errors.shortDescription && (
@@ -450,7 +475,9 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               })}
               rows={4}
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
-                errors.description ? "border-red-500" : "border-gray-300"
+                errors.description
+                  ? "border-red-500"
+                  : "border-gray-300"
               }`}
             />
             {errors.description && (
@@ -496,7 +523,7 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
               </select>
             </div>
           </div>
-         
+
           <div className="pt-6">
             <h3 className="text-lg font-semibold mb-4">Variants</h3>
 
@@ -527,7 +554,11 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                       <input
                         value={variant.attributes.color}
                         onChange={(e) =>
-                          handleVariantChange(index, "color", e.target.value)
+                          handleVariantChange(
+                            index,
+                            "color",
+                            e.target.value,
+                          )
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         placeholder="e.g. Black"
@@ -541,7 +572,11 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                       <input
                         value={variant.attributes.size}
                         onChange={(e) =>
-                          handleVariantChange(index, "size", e.target.value)
+                          handleVariantChange(
+                            index,
+                            "size",
+                            e.target.value,
+                          )
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         placeholder="e.g. M"
@@ -556,7 +591,11 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                         value={variant.sku}
                         readOnly
                         onChange={(e) =>
-                          handleVariantChange(index, "sku", e.target.value)
+                          handleVariantChange(
+                            index,
+                            "sku",
+                            e.target.value,
+                          )
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         placeholder="e.g. PROD-BLK-M"
@@ -571,7 +610,11 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                         type="number"
                         value={variant.stock}
                         onChange={(e) =>
-                          handleVariantChange(index, "stock", e.target.value)
+                          handleVariantChange(
+                            index,
+                            "stock",
+                            e.target.value,
+                          )
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         min="0"
@@ -586,7 +629,11 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
                         type="text"
                         value={variant.price}
                         onChange={(e) =>
-                          handleVariantChange(index, "price", e.target.value)
+                          handleVariantChange(
+                            index,
+                            "price",
+                            e.target.value,
+                          )
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         min="0"
@@ -623,7 +670,9 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
           </div>
 
           <div className="pt-4">
-            <h3 className="text-lg font-semibold mb-2">SEO Settings</h3>
+            <h3 className="text-lg font-semibold mb-2">
+              SEO Settings
+            </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -675,9 +724,15 @@ const EditModal: React.FC<EditModalProps> = ({ product, onClose, onSave }) => {
 };
 
 // ============ MAIN TABLE COMPONENT ============
-const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
-  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS || []);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+const ProductTable = ({
+  INITIAL_PRODUCTS,
+  description,
+}: ProductProps) => {
+  const [products, setProducts] = useState<Product[]>(
+    INITIAL_PRODUCTS || [],
+  );
+  const [editingProduct, setEditingProduct] =
+    useState<Product | null>(null);
 
   const handleStatusToggle = (id: string, status: any): void => {
     setProducts((prev) =>
@@ -696,9 +751,10 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
     setEditingProduct(product);
   };
 
-  const handleUpdateProduct = async (formData: UpdateProductPayload) => {
+  const handleUpdateProduct = async (
+    formData: UpdateProductPayload,
+  ) => {
     if (!editingProduct) return;
-
 
     try {
       const res = await fetch(
@@ -807,7 +863,9 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
             {description?.title}
           </h1>
-          <p className="text-gray-600 mt-1">{description?.subTitle}</p>
+          <p className="text-gray-600 mt-1">
+            {description?.subTitle}
+          </p>
         </div>
 
         {/* Desktop Table */}
@@ -894,6 +952,14 @@ const ProductTable = ({ INITIAL_PRODUCTS, description }: ProductProps) => {
                           title="Edit"
                         >
                           <Edit2 size={18} />
+                        </button>
+                        <button
+                          className="p-2 hover:bg-blue-50 rounded-lg transition-colors text-primary hover:text-primary"
+                          title="Generate Landing"
+                        >
+                          <Link href={`/${product.slug}/landing`} target="_blank">
+                            <CornerDownRight size={18} />
+                          </Link>
                         </button>
                         {description?.title === "Manage Product" && (
                           <button
