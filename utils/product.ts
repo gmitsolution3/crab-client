@@ -40,6 +40,7 @@ export interface ProductFormData {
   gallery: string[];
   variants: Variant[];
   seo: Seo;
+  videoLink?: string;
   isDraft: boolean;
   featured: boolean;
 }

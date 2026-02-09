@@ -31,6 +31,7 @@ export default function AddProductForm({ allCategory }: any) {
     thumbnail: null,
     gallery: [],
     variants: [],
+    videoLink: "",
     seo: {
       metaTitle: "",
       metaDescription: "",
@@ -791,6 +792,21 @@ export default function AddProductForm({ allCategory }: any) {
                     ))}
                   </div>
                 )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-900 mb-2">
+                  Add Video Link(if have)
+                </label>
+                <input
+                  type="text"
+                  name="videoLink"
+                  value={formData.videoLink}
+                  required
+                  onChange={handleVariantChange}
+                  placeholder="Add your youtube product video link"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
               </div>
             </div>
           )}
