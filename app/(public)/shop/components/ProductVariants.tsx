@@ -19,7 +19,7 @@ type Variant = {
   };
   sku: string;
   stock: number;
-  price?: string
+  price?: string;
 };
 
 interface productDetails {
@@ -36,7 +36,7 @@ type Props = {
   onCloseModal?: () => void;
   onSelectionChange?: ((data: any) => void | undefined) | undefined;
   isBuyNow?: boolean;
-  product: ProductFormData
+  product: ProductFormData;
 };
 
 // function that cover color name to hex code
@@ -137,7 +137,7 @@ export default function ProductVariant({
 
   const handleBuyNow = () => {
     if (!selectedVariant) {
-      alert("Please select a variant");
+      toast.caller("Please select a variant");
       return;
     }
 
@@ -162,8 +162,11 @@ export default function ProductVariant({
       currency: "BDT",
     });
 
-    router.push("/checkout");
+    setTimeout(() => {
+      router.push("/checkout");
+    }, 350);
   };
+
 
   // redirect on the what 's app
   const handleOrderWhatsApp = () => {

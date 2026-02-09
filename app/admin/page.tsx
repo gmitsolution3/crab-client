@@ -36,7 +36,7 @@ export default function AdminDashboard() {
     }
   }, [user, loading, router]);
 
-  console.log({data:data})
+
 
   if (loading || pageLoading) {
     return (

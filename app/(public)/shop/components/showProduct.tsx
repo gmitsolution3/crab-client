@@ -73,7 +73,7 @@ const CategoryCarousel = ({
   if (products.length === 0) return null;
 
   return (
-    <section className="w-full">
+    <section className="w-full mb-8">
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-8 text-center md:text-left">
         {categoryName}
       </h2>
@@ -82,7 +82,7 @@ const CategoryCarousel = ({
       <div className="relative">
         <div className="overflow-hidden rounded-xl">
           <div
-            className="flex transition-transform duration-500 ease-in-out"
+            className="flex transition-transform duration-500 ease-in-out gap-4"
             style={{
               transform: `translateX(-${(currentIndex * 100) / visibleCards}%)`,
             }}

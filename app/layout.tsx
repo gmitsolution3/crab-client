@@ -6,6 +6,8 @@ import { ToastContainer } from "react-toastify";
 import { Toaster } from "sonner";
 import { AuthProvider } from "./context/AuthContext";
 import { getFacebookPixelCredential } from "@/lib/facebook";
+import TimeTracker from "./components/TimeTracker";
+import { LocationTracker } from "./components/LocationTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,7 +48,7 @@ export default async function RootLayout({
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '${facebookCredential?.fbPixelId || ""}');
+              fbq('init', '${facebookCredential?.data.fbPixelId || ""}');
               fbq('track', 'PageView');
             `,
           }}
@@ -57,6 +59,8 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
+          <TimeTracker />
+          <LocationTracker />
           {children}
           <ToastContainer />
           <Toaster

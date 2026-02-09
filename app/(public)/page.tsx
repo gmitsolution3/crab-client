@@ -6,6 +6,7 @@ import { FeaturesSection } from "../components/FeaturesSection";
 import { FeaturedProduct } from "../components/featuredProduct";
 import ShowProduct from "./shop/components/showProduct";
 import { TopSellingProduct } from "../components/topSellingProduct";
+import axios from "axios";
 
 const MainPage = async () => {
   const res = await AllProduct();
@@ -33,6 +34,12 @@ const MainPage = async () => {
     ].flat() || [];
 
   const mainSlider = { id: "main", images: toArray(mainBanner) };
+
+  const getIp = await axios.get(
+    `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api`,
+  );
+
+
 
   return (
     <div>

@@ -11,6 +11,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { fraudRoles } from "./fackOuterCheckLayer";
 
 interface CheckoutProduct {
   productPrice: number;
@@ -26,6 +27,17 @@ interface CheckoutProduct {
   slug: string;
   thumbnail: string;
   title: string;
+}
+
+interface IFrodState {
+  invalidFields: string[];
+  invalidCount: number;
+  fieldErrorCount: {
+    name: number;
+    phone: number;
+    email: number;
+    address: number;
+  };
 }
 
 export default function CheckoutForm() {
@@ -47,6 +59,39 @@ export default function CheckoutForm() {
   const [deliveryMethod, setDeliveryMethod] = useState("inside");
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fraudState, setFraudState] = useState<IFrodState>({
+    invalidCount: 0,
+    invalidFields: [],
+    fieldErrorCount: {
+      name: 0,
+      phone: 0,
+      email: 0,
+      address: 0,
+    },
+  });
+
+  useEffect(() => {
+    const saveFraudData = async () => {
+      await axios.put(
+        `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api/update-fraud-user`,
+        fraudState,
+      );
+    };
+
+    if (fraudState.invalidCount > 0) {
+      saveFraudData();
+    }
+  }, [fraudState]);
+
+  let localInvalidCount = 0;
+  let localInvalidFields: string[] = [];
+
+  function markLocal(field: string) {
+    localInvalidCount++;
+    if (!localInvalidFields.includes(field)) {
+      localInvalidFields.push(field);
+    }
+  }
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -100,6 +145,47 @@ export default function CheckoutForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!fraudRoles.isValidName(formData.firstName)) markLocal("name");
+    if (!fraudRoles.isValidBDPhone(formData.phoneNumber)) markLocal("phone");
+    if (formData.email && !fraudRoles.isValidEmail(formData.email))
+      markLocal("email");
+    if (!fraudRoles.isValidAddress(formData.streetAddress))
+      markLocal("address");
+
+    setFraudState((prev) => ({
+      ...prev,
+      invalidCount: prev.invalidCount + localInvalidCount,
+      invalidFields: [
+        ...new Set([...prev.invalidFields, ...localInvalidFields]),
+      ],
+      fieldErrorCount: {
+        ...prev.fieldErrorCount,
+        name:
+          prev.fieldErrorCount.name +
+          (localInvalidFields.includes("name") ? 1 : 0),
+        phone:
+          prev.fieldErrorCount.phone +
+          (localInvalidFields.includes("phone") ? 1 : 0),
+        email:
+          prev.fieldErrorCount.email +
+          (localInvalidFields.includes("email") ? 1 : 0),
+        address:
+          prev.fieldErrorCount.address +
+          (localInvalidFields.includes("address") ? 1 : 0),
+      },
+    }));
+
+    const inValidFields = localInvalidFields.join(", ");
+
+    if (localInvalidCount > 0) {
+      toast.error(
+        `Invalid your ${inValidFields} field${
+          localInvalidCount > 1 ? "s" : ""
+        } Check it and try again!`,
+      );
+      return;
+    }
+
     const requiredFields = [
       "firstName",
       "phoneNumber",
@@ -108,11 +194,6 @@ export default function CheckoutForm() {
       "city",
       "region",
     ];
-
-    if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
-      toast.success("Please enter a valid email address!");
-      return;
-    }
 
     const missingField = requiredFields.find(
       (field) => !formData[field as keyof typeof formData],
@@ -164,6 +245,20 @@ export default function CheckoutForm() {
         orderData,
       );
 
+      console.log({ response: response });
+
+      // if (response.isRedirect) {
+      //   router.push("/otp-verification?orderId=" + response.data.orderId);
+      // }
+
+      if(response.data.isRedirect) {
+        router.push("/otp-verification?orderId=" + response.data.orderId);
+        toast.error("OTP verification required. Redirecting...");
+        return;
+      }
+
+      console.log({response: response.data})
+
       if (response.data.success) {
         Swal.fire({
           title: response.data.message,
@@ -183,6 +278,16 @@ export default function CheckoutForm() {
       }
     } catch (error: any) {
       console.error("Order submission error:", error);
+
+      // if (error.response.status === 302 && error.response.data.isRedirect) {
+      //   router.push("/otp-verification?orderId=" + error.response.data.orderId);
+      //   toast.error(
+      //     error.response?.data?.message ||
+      //       "Something went wrong. Please try again letter.",
+      //   );
+      //   return;
+      // }
+      // console.log({error: error})
       toast.error(
         error.response?.data?.message ||
           "Something went wrong. Please try again letter.",
@@ -369,9 +474,12 @@ export default function CheckoutForm() {
                       className="w-full border-gray-300 bg-gray-50"
                     />
                   </div>
-                  <Button className="w-full text-white bg-primary">
+                  <button
+                    type="button"
+                    className="w-full text-white bg-primary rounded-xl py-2 hover:bg-accent-foreground font-semibold hover:cursor-pointer"
+                  >
                     Apply Now
-                  </Button>
+                  </button>
                 </div>
               </div>
 
@@ -404,7 +512,7 @@ export default function CheckoutForm() {
                       value="outside"
                       checked={deliveryMethod === "outside"}
                       onChange={(e) => setDeliveryMethod(e.target.value)}
-                      className="h-4 w-4" 
+                      className="h-4 w-4"
                     />
                     <div className="flex-1">
                       <p className="font-medium text-gray-900">Outside Dhaka</p>
@@ -527,6 +635,7 @@ export default function CheckoutForm() {
                           <div className="mt-2 flex items-center justify-between gap-2">
                             <div className="flex items-center gap-1 rounded-md border border-gray-300">
                               <button
+                                type="button"
                                 onClick={() =>
                                   handleQuantityChange(index, item.quantity - 1)
                                 }
@@ -538,6 +647,7 @@ export default function CheckoutForm() {
                                 {item.quantity}
                               </span>
                               <button
+                                type="button"
                                 onClick={() =>
                                   handleQuantityChange(index, item.quantity + 1)
                                 }
@@ -547,6 +657,7 @@ export default function CheckoutForm() {
                               </button>
                             </div>
                             <button
+                              type="button"
                               onClick={() => handleRemoveItem(index)}
                               className="text-red-600 hover:text-red-700"
                             >

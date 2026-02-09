@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <div className="relative min-h-screen">
-      <div>
+      <div className="sticky -top-44 z-50">
         <Navbar />
       </div>
       <main>{children}</main>

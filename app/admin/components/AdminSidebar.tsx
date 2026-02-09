@@ -13,6 +13,7 @@ import {
   LogOut,
   ChevronDown,
   ChartNoAxesGantt,
+  ListTodo,
 } from "lucide-react";
 import { ComLogo } from "@/app/shared/components/ComLogo";
 import { AiOutlineProduct } from "react-icons/ai";
@@ -53,6 +54,7 @@ export function AdminSidebar({ brandInfo }: { brandInfo: any }) {
       ],
     },
     { name: "Users", href: "/admin/users", icon: Users },
+    { name: "Statistics", href: "/admin/statistics", icon: ListTodo },
     {
       name: "Settings",
       icon: Settings,
