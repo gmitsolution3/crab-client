@@ -72,7 +72,7 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600 bg-white p-3 rounded-lg border border-gray-200">
                 <Truck className="w-5 h-5 text-blue-600" />
-                <span className="font-medium">Free Ship</span>
+                <span className="font-medium">Easy Ship</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600 bg-white p-3 rounded-lg border border-gray-200">
                 <TrendingUp className="w-5 h-5 text-primary" />
