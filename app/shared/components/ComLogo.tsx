@@ -14,8 +14,9 @@ export const ComLogo =async () => {
         <Image
           src={brandInfoRaw?.data?.logo || "/placeholder.svg"}
           alt={brandInfoRaw?.data?.name || "Crab fashion"}
-          width={79}
-          height={66}
+          width={300}
+          height={300}
+          className="w-24"
         />
       </div>
     </Link>

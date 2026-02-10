@@ -1,83 +1,3 @@
-// import { ProductFormData } from "@/utils/product";
-// import Image from "next/image";
-// import React from "react";
-// import ProductVariants from "./ProductVariants";
-// import ProductImage from "./productImage";
-// import YouTubeVideoPlayer from "./youtubeVideoPlayer";
-
-// interface ProductDetailsProps {
-//   product: ProductFormData;
-// }
-
-// export const ProductDetail = ({ product }: ProductDetailsProps) => {
-//   const productPrice =
-//     product.discount.type === "percentage"
-//       ? Math.floor(
-//           Number(product.basePrice) -
-//             (Number(product.basePrice) * Number(product.discount.value)) / 100,
-//         )
-//       : Math.max(Number(product.basePrice) - Number(product.discount.value), 0);
-
-//   const { title, slug, thumbnail } = product;
-
-//   const productDetails = {
-//     productPrice,
-//     title,
-//     slug,
-//     thumbnail,
-//   };
-
-//   const cleanHTML = product.description.replace(/<p>\s*<\/p>/g, "");
-
-//   const from = "productDetails";
-//   return (
-//     <div className="space-y-10 max-w-7xl mx-auto">
-//       <div className="flex flex-col md:flex-row justify-center gap-10 mt-10 px-5">
-//         <div className="max-w-full md:max-w-80 w-full ">
-//           <ProductImage
-//             thumbnail={product.thumbnail}
-//             gallery={product.gallery}
-//             title={product.title}
-//           />
-//         </div>
-//         <div className="space-y-4">
-//           <h1 className="text-2xl text-primary font-bold">{product.title}</h1>
-//           <div>
-//             <p>{product.shortDescription}</p>
-//             <div className="mt-4">
-//               <ProductVariants
-//                 variants={product.variants}
-//                 product= {product}
-//                 from={from}
-//                 productDetails={productDetails}
-//               />
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       <div className="px-5 pb-10 mb-20">
-//         <h1 className="text-4xl font-bold text-primary mb-2">Description</h1>
-//         <div
-//           className="prose prose-lg max-w-none
-//              prose-p:my-3
-//              prose-h1:my-4
-//              prose-h2:my-3
-//              prose-h3:my-3
-//              prose-li:my-1"
-//           dangerouslySetInnerHTML={{ __html: cleanHTML }}
-//         />
-//       </div>
-//       {/* <div className="px-5 pb-10 mb-20">
-//         <YouTubeVideoPlayer
-//           videoUrl="https://youtu.be/myJ7x029Ves?si=Xmd-zZiwf1TglrhD"
-//           thumbnail="https://i.postimg.cc/BQBxkN2C/maxresdefault.jpg"
-//         />
-//       </div> */}
-//     </div>
-//   );
-// };
-
 import { ProductFormData } from "@/utils/product";
 import React from "react";
 import ProductVariants from "./ProductVariants";
@@ -181,29 +101,12 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
                 {product.title}
               </h1>
-
-              {/* Rating - Optional placeholder */}
-              <div className="flex items-center gap-3 mt-3">
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className={`w-5 h-5 ${i < 4 ? "text-yellow-400" : "text-gray-300"}`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <span className="text-sm text-gray-600">(4.0 Reviews)</span>
-              </div>
             </div>
 
             {/* Price Section */}
             <div className="bg-linear-to-r from-gray-50 to-white p-6 rounded-xl border-2 border-primary/20">
               <div className="flex items-baseline gap-3">
-                <span className="text-4xl font-bold text-primary">
+                <span className="text-4xl font-bold text-gray-700">
                   ৳{productPrice.toLocaleString()}
                 </span>
                 {Number(product.discount.value) > 0 && (
@@ -249,27 +152,11 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
               </div>
               <div className="flex flex-col items-center gap-2 text-xs text-gray-600 bg-white p-3 rounded-lg border border-gray-200">
                 <Truck className="w-5 h-5 text-blue-600" />
-                <span className="font-medium text-center">Free Ship</span>
+                <span className="font-medium text-center">Easy Ship</span>
               </div>
               <div className="flex flex-col items-center gap-2 text-xs text-gray-600 bg-white p-3 rounded-lg border border-gray-200">
                 <TrendingUp className="w-5 h-5 text-primary" />
                 <span className="font-medium text-center">Trending</span>
-              </div>
-            </div>
-
-            {/* Additional Info Cards */}
-            <div className="grid grid-cols-2 gap-4 pt-4">
-              <div className="bg-linear-to-br from-blue-50 to-blue-100/50 p-4 rounded-xl border border-blue-200">
-                <h4 className="font-semibold text-gray-900 text-sm mb-1">
-                  Free Delivery
-                </h4>
-                <p className="text-xs text-gray-600">On orders 3 items</p>
-              </div>
-              <div className="bg-linear-to-br from-green-50 to-green-100/50 p-4 rounded-xl border border-green-200">
-                <h4 className="font-semibold text-gray-900 text-sm mb-1">
-                  7 Days Return
-                </h4>
-                <p className="text-xs text-gray-600">Money back guarantee</p>
               </div>
             </div>
           </div>
@@ -284,12 +171,6 @@ export const ProductDetail = ({ product }: ProductDetailsProps) => {
             <button className="pb-4 border-b-2 border-primary text-primary font-semibold text-lg">
               Description
             </button>
-            {/* <button className="pb-4 border-b-2 border-transparent text-gray-500 hover:text-gray-900 font-semibold text-lg transition-colors">
-              Reviews
-            </button>
-            <button className="pb-4 border-b-2 border-transparent text-gray-500 hover:text-gray-900 font-semibold text-lg transition-colors">
-              Shipping
-            </button> */}
           </div>
         </div>
 

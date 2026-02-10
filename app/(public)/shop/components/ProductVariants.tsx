@@ -325,7 +325,7 @@ export default function ProductVariant({
             <Minus />
           </button>
 
-          <span className="px-6 py-2 border-x border-primary bg-white font-semibold">
+          <span className="px-6 py-2 border-x border-gray-400 bg-white font-semibold">
             {quantity}
           </span>
 
@@ -342,7 +342,7 @@ export default function ProductVariant({
             {/* Add to cart */}
             <button
               onClick={() => handleAddToCart()}
-              className="flex items-center gap-2 px-4 py-2 border text-primary-foreground border-primary rounded-lg hover:cursor-pointer hover:bg-primary hover:text-white"
+              className="flex items-center gap-2 px-4 py-2 border text-primary-foreground border-primary text-primary rounded-lg hover:cursor-pointer hover:bg-primary hover:!text-white font-medium"
             >
               <ShoppingCart size={18} /> Add to Cart
             </button>
@@ -359,7 +359,7 @@ export default function ProductVariant({
             {/* Buy Now */}
             <button
               onClick={handleBuyNow}
-              className="px-5 py-2 bg-linear-to-t from-primary to-primary-foreground text-white rounded-lg font-semibold hover:opacity-90 hover:from-primary-foreground hover:cursor-pointer hover:to-primary"
+              className="px-5 py-2 bg-primary text-white rounded-lg font-semibold hover:opacity-90 hover:from-primary-foreground hover:cursor-pointer hover:to-primary w-full"
             >
               Buy Now
             </button>

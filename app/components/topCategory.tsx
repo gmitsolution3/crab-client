@@ -1,100 +1,4 @@
-// "use client";
-
-// import React from "react";
-// import * as LucideIcons from "lucide-react";
-// import Link from "next/link";
-// import Image from "next/image";
-
-// interface SubCategory {
-//   name: string;
-//   slug: string;
-//   isActive: boolean;
-//   id: string;
-// }
-
-// interface Category {
-//   isActive: boolean;
-//   name: string;
-//   order: number;
-//   slug: string;
-//   image?: string;
-//   subCategories: SubCategory[];
-//   _id: string;
-// }
-
-// // Get a list of some Lucide icons
-// const iconList = [
-//   LucideIcons.Box,
-//   LucideIcons.Cpu,
-//   LucideIcons.Heart,
-//   LucideIcons.Watch,
-//   //   LucideIcons.Shoe,
-//   LucideIcons.Thermometer,
-//   LucideIcons.ShoppingBag,
-//   LucideIcons.Gift,
-// ];
-
-// interface TopCategoriesProps {
-//   categories: Category[];
-// }
-
-// export const TopCategories = ({ categories }: TopCategoriesProps) => {
-//   return (
-//     <section className="py-8 px-4 md:px-8 lg:px-16">
-//       <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
-//         Top Categories
-//       </h2>
-//       {!categories || categories.length === 0 ? (
-//         <div className="text-2xl text-center text-primary">
-//           No Category found
-//         </div>
-//       ) : (
-//         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
-//           {categories.map((cat, index) => {
-//             // Pick a random icon for each category (based on index to keep consistent)
-//             const IconComponent = iconList[index % iconList.length];
-
-//             return (
-//               <Link href={`/shop/${cat._id}`} key={cat._id}>
-//                 <div
-//                   key={cat._id}
-//                   className="flex flex-col items-center justify-center gap-2 p-4 bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer text-center"
-//                 >
-//                   {/* Icon */}
-//                   {cat.image ? (
-//                     <div>
-//                       <Image
-//                         src={cat?.image}
-//                         alt={cat.name}
-//                         priority
-//                         width={100}
-//                         height={50}
-//                       />
-//                     </div>
-//                   ) : (
-//                     <div className="bg-[#ebdfd4] rounded-full p-3 mb-2">
-//                       <IconComponent size={28} className="text-primary" />
-//                     </div>
-//                   )}
-
-//                   {/* Name */}
-//                   <span className="text-sm sm:text-base font-medium text-gray-900">
-//                     {cat.name}
-//                   </span>
-//                 </div>
-//               </Link>
-//             );
-//           })}
-//         </div>
-//       )}
-//     </section>
-//   );
-// };
-
-
-
 "use client";
-
 import React from "react";
 import * as LucideIcons from "lucide-react";
 import Link from "next/link";
@@ -148,7 +52,7 @@ export const TopCategories = ({ categories }: TopCategoriesProps) => {
             </h2>
           </div>
           <div
-            className={`grid grid-cols-5 items-center justify-between gap-4`}
+            className={`grid grid-cols-2 lg:grid-cols-5 items-center justify-between gap-4`}
           >
             {categories
               .sort((a, b) => a.order - b.order)
