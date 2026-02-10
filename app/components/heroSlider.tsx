@@ -44,7 +44,7 @@ const SingleSlider = ({
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
-    }, 5000);
+    }, Math.floor(Math.random() * (7000 - 3000 + 1)) + 3000);
     return () => clearInterval(interval);
   }, [currentIndex, slider.images.length]);
 
