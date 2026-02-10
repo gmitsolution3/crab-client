@@ -1,7 +1,8 @@
 import { AllProduct, getFeaturedProduct } from "@/lib/products";
 import React from "react";
-import { ProductCard } from "../components/productCard";
 import ProductCarousel from "@/app/components/productCarousel";
+import ProductCard from "../components/productCard";
+import { ProductFormData } from "@/utils/product";
 
 const ShowAllProduct = async () => {
   const res = await AllProduct();
@@ -33,8 +34,12 @@ const ShowAllProduct = async () => {
           We provide our best quality
         </p>
       </div>
-      <div>
-        <ProductCard products={products} />
+      <div className="grid grid-cols-4 gap-5 space-y-10">
+        {products.map((p: ProductFormData) => (
+          <div key={p._id}>
+            <ProductCard product={p} />
+          </div>
+        ))}
       </div>
       <div>
         <div>

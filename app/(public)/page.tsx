@@ -1,5 +1,4 @@
 import { AllProduct } from "@/lib/products";
-import { ProductCard } from "./shop/components/productCard";
 import ProductSliderSection from "../components/heroSlider";
 import { OurTopCategory } from "../components/outTopCategorry";
 import { FeaturesSection } from "../components/FeaturesSection";
@@ -7,6 +6,9 @@ import { FeaturedProduct } from "../components/featuredProduct";
 import ShowProduct from "./shop/components/showProduct";
 import { TopSellingProduct } from "../components/topSellingProduct";
 import axios from "axios";
+import SplitSlider from "../components/heroSlider";
+
+
 
 const MainPage = async () => {
   const res = await AllProduct();
@@ -27,13 +29,13 @@ const MainPage = async () => {
 
   const toArray = (v: any) => (Array.isArray(v) ? v : v ? [v] : []);
 
-  const secondSlider =
+  const sideSliderData =
     [
       { id: "side-1", images: toArray(secondBanner) },
       { id: "side-2", images: toArray(thirdBanner) },
     ].flat() || [];
 
-  const mainSlider = { id: "main", images: toArray(mainBanner) };
+  const mainSliderData = { id: "main", images: toArray(mainBanner) };
 
   const getIp = await axios.get(
     `${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/api`,
@@ -45,9 +47,10 @@ const MainPage = async () => {
     <div>
       <div className="bg-white">
         <ProductSliderSection
-          mainSlider={mainSlider}
-          sideSliders={secondSlider}
+          mainSlider={mainSliderData}
+          sideSliders={sideSliderData}
         />
+        {/* <SplitSlider mainSlider={mainSliderData} sideSliders={sideSliderData} /> */}
       </div>
 
       <div>
@@ -88,6 +91,7 @@ const MainPage = async () => {
           <div>
             {/* <ProductCard products={products} /> */}
             <ShowProduct products={products} />
+            {/* <ProductCard products={products} /> */}
           </div>
         )}
       </div>

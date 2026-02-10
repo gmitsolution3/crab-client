@@ -1,6 +1,6 @@
 import { getProductByCategory } from "@/lib/products";
 import React from "react";
-import { ProductCard } from "../components/productCard";
+import ProductCard from "../components/productCard";
 
 interface ProductCategoryProps {
   params: {
@@ -12,6 +12,9 @@ const Categories = async ({ params }: ProductCategoryProps) => {
   const { category } = await params;
 
   const products = await getProductByCategory(category);
+
+  console.log({products: products})
+
   if (!products || !products.success) {
     return (
       <div className="text-2xl text-primary flex justify-center min-h-screen items-center">
@@ -29,7 +32,7 @@ const Categories = async ({ params }: ProductCategoryProps) => {
         </p>
       </div>
       <div>
-        <ProductCard products={products.data} />
+        <ProductCard product={products.data} />
       </div>
     </div>
   );
