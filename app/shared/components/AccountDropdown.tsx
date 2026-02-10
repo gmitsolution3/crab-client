@@ -4,7 +4,13 @@ import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
-import { User, ShoppingBag, RotateCcw, LogOut, ChevronDown } from "lucide-react";
+import {
+  User,
+  ShoppingBag,
+  RotateCcw,
+  LogOut,
+  ChevronDown,
+} from "lucide-react";
 
 export default function AccountDropdown() {
   const { user, isAuthenticated, logout, loading } = useAuth();
@@ -20,7 +26,6 @@ export default function AccountDropdown() {
 
   return (
     <div className="relative">
-      
       {/* Toggle Button */}
       {!isAuthenticated ? (
         <button
@@ -62,7 +67,6 @@ export default function AccountDropdown() {
 
           {/* Menu */}
           <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-            
             {!isAuthenticated ? (
               <div className="py-2">
                 <Link
@@ -73,7 +77,7 @@ export default function AccountDropdown() {
                   <User className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
                   <span>Sign In</span>
                 </Link>
-                
+
                 <Link
                   href="/order-tracking"
                   onClick={() => setOpen(false)}
@@ -82,19 +86,18 @@ export default function AccountDropdown() {
                   <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
                   <span>Order Tracking</span>
                 </Link>
-                
+
                 <Link
-                  href="/return-policy"
+                  href="/support/refund-policy"
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-150 group"
                 >
                   <RotateCcw className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                  <span>Return Policy</span>
+                  <span>Refund Policy</span>
                 </Link>
               </div>
             ) : (
               <div className="py-2">
-                
                 {/* User Info Header */}
                 <div className="px-4 py-3 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200">
                   <div className="flex items-center gap-3">
@@ -121,7 +124,7 @@ export default function AccountDropdown() {
                   <User className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
                   <span>My Profile</span>
                 </Link>
-                
+
                 <Link
                   href="/order-tracking"
                   onClick={() => setOpen(false)}
@@ -130,14 +133,14 @@ export default function AccountDropdown() {
                   <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
                   <span>Order Tracking</span>
                 </Link>
-                
+
                 <Link
-                  href="/return-policy"
+                  href="/support/refund-policy"
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-150 group"
                 >
                   <RotateCcw className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                  <span>Return Policy</span>
+                  <span>Refund Policy</span>
                 </Link>
 
                 {/* Logout */}

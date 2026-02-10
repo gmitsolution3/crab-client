@@ -39,11 +39,11 @@ export const NavBarMenu = () => {
           </Link>
           
           <Link
-            href="/return-policy"
-            className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors duration-200 text-sm font-medium group"
+            href="/support/refund-policy"
+            className="flex items-center gap-2 text-gray-700 transition-colors duration-200 text-sm font-medium group"
           >
             <RotateCcw className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-            <span>Returns</span>
+            <span>Refund</span>
           </Link>
         </>
       ) : (
@@ -79,7 +79,7 @@ export const NavBarMenu = () => {
 
           {/* Dropdown Menu */}
           {dropdownOpen && (
-            <div className="absolute right-0 top-7 mt-2 w-52 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="absolute right-0 top-6 mt-2 w-52 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
               <div className="py-2">
                 
                 <Link
@@ -99,11 +99,11 @@ export const NavBarMenu = () => {
                 </Link>
                 
                 <Link
-                  href="/return-policy"
+                  href="/support/refund-policy"
                   className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-150 group"
                 >
                   <RotateCcw className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                  <span>Return Policy</span>
+                  <span>Refund Policy</span>
                 </Link>
                 
                 <hr className="my-2 border-gray-100" />

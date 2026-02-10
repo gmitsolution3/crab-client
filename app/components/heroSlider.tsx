@@ -51,7 +51,7 @@ const SingleSlider = ({
   return (
     <div
       className={`relative w-full overflow-hidden rounded-md bg-linear-to-br from-slate-900 to-slate-800 ${
-        isMain ? "h-[40vh] md:h-[77vh]" : "h-[25vh] md:h-[37vh]"
+        isMain ? "h-[30vh] md:h-[77vh]" : "h-[20vh] md:h-[37vh]"
       }`}
     >
       {/* ${isMain ? "h-96 md:h-full" : "h-64 md:h-80"} */}

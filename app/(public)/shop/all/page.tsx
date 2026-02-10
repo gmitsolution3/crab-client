@@ -1,8 +1,8 @@
 import { AllProduct, getFeaturedProduct } from "@/lib/products";
 import React from "react";
 import ProductCarousel from "@/app/components/productCarousel";
-import ProductCard from "../components/productCard";
 import { ProductFormData } from "@/utils/product";
+import { SingleProductCard } from './../components/ProductSingleCard';
 
 const ShowAllProduct = async () => {
   const res = await AllProduct();
@@ -27,17 +27,17 @@ const ShowAllProduct = async () => {
   }
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto my-10">
+    <div className="min-h-screen container mx-auto my-10">
       <div className="my-5">
         <h1 className="text-4xl font-bold pl-4">All Product</h1>
         <p className="text-sm pl-4 text-gray-700">
           We provide our best quality
         </p>
       </div>
-      <div className="grid grid-cols-4 gap-5 space-y-10">
+      <div className="grid grid-cols-1 lg:grid-cols-4 space-y-10 gap-4 px-5 lg:px-0">
         {products.map((p: ProductFormData) => (
           <div key={p._id}>
-            <ProductCard product={p} />
+            <SingleProductCard product={p} />
           </div>
         ))}
       </div>
