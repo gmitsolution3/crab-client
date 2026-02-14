@@ -2,19 +2,38 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { makePayment } from "@/lib/makePayment";
 
-export default function SuccessAnimation() {
+export default function SuccessAnimation({
+  orderId,
+  amount,
+  paymentMethod,
+}: {
+  orderId: string;
+  amount: string;
+  paymentMethod: string;
+}) {
   const router = useRouter();
   const [counter, setCounter] = useState<number>(3);
+
+  // todo: send bkash payment request from here or send to home if selected cod
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCounter((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          router.push("/");
+          if(paymentMethod === "cash") {
+            router.push("/");
+          } else {
+            makePayment({
+              orderId,
+              amount,
+            })
+          } 
           return 0;
         }
+
         return prev - 1;
       });
     }, 1000);
@@ -59,7 +78,9 @@ export default function SuccessAnimation() {
           <div className="text-sm text-gray-500 mb-2">
             Redirecting to home page in
           </div>
-          <div className="text-4xl font-bold text-emerald-600">{counter}</div>
+          <div className="text-4xl font-bold text-emerald-600">
+            {counter}
+          </div>
           <div className="text-xs text-gray-400 mt-2">seconds</div>
         </div>
 

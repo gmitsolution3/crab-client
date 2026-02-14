@@ -6,12 +6,17 @@ import { useEffect, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { clearCart, getCart, updateCartItems } from "@/utils/cartStorage";
+import {
+  clearCart,
+  getCart,
+  updateCartItems,
+} from "@/utils/cartStorage";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { fraudRoles } from "./fackOuterCheckLayer";
+import { makePayment } from "@/lib/makePayment";
 
 interface CheckoutProduct {
   productPrice: number;
@@ -107,16 +112,22 @@ export default function CheckoutForm() {
     const updateCart = () => {
       const latestCart = getCart();
       setCartItems((prev) =>
-        JSON.stringify(prev) !== JSON.stringify(latestCart) ? latestCart : prev,
+        JSON.stringify(prev) !== JSON.stringify(latestCart)
+          ? latestCart
+          : prev,
       );
     };
 
     updateCart();
     window.addEventListener("cart_updated", updateCart);
-    return () => window.removeEventListener("cart_updated", updateCart);
+    return () =>
+      window.removeEventListener("cart_updated", updateCart);
   }, []);
 
-  const handleQuantityChange = (index: number, newQuantity: number) => {
+  const handleQuantityChange = (
+    index: number,
+    newQuantity: number,
+  ) => {
     if (newQuantity < 1) return;
 
     const updatedItems = [...cartItems];
@@ -145,8 +156,10 @@ export default function CheckoutForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!fraudRoles.isValidName(formData.firstName)) markLocal("name");
-    if (!fraudRoles.isValidBDPhone(formData.phoneNumber)) markLocal("phone");
+    if (!fraudRoles.isValidName(formData.firstName))
+      markLocal("name");
+    if (!fraudRoles.isValidBDPhone(formData.phoneNumber))
+      markLocal("phone");
     if (formData.email && !fraudRoles.isValidEmail(formData.email))
       markLocal("email");
     if (!fraudRoles.isValidAddress(formData.streetAddress))
@@ -245,19 +258,13 @@ export default function CheckoutForm() {
         orderData,
       );
 
-      console.log({ response: response });
-
-      // if (response.isRedirect) {
-      //   router.push("/otp-verification?orderId=" + response.data.orderId);
-      // }
-
-      if(response.data.isRedirect) {
-        router.push("/otp-verification?orderId=" + response.data.orderId);
+      if (response.data.isRedirect) {
+        router.push(
+          `/otp-verification?orderId=${response.data.orderId}&amount=${grandTotal}&paymentMethod=${paymentMethod}`,
+        );
         toast.error("OTP verification required. Redirecting...");
         return;
       }
-
-      console.log({response: response.data})
 
       if (response.data.success) {
         Swal.fire({
@@ -268,7 +275,16 @@ export default function CheckoutForm() {
 
         clearCart();
 
-        router.push("/");
+        if(paymentMethod === "cash") {
+          router.push("/");
+          return; 
+        }
+
+        makePayment({
+          orderId: response.data.orderId,
+          amount: grandTotal,
+        });
+
 
         // if (paymentMethod === "sslcommerz" && response.data.paymentUrl) {
         //   window.location.replace(response.data.paymentUrl);
@@ -314,7 +330,8 @@ export default function CheckoutForm() {
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <label className="mb-2 block text-sm font-medium text-gray-700">
-                        First Name <span className="text-red-500">*</span>
+                        First Name{" "}
+                        <span className="text-red-500">*</span>
                       </label>
                       <Input
                         type="text"
@@ -343,7 +360,8 @@ export default function CheckoutForm() {
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <label className="mb-2 block text-sm font-medium text-gray-700">
-                        Phone Number <span className="text-red-500">*</span>
+                        Phone Number{" "}
+                        <span className="text-red-500">*</span>
                       </label>
                       <div className="flex gap-2">
                         <select
@@ -495,14 +513,22 @@ export default function CheckoutForm() {
                       name="delivery"
                       value="inside"
                       checked={deliveryMethod === "inside"}
-                      onChange={(e) => setDeliveryMethod(e.target.value)}
+                      onChange={(e) =>
+                        setDeliveryMethod(e.target.value)
+                      }
                       className="h-4 w-4"
                     />
                     <div className="flex-1">
-                      <p className="font-medium text-gray-900">Inside Dhaka</p>
-                      <p className="text-xs text-gray-500">2-3 Days</p>
+                      <p className="font-medium text-gray-900">
+                        Inside Dhaka
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        2-3 Days
+                      </p>
                     </div>
-                    <span className="font-semibold text-gray-900">৳80.00</span>
+                    <span className="font-semibold text-gray-900">
+                      ৳80.00
+                    </span>
                   </label>
 
                   <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50">
@@ -511,14 +537,22 @@ export default function CheckoutForm() {
                       name="delivery"
                       value="outside"
                       checked={deliveryMethod === "outside"}
-                      onChange={(e) => setDeliveryMethod(e.target.value)}
+                      onChange={(e) =>
+                        setDeliveryMethod(e.target.value)
+                      }
                       className="h-4 w-4"
                     />
                     <div className="flex-1">
-                      <p className="font-medium text-gray-900">Outside Dhaka</p>
-                      <p className="text-xs text-gray-500">3-4 Days</p>
+                      <p className="font-medium text-gray-900">
+                        Outside Dhaka
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        3-4 Days
+                      </p>
                     </div>
-                    <span className="font-semibold text-gray-900">৳130.00</span>
+                    <span className="font-semibold text-gray-900">
+                      ৳130.00
+                    </span>
                   </label>
                 </div>
               </div>
@@ -541,7 +575,9 @@ export default function CheckoutForm() {
                         name="payment"
                         value="cash"
                         checked={paymentMethod === "cash"}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        onChange={(e) =>
+                          setPaymentMethod(e.target.value)
+                        }
                         className="h-4 w-4"
                       />
                       <span className="flex-1 font-medium text-gray-900">
@@ -549,6 +585,7 @@ export default function CheckoutForm() {
                       </span>
                     </div>
                   </label>
+
                   {/* bkash */}
                   <label className="block cursor-pointer">
                     <div className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
@@ -557,7 +594,9 @@ export default function CheckoutForm() {
                         name="payment"
                         value="bkash"
                         checked={paymentMethod === "bkash"}
-                        // onChange={(e) => setPaymentMethod(e.target.value)}
+                        onChange={(e) =>
+                          setPaymentMethod(e.target.value)
+                        }
                         className="h-4 w-4"
                       />
                       <span className="flex-1 font-medium text-gray-900">
@@ -576,7 +615,7 @@ export default function CheckoutForm() {
                   </label>
 
                   {/* SSLCOMMERZ */}
-                  <label className="block cursor-pointer">
+                  {/* <label className="block cursor-pointer">
                     <div className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 hover:bg-gray-50">
                       <input
                         type="radio"
@@ -601,7 +640,7 @@ export default function CheckoutForm() {
                         </span>
                       </div>
                     </div>
-                  </label>
+                  </label> */}
                 </div>
               </div>
             </div>
@@ -628,16 +667,19 @@ export default function CheckoutForm() {
                           </h3>
                           <p className="mt-1 text-sm font-semibold text-gray-900">
                             ৳{" "}
-                            {(item.productPrice * item.quantity).toLocaleString(
-                              "en-BD",
-                            )}
+                            {(
+                              item.productPrice * item.quantity
+                            ).toLocaleString("en-BD")}
                           </p>
                           <div className="mt-2 flex items-center justify-between gap-2">
                             <div className="flex items-center gap-1 rounded-md border border-gray-300">
                               <button
                                 type="button"
                                 onClick={() =>
-                                  handleQuantityChange(index, item.quantity - 1)
+                                  handleQuantityChange(
+                                    index,
+                                    item.quantity - 1,
+                                  )
                                 }
                                 className="p-1 hover:bg-gray-100"
                               >
@@ -649,7 +691,10 @@ export default function CheckoutForm() {
                               <button
                                 type="button"
                                 onClick={() =>
-                                  handleQuantityChange(index, item.quantity + 1)
+                                  handleQuantityChange(
+                                    index,
+                                    item.quantity + 1,
+                                  )
                                 }
                                 className="p-1 hover:bg-gray-100"
                               >
@@ -677,7 +722,9 @@ export default function CheckoutForm() {
                   </h2>
                   <div className="space-y-3 border-b pb-4">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Total Product:</span>
+                      <span className="text-gray-600">
+                        Total Product:
+                      </span>
                       <span className="font-medium text-gray-900">
                         {cartItems.length.toString().padStart(2, "0")}
                       </span>
@@ -690,7 +737,9 @@ export default function CheckoutForm() {
                     </div>
 
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Delivery Charge</span>
+                      <span className="text-gray-600">
+                        Delivery Charge
+                      </span>
                       <span className="font-medium text-gray-900">
                         ৳ {deliveryCharge}
                       </span>
@@ -709,11 +758,16 @@ export default function CheckoutForm() {
                     disabled={isSubmitting}
                     className="mt-6 w-full bg-primary py-2 text-white hover:bg-accent-foreground hover:cursor-pointer font-semibold"
                   >
-                    {isSubmitting ? "Placing Order..." : "Place Order"}
+                    {isSubmitting
+                      ? "Placing Order..."
+                      : "Place Order"}
                   </Button>
 
                   <p className="mt-3 text-center text-xs text-gray-500">
-                    <a href="#" className="underline hover:text-gray-700">
+                    <a
+                      href="#"
+                      className="underline hover:text-gray-700"
+                    >
                       Read Terms and Conditions
                     </a>
                   </p>

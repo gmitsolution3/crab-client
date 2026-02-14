@@ -2,7 +2,11 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { checkAttempts, resendOTP, verifyOTP } from "@/lib/otpService";
+import {
+  checkAttempts,
+  resendOTP,
+  verifyOTP,
+} from "@/lib/otpService";
 import SuccessAnimation from "./SuccessAnimation";
 import { SupportNav } from "@/app/support/components/supportNavbar";
 import OTPInput from "./OTPInput";
@@ -10,8 +14,12 @@ import ResendTimer from "./ResendTimer";
 
 export default function OTPVerificationWrapper({
   orderId = "N/A",
+  amount,
+  paymentMethod,
 }: {
   orderId: string | undefined;
+  amount: string;
+  paymentMethod: string;
 }) {
   const router = useRouter();
   const [otp, setOtp] = useState<string>("");
@@ -21,7 +29,10 @@ export default function OTPVerificationWrapper({
   const [resendCount, setResendCount] = useState<number>(0);
   const [canResend, setCanResend] = useState<boolean>(false);
   const [isBlocked, setIsBlocked] = useState<boolean>(false);
-  const [blockTimeRemaining, setBlockTimeRemaining] = useState<number>(0);
+  const [blockTimeRemaining, setBlockTimeRemaining] =
+    useState<number>(0);
+
+  console.log(orderId, amount, paymentMethod);
 
   //   const orderId =
   //     typeof window !== "undefined"
@@ -70,16 +81,15 @@ export default function OTPVerificationWrapper({
         // Clear local storage
         localStorage.removeItem("orderId");
         localStorage.removeItem("otpAttempts");
-
-        // Redirect to home after 3 seconds
-        setTimeout(() => {
-          router.push("/");
-        }, 3000);
       } else {
-        setError(response.message || "Invalid OTP. Please try again.");
+        setError(
+          response.message || "Invalid OTP. Please try again.",
+        );
       }
     } catch (err: any) {
-      setError(err.message || "Verification failed. Please try again.");
+      setError(
+        err.message || "Verification failed. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -88,7 +98,9 @@ export default function OTPVerificationWrapper({
   // Handle resend OTP
   const handleResendOTP = async () => {
     if (resendCount >= 3) {
-      setError("Maximum resend attempts reached. Please try again later.");
+      setError(
+        "Maximum resend attempts reached. Please try again later.",
+      );
       return;
     }
     setLoading(true);
@@ -115,7 +127,13 @@ export default function OTPVerificationWrapper({
   const remainingAttempts = 3 - resendCount;
 
   if (success) {
-    return <SuccessAnimation />;
+    return (
+      <SuccessAnimation
+        orderId={orderId}
+        amount={amount}
+        paymentMethod={paymentMethod}
+      />
+    );
   }
 
   if (isBlocked) {
@@ -264,17 +282,19 @@ export default function OTPVerificationWrapper({
               <span className="text-amber-500 mt-0.5">⚠️</span>
               <div>
                 <p className="text-sm text-gray-600">
-                  <span className="font-medium">Security Tip:</span> The OTP
-                  will expire in 2 minutes. Never share this code with anyone.
+                  <span className="font-medium">Security Tip:</span>{" "}
+                  The OTP will expire in 2 minutes. Never share this
+                  code with anyone.
                 </p>
               </div>
             </div>
             <div className="mt-4">
               {resendCount >= 3 && (
                 <p className="text-sm text-gray-600">
-                  <span className="font-medium">Notice:</span> We noticed
-                  multiple OTP attempts in a short time. Please take a short
-                  break and try again later. If you need help, contact our{" "}
+                  <span className="font-medium">Notice:</span> We
+                  noticed multiple OTP attempts in a short time.
+                  Please take a short break and try again later. If
+                  you need help, contact our{" "}
                   <a
                     href="/support/help-center"
                     className="text-red-500 font-bold underline"
