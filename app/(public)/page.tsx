@@ -61,15 +61,6 @@ const MainPage = async () => {
         <FeaturedProduct />
       </div>
 
-      <div className="container mx-auto">
-        <div className="my-5">
-          <h1 className="text-4xl font-bold pl-4 text-center">Why choice us</h1>
-        </div>
-        <div>
-          <FeaturesSection />
-        </div>
-      </div>
-
       {/* top selling product */}
       <div>
         <TopSellingProduct />

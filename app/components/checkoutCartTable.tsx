@@ -369,13 +369,13 @@ export default function CheckoutCartTableCompact({
                       onClick={handleGoCheckout}
                       className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors mb-5"
                     >
-                      Checkout
+                      চেকআউটে যান
                       <ArrowRight className="w-5 h-5" />
                     </button>
                   </Link>
                   <Link href="/">
                     <button className="w-full px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-primary hover:text-primary transition-colors">
-                      Continue Shopping
+                      ক্রয় অব্যাহত রাখুন
                     </button>
                   </Link>
                 </div>

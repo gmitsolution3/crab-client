@@ -361,7 +361,7 @@ export default function ProductVariant({
               onClick={handleBuyNow}
               className="px-5 py-2 bg-primary text-white rounded-lg font-semibold hover:opacity-90 hover:from-primary-foreground hover:cursor-pointer hover:to-primary w-full"
             >
-              Buy Now
+              ক্রয় করুন 
             </button>
           </>
         )}
@@ -372,21 +372,21 @@ export default function ProductVariant({
             onClick={() => onCloseModal?.()}
             className="flex-1 border border-gray-300 py-2 rounded-lg text-sm hover:bg-gray-100"
           >
-            Continue Shopping
+            বিক্রয় অব্যাহত রাখুন
           </button>
           {isBuyNow === true ? (
             <button
               onClick={handleBuyNow}
               className="flex-1 bg-primary text-white py-2 rounded-lg text-sm hover:bg-primary"
             >
-              Buy Now
+              ক্রয় করুন
             </button>
           ) : (
             <button
               onClick={() => handleAddToCart()}
               className="flex-1 bg-primary text-white py-2 rounded-lg text-sm hover:bg-primary"
             >
-              Add to card
+              কার্টে এড করুন
             </button>
           )}
           {/* <button

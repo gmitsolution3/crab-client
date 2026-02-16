@@ -108,9 +108,7 @@ export const SingleProductCard = ({ product }: { product: any }) => {
         {/* Stock Badge */}
         {product.stockQuantity <= 10 && (
           <div
-            className={`absolute bottom-3 left-3 z-20 transition-opacity duration-300 ${
-              isHovered ? "opacity-100" : "opacity-0"
-            }`}
+            className={`absolute bottom-3 left-3 z-20 transition-opacity duration-300 opacity-100`}
           >
             <span className="bg-orange-500 text-white text-xs font-semibold px-2.5 py-1">
               Only {product.stockQuantity} left
@@ -120,9 +118,7 @@ export const SingleProductCard = ({ product }: { product: any }) => {
 
         {/* Quick Action Icons - Vertical Right Side */}
         <div
-          className={`absolute top-3 right-0 z-20 flex flex-col gap-1 transition-transform duration-300 ${
-            isHovered ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`absolute top-3 right-0 z-20 flex flex-col gap-1 transition-transform duration-300 translate-x-0`}
         >
           <button
             onClick={handleViewDetail}
@@ -163,25 +159,21 @@ export const SingleProductCard = ({ product }: { product: any }) => {
               src={product.thumbnail}
               alt={product.title}
               className="w-full h-80 object-cover transition-opacity duration-300"
-              style={{ opacity: isHovered ? 0.9 : 1 }}
+              style={{ opacity: 0.9}}
             />
           </Link>
         </div>
 
         {/* Add to Cart Button - Bottom overlay on hover */}
         <div
-          className={`absolute bottom-0 left-0 right-0 transition-all duration-300 ${
-            isHovered
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-full"
-          }`}
+          className={`absolute bottom-0 left-0 right-0 transition-all duration-300 opacity-100 translate-y-0`}
         >
           <button
             onClick={handleAddToCart}
             className="w-full bg-primary text-white py-3 text-sm font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
           >
             <ShoppingCart className="w-4 h-4" />
-            Add to Cart
+            কার্টে এড করুন
           </button>
         </div>
       </div>
@@ -207,9 +199,9 @@ export const SingleProductCard = ({ product }: { product: any }) => {
         <div
           className="overflow-hidden transition-all duration-500 ease-in-out"
           style={{
-            maxHeight: isHovered ? "100px" : "0px",
-            opacity: isHovered ? 1 : 0,
-            marginBottom: isHovered ? "12px" : "0px",
+            maxHeight: "100px",
+            opacity:  1,
+            marginBottom: "12px",
           }}
         >
           <p className="text-xs text-gray-500 line-clamp-2">
@@ -235,8 +227,8 @@ export const SingleProductCard = ({ product }: { product: any }) => {
         <div
           className="overflow-hidden transition-all duration-500 ease-in-out"
           style={{
-            maxHeight: isHovered ? "50px" : "0px",
-            opacity: isHovered ? 1 : 0,
+            maxHeight: "50px",
+            opacity: 1,
           }}
         >
           <div className="flex gap-2 pt-1">
@@ -244,7 +236,7 @@ export const SingleProductCard = ({ product }: { product: any }) => {
               onClick={handleBuyNow}
               className="flex-1 bg-primary text-white py-2 text-xs font-semibold hover:bg-primary/90 transition-colors"
             >
-              Order Now
+              অর্ডার করুন 
             </button>
             <button
               onClick={() => handleWhatsApp()}
@@ -278,7 +270,7 @@ export const SingleProductCard = ({ product }: { product: any }) => {
               </button>
 
               <h2 className="text-lg font-semibold mb-2">
-                Product added to cart
+                কার্টে প্রডাক্ট এড করুন
               </h2>
 
               <p className="text-sm text-gray-600 mb-4">

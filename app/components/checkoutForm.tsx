@@ -324,19 +324,19 @@ export default function CheckoutForm() {
               {/* Personal Information */}
               <div className="rounded-lg bg-white p-6 shadow-sm">
                 <h2 className="mb-4 text-lg font-semibold text-gray-900">
-                  Personal information:
+                  পার্সোনাল তথ্য:
                 </h2>
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <label className="mb-2 block text-sm font-medium text-gray-700">
-                        First Name{" "}
+                        প্রথম নাম{" "}
                         <span className="text-red-500">*</span>
                       </label>
                       <Input
                         type="text"
                         name="firstName"
-                        placeholder="Enter Your First Name"
+                        placeholder="আপনার প্রথম নাম লিখুন"
                         value={formData.firstName}
                         onChange={handleInputChange}
                         className="w-full border-gray-300 bg-gray-50"
@@ -344,12 +344,12 @@ export default function CheckoutForm() {
                     </div>
                     <div>
                       <label className="mb-2 block text-sm font-medium text-gray-700">
-                        Last Name
+                        শেষ নাম
                       </label>
                       <Input
                         type="text"
                         name="lastName"
-                        placeholder="Enter Your Last Name"
+                        placeholder="আপনার শেষ নাম লিখুন"
                         value={formData.lastName}
                         onChange={handleInputChange}
                         className="w-full border-gray-300 bg-gray-50"
@@ -360,7 +360,7 @@ export default function CheckoutForm() {
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <label className="mb-2 block text-sm font-medium text-gray-700">
-                        Phone Number{" "}
+                        ফোন নম্বর{" "}
                         <span className="text-red-500">*</span>
                       </label>
                       <div className="flex gap-2">
@@ -375,7 +375,7 @@ export default function CheckoutForm() {
                         <Input
                           type="tel"
                           name="phoneNumber"
-                          placeholder="Enter Your Phone Number"
+                          placeholder="আপনার ফোন নম্বর লিখুন"
                           value={formData.phoneNumber}
                           onChange={handleInputChange}
                           className="flex-1 border-gray-300 bg-gray-50"
@@ -384,12 +384,12 @@ export default function CheckoutForm() {
                     </div>
                     <div>
                       <label className="mb-2 block text-sm font-medium text-gray-700">
-                        Email
+                        ইমেইল
                       </label>
                       <Input
                         type="email"
                         name="email"
-                        placeholder="Enter Your Email"
+                        placeholder="আপনার ইমেইল লিখুন"
                         value={formData.email}
                         onChange={handleInputChange}
                         className="w-full border-gray-300 bg-gray-50"
@@ -402,12 +402,12 @@ export default function CheckoutForm() {
               {/* Delivery Address */}
               <div className="rounded-lg bg-white p-6 shadow-sm">
                 <h2 className="mb-4 text-lg font-semibold text-gray-900">
-                  Delivery Address:
+                  ডেলিভারি ঠিকানা:
                 </h2>
                 <div className="space-y-4">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                      Select Region
+                      এরিয়া সিলেক্ট করুন
                     </label>
                     <select
                       name="region"
@@ -430,7 +430,7 @@ export default function CheckoutForm() {
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <label className="mb-2 block text-sm font-medium text-gray-700">
-                        City
+                        সিটি 
                       </label>
                       <Input
                         type="text"
@@ -458,7 +458,7 @@ export default function CheckoutForm() {
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                      House Number, Thana{" "}
+                      হাউজ {" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <Input
@@ -476,12 +476,12 @@ export default function CheckoutForm() {
               {/* Promo Code */}
               <div className="rounded-lg bg-white p-6 shadow-sm">
                 <h2 className="mb-4 text-lg font-semibold text-gray-900">
-                  Promo Code:
+                  প্রোমো কোড:
                 </h2>
                 <div className="space-y-4">
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">
-                      Apply Coupon/Promo
+                      এপ্লাই কুপন/প্রোমো 
                     </label>
                     <Input
                       type="text"
@@ -496,7 +496,7 @@ export default function CheckoutForm() {
                     type="button"
                     className="w-full text-white bg-primary rounded-xl py-2 hover:bg-accent-foreground font-semibold hover:cursor-pointer"
                   >
-                    Apply Now
+                    এপ্লাই করুন
                   </button>
                 </div>
               </div>
@@ -504,7 +504,7 @@ export default function CheckoutForm() {
               {/* Delivery Method */}
               <div className="rounded-lg bg-white p-6 shadow-sm">
                 <h2 className="mb-4 text-lg font-semibold text-gray-900">
-                  Delivery Method
+                      ডেলিভারি মেথড
                 </h2>
                 <div className="space-y-3">
                   <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50">
@@ -520,10 +520,10 @@ export default function CheckoutForm() {
                     />
                     <div className="flex-1">
                       <p className="font-medium text-gray-900">
-                        Inside Dhaka
+                        ঢাকার ভিতরে
                       </p>
                       <p className="text-xs text-gray-500">
-                        2-3 Days
+                        ২-৩ দিন
                       </p>
                     </div>
                     <span className="font-semibold text-gray-900">
@@ -544,10 +544,10 @@ export default function CheckoutForm() {
                     />
                     <div className="flex-1">
                       <p className="font-medium text-gray-900">
-                        Outside Dhaka
+                        ঢাকার বাহিরে 
                       </p>
                       <p className="text-xs text-gray-500">
-                        3-4 Days
+                        ৩-৪ দিন
                       </p>
                     </div>
                     <span className="font-semibold text-gray-900">
@@ -560,10 +560,10 @@ export default function CheckoutForm() {
               {/* Payment Method */}
               <div className="rounded-lg bg-white p-6 shadow-sm">
                 <h2 className="mb-4 text-lg font-semibold text-gray-900">
-                  Payment Method
+                  পেমেন্ট মেথড
                 </h2>
                 <p className="mb-4 text-xs text-gray-600">
-                  All transaction are secure and encrypted
+                  সকল ট্রানজেকশন নিরাপদ এবং এনক্রিপ্ট করা
                 </p>
 
                 <div className="space-y-4">
@@ -581,7 +581,7 @@ export default function CheckoutForm() {
                         className="h-4 w-4"
                       />
                       <span className="flex-1 font-medium text-gray-900">
-                        Cash on Delivery
+                        ক্যাশ অন ডেলিভারি
                       </span>
                     </div>
                   </label>
@@ -600,7 +600,7 @@ export default function CheckoutForm() {
                         className="h-4 w-4"
                       />
                       <span className="flex-1 font-medium text-gray-900">
-                        bkash
+                        বিকাশ
                       </span>
                       <div className="flex gap-2">
                         <span className="inline-block">
@@ -718,19 +718,19 @@ export default function CheckoutForm() {
                 {/* Order Summary */}
                 <div className="rounded-lg bg-white p-6 shadow-sm">
                   <h2 className="mb-4 text-lg font-semibold text-gray-900">
-                    Order Summary
+                    অর্ডার সামারি
                   </h2>
                   <div className="space-y-3 border-b pb-4">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">
-                        Total Product:
+                        মোট প্রোডাক্ট:
                       </span>
                       <span className="font-medium text-gray-900">
                         {cartItems.length.toString().padStart(2, "0")}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Subtotal</span>
+                      <span className="text-gray-600">সাবটোটাল</span>
                       <span className="font-medium text-gray-900">
                         ৳ {subtotal.toLocaleString("en-BD")}
                       </span>
@@ -738,7 +738,7 @@ export default function CheckoutForm() {
 
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">
-                        Delivery Charge
+                        ডেলিভারি চার্জ
                       </span>
                       <span className="font-medium text-gray-900">
                         ৳ {deliveryCharge}
@@ -747,7 +747,7 @@ export default function CheckoutForm() {
                   </div>
 
                   <div className="flex justify-between pt-4 text-base font-bold">
-                    <span className="text-gray-900">Grand Total</span>
+                    <span className="text-gray-900">গ্রান্ড টোটাল</span>
                     <span className="text-gray-900">
                       ৳ {grandTotal.toLocaleString("en-BD")}
                     </span>
@@ -759,8 +759,8 @@ export default function CheckoutForm() {
                     className="mt-6 w-full bg-primary py-2 text-white hover:bg-accent-foreground hover:cursor-pointer font-semibold"
                   >
                     {isSubmitting
-                      ? "Placing Order..."
-                      : "Place Order"}
+                      ? "অর্ডার প্লেস করা হচ্ছে..."
+                      : "অর্ডার প্লেস করুন"}
                   </Button>
 
                   <p className="mt-3 text-center text-xs text-gray-500">
@@ -768,7 +768,7 @@ export default function CheckoutForm() {
                       href="#"
                       className="underline hover:text-gray-700"
                     >
-                      Read Terms and Conditions
+                      টার্ম অ্যান্ড কন্ডিশনস পরুন
                     </a>
                   </p>
                 </div>
