@@ -435,7 +435,7 @@ export default function CheckoutForm() {
                       <Input
                         type="text"
                         name="city"
-                        placeholder="Enter"
+                        placeholder="আপনার সিটি লিখুন"
                         value={formData.city}
                         onChange={handleInputChange}
                         className="w-full border-gray-300 bg-gray-50"
@@ -464,7 +464,7 @@ export default function CheckoutForm() {
                     <Input
                       type="text"
                       name="streetAddress"
-                      placeholder="Enter"
+                      placeholder="আপনার হাউজ/রোড/এলাকা লিখুন"
                       value={formData.streetAddress}
                       onChange={handleInputChange}
                       className="w-full border-gray-300 bg-gray-50"
