@@ -186,7 +186,7 @@ export const SingleProductCard = ({ product }: { product: any }) => {
         </div>
 
         {/* Title */}
-        <h3 className="text-gray-900 font-normal text-sm mb-2 line-clamp-2 leading-relaxed min-h-10 hover:text-primary transition-colors cursor-pointer">
+        <h3 className="text-gray-900 font-medium mb-2 line-clamp-2 leading-relaxed min-h-10 hover:text-primary transition-colors cursor-pointer text-lg">
           <Link
             className="inline-block"
             href={`/shop/${product.categoryId}/${product.slug}`}
@@ -204,7 +204,7 @@ export const SingleProductCard = ({ product }: { product: any }) => {
             marginBottom: "12px",
           }}
         >
-          <p className="text-xs text-gray-500 line-clamp-2">
+          <p className="text-base text-gray-500 line-clamp-2">
             {product.description.slice(0, 80)}...
           </p>
         </div>
@@ -270,7 +270,7 @@ export const SingleProductCard = ({ product }: { product: any }) => {
               </button>
 
               <h2 className="text-lg font-semibold mb-2">
-                কার্টে প্রডাক্ট এড করুন
+                অর্ডার করুন
               </h2>
 
               <p className="text-sm text-gray-600 mb-4">

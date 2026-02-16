@@ -375,7 +375,7 @@ export default function CheckoutCartTableCompact({
                   </Link>
                   <Link href="/">
                     <button className="w-full px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-primary hover:text-primary transition-colors">
-                      ক্রয় অব্যাহত রাখুন
+                      আরো ক্রয় করুন
                     </button>
                   </Link>
                 </div>

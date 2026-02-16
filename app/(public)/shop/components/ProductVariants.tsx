@@ -372,7 +372,7 @@ export default function ProductVariant({
             onClick={() => onCloseModal?.()}
             className="flex-1 border border-gray-300 py-2 rounded-lg text-sm hover:bg-gray-100"
           >
-            বিক্রয় অব্যাহত রাখুন
+            আরো ক্রয় করুন 
           </button>
           {isBuyNow === true ? (
             <button
