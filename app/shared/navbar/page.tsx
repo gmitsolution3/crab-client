@@ -80,7 +80,7 @@ const Navbar = async () => {
       </div>
 
       {/* Promotional Marquee */}
-      <MarqueeText text={marqueeText.data.text} />
+      <MarqueeText text={marqueeText?.data?.text || "marquee text here"} />
     </header>
   );
 };
