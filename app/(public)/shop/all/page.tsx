@@ -2,26 +2,19 @@ import { AllProduct, getFeaturedProduct } from "@/lib/products";
 import React from "react";
 import ProductCarousel from "@/app/components/productCarousel";
 import { ProductFormData } from "@/utils/product";
-import { SingleProductCard } from './../components/ProductSingleCard';
+import { SingleProductCard } from "./../components/ProductSingleCard";
 
 const ShowAllProduct = async () => {
   const res = await AllProduct();
   const result = await getFeaturedProduct();
   const products = res.data;
 
-  if (products.length === 0) {
+  console.log(result)
+
+  if (products?.length === 0) {
     return (
       <div className="min-h-screen flex justify-center items-center text-3xl text-blue-800">
         no data found
-      </div>
-    );
-  }
-
-  if (result.data.length === 0) {
-    return (
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">Featured Products</h2>
-        <p className="text-gray-600">No featured products available.</p>
       </div>
     );
   }
@@ -41,11 +34,13 @@ const ShowAllProduct = async () => {
           </div>
         ))}
       </div>
-      <div>
-        <div>
-          <ProductCarousel products={result.data} />
+      {result.success && (
+        <div className="mt-10">
+          <div>
+            <ProductCarousel products={result.data} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
