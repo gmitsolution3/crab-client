@@ -9,7 +9,6 @@ const ShowAllProduct = async () => {
   const result = await getFeaturedProduct();
   const products = res.data;
 
-  console.log(result)
 
   if (products?.length === 0) {
     return (

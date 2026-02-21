@@ -13,7 +13,7 @@ const Categories = async ({ params }: ProductCategoryProps) => {
 
   const products = await getProductByCategory(category);
 
-  console.log({products: products})
+
 
   if (!products || !products.success) {
     return (
