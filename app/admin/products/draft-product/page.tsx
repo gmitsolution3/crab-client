@@ -2,7 +2,7 @@ import { getDraftProduct } from "@/lib/products";
 import React from "react";
 import ProductTable from "../components/allProduct";
 
-export const DraftProducts = async () => {
+const DraftProducts = async () => {
   const res = await getDraftProduct();
 
   const result = res.data;

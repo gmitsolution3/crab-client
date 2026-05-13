@@ -1,12 +1,10 @@
 import { getProductByCategory } from "@/lib/products";
-import React from "react";
-import ProductCard from "../components/productCard";
 import { SingleProductCard } from "../components/ProductSingleCard";
 
 interface ProductCategoryProps {
-  params: {
+  params: Promise<{
     category: string;
-  };
+  }>;
 }
 
 const Categories = async ({ params }: ProductCategoryProps) => {
@@ -15,8 +13,6 @@ const Categories = async ({ params }: ProductCategoryProps) => {
   const products = await getProductByCategory(category);
 
   // console.log({products: products})
-
-
 
   if (!products || !products.success) {
     return (
@@ -36,7 +32,7 @@ const Categories = async ({ params }: ProductCategoryProps) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* <ProductCard product={products.data} /> */}
-        {products?.data.map((p:any) => (
+        {products?.data.map((p: any) => (
           <div className="pb-8 pt-2" key={p._id}>
             <SingleProductCard product={p} />
           </div>

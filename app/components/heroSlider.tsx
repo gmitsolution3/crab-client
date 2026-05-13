@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface SliderContainer {
   id: string;
@@ -11,7 +11,7 @@ interface SliderContainer {
   images: string[];
 }
 
-export interface  ProductSliderSectionProps {
+export interface ProductSliderSectionProps {
   mainSlider: SliderContainer;
   sideSliders: SliderContainer[];
 }
@@ -24,17 +24,14 @@ const SingleSlider = ({
   isMain?: boolean;
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState<"left" | "right">("right");
 
   const handlePrev = () => {
-    setDirection("left");
     setCurrentIndex((prev) =>
       prev === 0 ? slider.images.length - 1 : prev - 1,
     );
   };
 
   const handleNext = () => {
-    setDirection("right");
     setCurrentIndex((prev) =>
       prev === slider.images.length - 1 ? 0 : prev + 1,
     );
@@ -43,10 +40,13 @@ const SingleSlider = ({
   // Auto-slide effect
   useEffect(() => {
     const interval = setInterval(() => {
-      handleNext();
-    }, Math.floor(Math.random() * (7000 - 3000 + 1)) + 3000);
+      setCurrentIndex((prev) =>
+        prev === slider.images.length - 1 ? 0 : prev + 1,
+      );
+    }, 5000);
+
     return () => clearInterval(interval);
-  }, [currentIndex, slider.images.length]);
+  }, [slider.images.length]);
 
   return (
     <div
@@ -55,29 +55,38 @@ const SingleSlider = ({
       }`}
     >
       {/* ${isMain ? "h-96 md:h-full" : "h-64 md:h-80"} */}
-      <div className="relative w-full h-full">
-        {slider.images.map((image, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-all duration-700 ease-out ${
-              index === currentIndex
-                ? "opacity-100 scale-100"
-                : "opacity-0 scale-105"
-            }`}
-          >
-            <Image
-              src={image || "/placeholder.svg"}
-              alt={`${slider.title} - Image ${index + 1}`}
-              className="w-full h-full object-cover"
-              priority
-              fetchPriority="high"
-              fill
-              sizes="100vw"
-            />
-            {/* Overlay gradient */}
-            <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
-          </div>
-        ))}
+      <div className="relative w-full h-full overflow-hidden">
+        {slider.images.map((image, index) => {
+          const isActive = index === currentIndex;
+
+          return (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                isActive ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
+            >
+              <Image
+                src={image || "/placeholder.svg"}
+                alt={`${slider.title || "Slider image"} ${index + 1}`}
+                className="w-full h-full object-cover"
+                fill
+                priority={isMain && index === 0}
+                fetchPriority={
+                  isMain && index === 0 ? "high" : "auto"
+                }
+                loading={isMain && index === 0 ? "eager" : "lazy"}
+                sizes={
+                  isMain
+                    ? "(max-width: 768px) 100vw, 66vw"
+                    : "(max-width: 768px) 50vw, 33vw"
+                }
+              />
+
+              <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
+            </div>
+          );
+        })}
       </div>
 
       {/* Navigation Arrows - Hidden on mobile, visible on tablet+ */}
@@ -122,6 +131,7 @@ export default function ProductSliderSection({
   mainSlider,
   sideSliders,
 }: ProductSliderSectionProps) {
+  console.log(sideSliders);
   return (
     <section className="w-full bg-white px-4 md:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
       <div className="max-w-full mx-auto">

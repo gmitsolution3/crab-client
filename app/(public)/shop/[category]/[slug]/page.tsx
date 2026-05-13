@@ -1,18 +1,15 @@
 import { getProductDetails } from "@/lib/products";
-import React from "react";
 import { ProductDetail } from "../../components/productDetails";
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 const ProductDetails = async ({ params }: ProductPageProps) => {
   const { slug } = await params;
   const result = await getProductDetails(slug);
-
-
 
   if (!result || !result.data) {
     return (

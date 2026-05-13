@@ -1,11 +1,10 @@
 import { getHistory } from "@/lib/order";
-import React from "react";
 import OrderHistoryCard from "../../components/OrderHistoryCard";
 
 interface ParamsProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const History = async ({ params }: ParamsProps) => {

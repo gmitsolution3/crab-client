@@ -3,9 +3,9 @@ import OrderDetailsPage from "../../components/editOrder";
 import { getOrderById } from "@/lib/order";
 
 interface ParamsProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 const EditOrder = async ({ params }: ParamsProps) => {
