@@ -73,8 +73,6 @@ const OrderDetailsPage = ({
   const [products, setProducts] = useState<Product[]>(
     orderData.products,
   );
-
-  console.log(products);
   const [searchId, setSearchId] = useState<string>("");
   const { control, handleSubmit } = useForm<FormInputs>({
     defaultValues: {

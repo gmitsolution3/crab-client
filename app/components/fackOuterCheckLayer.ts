@@ -79,7 +79,6 @@ function isValidAddress(address: string) {
   if (address.length < 8) return false;
   if (!/[a-zA-Z]/.test(address)) return false;
   if (/(.)\1{4,}/.test(address)) return false;
-  console.log("return true");
   return true;
 }
 

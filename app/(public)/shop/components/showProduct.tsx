@@ -4,8 +4,15 @@ import { memo } from "react";
 
 import { ProductFormData } from "@/utils/product";
 
-import { Navigation, Virtual } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  Navigation,
+  Virtual,
+} from "swiper/modules";
+
+import {
+  Swiper,
+  SwiperSlide,
+} from "swiper/react";
 
 import "swiper/css";
 //@ts-ignore
@@ -13,12 +20,19 @@ import "swiper/css/navigation";
 
 import { SingleProductCard } from "./ProductSingleCard";
 
-interface GroupedProducts {
-  [categoryName: string]: ProductFormData[];
+/**
+ * =========================
+ * TYPES
+ * =========================
+ */
+
+interface ProductGroup {
+  category: string;
+  products: ProductFormData[];
 }
 
 interface ProductCardProps {
-  groupedProducts: GroupedProducts;
+  groupedProducts: ProductGroup[];
 }
 
 interface CategoryCarouselProps {
@@ -32,23 +46,21 @@ interface CategoryCarouselProps {
  * =========================
  */
 
-const ProductCard = ({ groupedProducts }: ProductCardProps) => {
+const ProductCard = ({
+  groupedProducts,
+}: ProductCardProps) => {
   /**
    * Initial render limitation
    * Huge performance improvement
    */
-  const visibleCategories = Object.entries(groupedProducts).slice(
-    0,
-    2,
-  );
 
   return (
     <div className="w-full space-y-16 py-8 px-3">
-      {visibleCategories.map(([categoryName, categoryProducts]) => (
+      {groupedProducts.map((group) => (
         <MemoizedCategoryCarousel
-          key={categoryName}
-          categoryName={categoryName}
-          products={categoryProducts}
+          key={group.category}
+          categoryName={group.category}
+          products={group.products}
         />
       ))}
     </div>
@@ -65,7 +77,7 @@ const CategoryCarousel = ({
   categoryName,
   products,
 }: CategoryCarouselProps) => {
-  if (!products.length) return null;
+  if (!products?.length) return null;
 
   /**
    * Unique navigation IDs
@@ -80,12 +92,12 @@ const CategoryCarousel = ({
 
   return (
     <section className="w-full">
-      {/* Heading */}
+      {/* HEADING */}
       <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-8 text-center md:text-left uppercase">
         {categoryName}
       </h2>
 
-      {/* Slider */}
+      {/* SLIDER */}
       <div className="relative">
         <Swiper
           modules={[Navigation, Virtual]}
@@ -99,7 +111,8 @@ const CategoryCarousel = ({
           navigation={{
             nextEl: `#${nextButtonId}`,
             prevEl: `#${prevButtonId}`,
-            disabledClass: "opacity-30 cursor-not-allowed",
+            disabledClass:
+              "opacity-30 cursor-not-allowed",
           }}
           breakpoints={{
             640: {
@@ -121,15 +134,20 @@ const CategoryCarousel = ({
           }}
         >
           {products.map((product, index) => (
-            <SwiperSlide key={product._id} virtualIndex={index}>
+            <SwiperSlide
+              key={product._id}
+              virtualIndex={index}
+            >
               <div className="pb-8 pt-2">
-                <MemoizedSingleProductCard product={product} />
+                <MemoizedSingleProductCard
+                  product={product}
+                />
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
 
-        {/* Previous Button */}
+        {/* PREV BUTTON */}
         <button
           id={prevButtonId}
           className="absolute left-0 lg:-left-10 top-1/2 z-10 -translate-y-1/2 -translate-x-4 rounded-full bg-white p-3 shadow-lg transition-all duration-300 hover:bg-gray-50"
@@ -150,7 +168,7 @@ const CategoryCarousel = ({
           </svg>
         </button>
 
-        {/* Next Button */}
+        {/* NEXT BUTTON */}
         <button
           id={nextButtonId}
           className="absolute right-0 lg:-right-10 top-1/2 z-10 -translate-y-1/2 translate-x-4 rounded-full bg-white p-3 shadow-lg transition-all duration-300 hover:bg-gray-50"
@@ -181,8 +199,10 @@ const CategoryCarousel = ({
  * =========================
  */
 
-const MemoizedCategoryCarousel = memo(CategoryCarousel);
+const MemoizedCategoryCarousel =
+  memo(CategoryCarousel);
 
-const MemoizedSingleProductCard = memo(SingleProductCard);
+const MemoizedSingleProductCard =
+  memo(SingleProductCard);
 
 export default memo(ProductCard);

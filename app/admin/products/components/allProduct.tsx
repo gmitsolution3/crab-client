@@ -149,8 +149,6 @@ const EditModal: React.FC<EditModalProps> = ({
     product?.variants || [],
   );
 
-  console.log(variants);
-
   React.useEffect(() => {
     if (product) {
       reset({

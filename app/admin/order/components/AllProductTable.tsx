@@ -210,7 +210,6 @@ const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
             </h3>
             <div className="space-y-3">
               {order.products.map((product, idx) => {
-                console.log(product);
                 return (
                   <div
                     key={idx}

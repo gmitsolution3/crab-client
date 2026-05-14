@@ -1,14 +1,16 @@
-import { getTopSellingProduct } from "@/lib/products";
 import ProductCarousel from "./productCarousel";
 
-export const TopSellingProduct = async () => {
-  const product = await getTopSellingProduct();
+export const TopSellingProduct = async ({
+  topSellingProducts,
+}: {
+  topSellingProducts: any;
+}) => {
   const topSelling = "formTopSelling";
 
   return (
     <div>
       <ProductCarousel
-        products={product.data}
+        products={topSellingProducts}
         topSelling={topSelling}
       />
     </div>

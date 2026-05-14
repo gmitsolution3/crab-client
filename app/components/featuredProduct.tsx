@@ -1,22 +1,28 @@
 import { getFeaturedProduct } from "@/lib/products";
-import React from "react";
 import ProductCarousel from "./productCarousel";
 
-export const FeaturedProduct = async () => {
-  const result = await getFeaturedProduct();
+export const FeaturedProduct = async ({
+  featuredProducts,
+}: {
+  featuredProducts: any;
+}) => {
 
-  if (!result.data || result.data.length === 0) {
+  if (featuredProducts?.length === 0) {
     return (
       <div className="text-center min-h-[30vh]">
-        <h2 className="text-2xl font-semibold mb-4">Featured Products</h2>
-        <p className="text-gray-600">No featured products available.</p>
+        <h2 className="text-2xl font-semibold mb-4">
+          Featured Products
+        </h2>
+        <p className="text-gray-600">
+          No featured products available.
+        </p>
       </div>
     );
   }
 
   return (
     <div>
-      <ProductCarousel products={result.data} />
+      <ProductCarousel products={featuredProducts} />
     </div>
   );
 };

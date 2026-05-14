@@ -1,34 +1,40 @@
-import { getBanner } from "@/lib/banner";
+import { getHomeData } from "@/lib/homeData";
 import { AllProduct } from "@/lib/products";
+import { groupProducts } from "@/utils/groupProducts";
 import { FeaturedProduct } from "../components/featuredProduct";
 import ProductSliderSection from "../components/heroSlider";
 import { OurTopCategory } from "../components/outTopCategorry";
 import { TopSellingProduct } from "../components/topSellingProduct";
 import ShowProduct from "./shop/components/showProduct";
-import { groupProducts } from "@/utils/groupProducts";
 
 const MainPage = async () => {
-  const [productRes, bannerRes] = await Promise.all([
-    AllProduct(),
-    fetch(`${process.env.NEXT_PUBLIC_EXPRESS_SERVER_BASE_URL}/banner`, {
-      next: { revalidate: 300 },
-    }).then((res) => res.json()),
-  ]);
+  const [productRes] = await Promise.all([AllProduct()]);
 
-  const products = productRes.data;
+  //? Root home data
+  const homeData = await getHomeData();
 
-  const {
-    mainBanner,
-    secondBanner,
-    thirdBanner,
-  } = bannerRes.data || {
+  //? banner data
+  const banners = homeData?.bannerData || {};
+
+  //? top category data 
+  const categories = homeData?.categoryData || [];
+
+  //? featured products Data
+  const featuredProducts = homeData?.featuredProductData || [];
+
+  //? top selling products
+  const topSellingProducts = homeData?.topSellingProductData || [];
+
+  //? grouped product data
+  const groupedProducts = homeData?.groupedProduct || [];
+
+  const toArray = (v: any) => (Array.isArray(v) ? v : v ? [v] : []);
+
+  const { mainBanner, secondBanner, thirdBanner } = banners || {
     mainBanner: [],
     secondBanner: [],
     thirdBanner: [],
   };
-
-  const toArray = (v: any) =>
-    Array.isArray(v) ? v : v ? [v] : [];
 
   const sideSliderData = [
     {
@@ -46,8 +52,6 @@ const MainPage = async () => {
     images: toArray(mainBanner),
   };
 
-  const groupedProducts = groupProducts(products);
-
   return (
     <div>
       <div className="bg-white">
@@ -57,11 +61,11 @@ const MainPage = async () => {
         />
       </div>
 
-      <OurTopCategory />
+      <OurTopCategory categories={categories} />
 
-      <FeaturedProduct />
+      <FeaturedProduct featuredProducts={featuredProducts} />
 
-      <TopSellingProduct />
+      <TopSellingProduct topSellingProducts={topSellingProducts} />
 
       <div className="max-w-7xl mx-auto">
         <div className="my-5 border-b-2 border-b-gray-300 pb-3">
@@ -74,7 +78,7 @@ const MainPage = async () => {
           </p>
         </div>
 
-        {products.length === 0 ? (
+        {groupedProducts.length === 0 ? (
           <div className="min-h-screen flex justify-center items-center text-3xl text-primary">
             no data found
           </div>
